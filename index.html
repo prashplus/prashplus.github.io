@@ -1,140 +1,158 @@
-﻿<!DOCTYPE html>
-<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
-<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
-<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->  
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <title>Portfolio</title>
     <!-- Meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Prashplus Prashant Piprotar Portfolio">
-    <meta name="author" content="prashant piprotar">    
+    <meta name="description" content="Bootstrap 4 Portfolio/Resume Theme for Developers">
+    <meta name="author" content="Xiaoying Riley at 3rd Wave Media">    
     <link rel="shortcut icon" href="favicon.ico">  
-    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,300italic,400italic' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'> 
+    
+    <link href='https://fonts.googleapis.com/css?family=Lato:300,400,300italic,400italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'> 
+    
+    <!-- FontAwesome JS -->
+    <script defer src="assets/fontawesome/js/all.js"></script>
+    
     <!-- Global CSS -->
     <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">   
-    <!-- Plugins CSS -->
-    <link rel="stylesheet" href="assets/plugins/font-awesome/css/font-awesome.css">
     
     <!-- github calendar css -->
-    <link rel="stylesheet" href="assets/plugins/github-calendar/dist/github-calendar.css"
-/>
-    <!-- github acitivity css -->
-    <link rel="stylesheet" href="assets/plugins/github-activity/src/github-activity.css">
+    <link rel="stylesheet" href="assets/plugins/github-calendar/dist/github-calendar.css">
+    <!-- github activity css -->    
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/octicons/2.0.2/octicons.min.css">
+    <link rel="stylesheet" href="assets/plugins/github-activity/github-activity-0.1.5.min.css">
     
     <!-- Theme CSS -->  
     <link id="theme-style" rel="stylesheet" href="assets/css/styles.css">
+    
 </head> 
 
 <body>
     <!-- ******HEADER****** --> 
     <header class="header">
-        <div class="container">                       
-            <img class="profile-image img-responsive pull-left" src="assets/images/profile.png" alt="Prashant Piprotar" />
-            <div class="profile-content pull-left">
+        <div class="container clearfix">                       
+            <img class="profile-image img-fluid float-left rounded-circle" src="assets/images/profile.png" alt="profile image" />
+            <div class="profile-content float-left">
                 <h1 class="name">Prashant Piprotar</h1>
                 <h2 class="desc">Cloud and Network Architect</h2>   
                 <ul class="social list-inline">
-                    <li><a href="https://www.twitter.com/prashplus"><i class="fa fa-twitter"></i></a></li>                   
-                    <li><a href="https://www.google.com/+PrashantPiprotar"><i class="fa fa-google-plus"></i></a></li>
-                    <li><a href="https://www.linkedin.com/in/prashantpiprotar/"><i class="fa fa-linkedin"></i></a></li>
-                    <li><a href="https://www.github.com/prashplus"><i class="fa fa-github-alt"></i></a></li>                  
-                    <li class="last-item"><a href="https://www.facebook.com/prashant.piprotar"><i class="fa fa-facebook"></i></a></li>                 
+                    <li class="list-inline-item"><a href="https://www.github.com/prashplus"><i class="fab fa-github-alt"></i></a></li> 
+                    <li class="list-inline-item"><a href="https://www.twitter.com/prashplus"><i class="fab fa-twitter"></i></a></li>
+                    <li class="list-inline-item"><a href="https://www.linkedin.com/in/prashantpiprotar/"><i class="fab fa-linkedin-in"></i></a></li>   
                 </ul> 
             </div><!--//profile-->
-            <a class="btn btn-cta-primary pull-right" href="http://prashplus.blogspot.com/" target="_blank"><i class="fa fa-server"></i> My Blog</a>              
+            <a class="btn btn-cta-primary float-right" href="https://prashplus.blogspot.com" target="_blank"><i class="fas fa-rss"></i> My Blog</a>              
         </div><!--//container-->
     </header><!--//header-->
     
     <div class="container sections-wrapper">
         <div class="row">
-            <div class="primary col-md-8 col-sm-12 col-xs-12">
+            <div class="primary col-lg-8 col-12">
                 <section class="about section">
-                    <div class="section-inner">
+                    <div class="section-inner shadow-sm rounded">
                         <h2 class="heading">About Me</h2>
                         <div class="content">
-                            <p>Entry Level Cloud Solutions Architect with a demonstrated history of working in the field of Server hardware. Skilled in Private/Hybrid Cloud, Computer Networks, Broadcasting Networks, Strategic Planning and High Performance Computing. Strong information technology professional with a Bachelor's degree focused in Computer Engineering.</p>
+                            <p>Entry Level Cloud Solutions Architect with a demonstrated history of working in the field of Server hardware. Skilled in Private/Hybrid Cloud, Computer Networks, Broadcasting Networks, Strategic Planning and High Performance Computing. Currently pursuing master's degree focused in Computer Engineering @ IIT Kanpur.</p>
+                         
                         </div><!--//content-->
                     </div><!--//section-inner-->                 
                 </section><!--//section-->
     
                <section class="latest section">
-                    <div class="section-inner">
+                    <div class="section-inner shadow-sm rounded">
                         <h2 class="heading">Latest Projects</h2>
                         <div class="content">    
-                                               
+                            
                             <div class="item featured text-center">
-                                <h3 class="title">SDN Online Lab</h3>
-                                <p class="summary">It's an online lab designed for students and researchers who wants to learn and emulate their SDN configurations before its actual implementation.</p>
-                                <div class="featured-image">
-                                    <a href="http://sdnonlinelab.com" target="_blank">
-                                    <img class="img-responsive project-image" src="assets/images/projects/project-featured.png" alt="project name" />
+                                
+                                <div class="featured-image has-ribbon">
+                                    <a href="https://github.com/prashplus/CloudMPI" target="_blank">
+                                    <img class="img-fluid project-image rounded shadow-sm" src="assets/images/projects/project-featured-1.jpg" alt="project name" />
                                     </a>
                                     <div class="ribbon">
                                         <div class="text">New</div>
-                                        </div>
                                     </div>
+                                </div>
+                                
+                                <h3 class="title mb-3"><a href="https://github.com/prashplus/CloudMPI" target="_blank">Cloud MPI</a></h3>
                                     
+                                <div class="desc text-left">                                    
+                                    <p>Projects aims to improve perfomance of HPC over Cloud. Project mainly focuses on the improving the network elements that's where the bottleneck lies.</p>
+                                </div><!--//desc-->         
+                                <a class="btn btn-cta-secondary" href="https://github.com/prashplus/CloudMPI" target="_blank"><i class="fas fa-thumbs-up"></i> Back my project</a>                 
+                            </div><!--//item-->
+
+                            <div class="item featured text-center">
+                                
+                                <div class="featured-image has-ribbon">
+                                    <a href="http://sdnonlinelab.com" target="_blank">
+                                    <img class="img-fluid project-image rounded shadow-sm" src="assets/images/projects/project-featured-2.png" alt="project name" />
+                                    </a>
+                                    <div class="ribbon">
+                                        <div class="text">New</div>
+                                    </div>
+                                </div>
+                                
+                                <h3 class="title mb-3"><a href="http://sdnonlinelab.com" target="_blank">SDN Online Lab</a></h3>
+                                <p class="summary">It's an online lab designed for students and researchers who wants to learn and emulate their SDN configurations before its actual implementation.</p>
                                 <div class="desc text-left">                                    
                                     <p>Software-Defined Networking (SDN) is an emerging architecture that is dynamic, manageable, cost-effective, and adaptable, making it ideal for the high-bandwidth, dynamic nature of today’s applications. This architecture decouples the network control and forwarding functions enabling the network control to become directly programmable and the underlying infrastructure to be abstracted for applications and network services. The OpenFlow® protocol is a foundational element for building SDN solutions. The project will be in 'Work in progress' state to continuously add new features as soon as possible. Our aim is to provide the complete hands-on experience to the up-coming generation over the SDN concepts.</p>
                                     <p>I have contributed to this project as a Systems-Architect while doing my internship at CDAC, Pune as my B.Tech final year project.</p>
-                                </div><!--//desc-->         
-                                <a class="btn btn-cta-secondary" href="http://sdnonlinelab.com" target="_blank"> Have a visit to SDN Online Lab</a>       
-
+                                </div><!--//desc-->                     
                             </div><!--//item-->
                             <hr class="divider" />
                             <div class="item row">
-                                <a class="col-md-4 col-sm-4 col-xs-12" href="https://github.com/prashplus" target="_blank">
-                                <img class="img-responsive project-image" src="assets/images/projects/project-5.png" alt="project name" />
+                                <a class="col-md-4 col-12" href="https://github.com/prashplus" target="_blank">
+                                <img class="img-fluid project-image rounded shadow-sm" src="assets/images/projects/project-5.png" alt="project name" />
                                 </a>
-                                <div class="desc col-md-8 col-sm-8 col-xs-12">
-                                    <h3 class="title">IOT Hub</h3>
-                                    <p>The project aims at sensing weather data for analyzing and prediction based on the pre-built model.</p>
-                                    <p><a class="more-link" href="https://github.com/prashplus" target="_blank"><i class="fa fa-external-link"></i> Find out more</a></p>
+                                <div class="desc col-md-8 col-12">
+                                    <h3 class="title"><a href="https://github.com/prashplus" target="_blank">IOT-Hub</a></h3>
+                                    <p class="mb-2">The project aims at sensing weather data for analyzing and prediction based on the pre-built model.</p>
+                                    <p><a class="more-link" href="https://github.com/prashplus" target="_blank"><i class="fas fa-external-link-alt"></i>Find out more</a></p>
                                 </div><!--//desc-->                          
                             </div><!--//item-->
                             
                             <div class="item row">
-                                <a class="col-md-4 col-sm-4 col-xs-12" href="https://github.com/prashplus" target="_blank">
-                                <img class="img-responsive project-image" src="assets/images/projects/project-4.jpg" alt="project name" />
+                                <a class="col-md-4 col-12" href="https://github.com/prashplus/HPC" target="_blank">
+                                <img class="img-fluid project-image rounded shadow-sm" src="assets/images/projects/project-4.jpg" alt="project name" />
                                 </a>
-                                <div class="desc col-md-8 col-sm-8 col-xs-12">
+                                <div class="desc col-md-8 col-12">
                                     <h3 class="title">HPC Cluster<span class="label label-theme">Open Source</span></h3>
-                                    <p>HPC cluster we have designed is based on MS HPC Pack. It aims to find factors of large numbers (Crypt Analysis)</p>
-                                    <p><a class="more-link" href="https://github.com/prashplus/HPC" target="_blank"><i class="fa fa-external-link"></i> Find out more</a></p>
+                                    <p class="mb-2">HPC cluster we have designed is based on MS HPC Pack. It aims to find factors of large numbers (Crypt Analysis)</p>
+                                    <p><a class="more-link" href="https://github.com/prashplus/HPC" target="_blank"><i class="fas fa-external-link-alt"></i>Find out more</a></p>
+                                </div><!--//desc-->                          
+                            </div><!--//item-->
+                            
+                             <div class="item row">
+                                <a class="col-md-4 col-12" href="https://github.com/prashplus" target="_blank">
+                                    <img class="img-fluid project-image rounded shadow-sm" src="assets/images/projects/project-1.png" alt="project name" />
+                                    </a>
+                                <div class="desc col-md-8 col-12">
+                                    <h3 class="title">DNS Load Balancer</h3>
+                                    <p class="mb-2">The project combines two load balancing concepts i.e., DNS and HTTP load balancing. We have used Azure TM and designed a custom web app to achive our goals.</p>
                                 </div><!--//desc-->                          
                             </div><!--//item-->
                             
                             <div class="item row">
-                                <a class="col-md-4 col-sm-4 col-xs-12" href="https://github.com/prashplus" target="_blank">
-                                <img class="img-responsive project-image" src="assets/images/projects/project-1.png" alt="project name" />
+                                <a class="col-md-4 col-12" href="https://github.com/prashplus/SystemS" target="_blank">
+                                <img class="img-fluid project-image rounded shadow-sm" src="assets/images/projects/project-2.jpg" alt="project name" />
                                 </a>
-                                <div class="desc col-md-8 col-sm-8 col-xs-12">
-                                    <h3 class="title">DNS Load Balancer</h3>
-                                    <p>The project combines two load balancing concepts i.e., DNS and HTTP load balancing. We have used Azure TM and designed a custom web app to achive our goals.</p>
-                                 
-                                </div><!--//desc-->                          
-                            </div><!--//item-->                            
-                            <div class="item row">
-                                <a class="col-md-4 col-sm-4 col-xs-12" href="https://github.com/prashplus" target="_blank">
-                                <img class="img-responsive project-image" src="assets/images/projects/project-2.jpg" alt="project name" />
-                                </a>
-                                <div class="desc col-md-8 col-sm-8 col-xs-12">
+                                <div class="desc col-md-8 col-12">
                                     <h3 class="title">System S<span class="label label-theme">Open Source</span></h3>
-                                    <p>This project aims at Customer Management System specifically designed for LCO who are looking forward to move with the digitization of India.</p>
-                                    <p><a class="more-link" href="https://github.com/prashplus/SystemS" target="_blank"><i class="fa fa-external-link"></i> Find out more</a></p>
+                                    <p class="mb-2">This project aims at Customer Management System specifically designed for LCO who are looking forward to move with the digitization of India.</p>
+                                    <p><a class="more-link" href="https://github.com/prashplus/SystemS" target="_blank"><i class="fas fa-external-link-alt"></i>Find out more</a></p>
                                 </div><!--//desc-->                          
-                            </div><!--//item-->
+                            </div><!--//item--> 
                             
                         </div><!--//content-->  
-                    </div><!--//section-inner-->                 
+                    </div><!--//section-inner-->                
                 </section><!--//section-->
                 
                 <section class="projects section">
-                    <div class="section-inner">
+                    <div class="section-inner shadow-sm rounded">
                         <h2 class="heading">Configuration Projects</h2>
                         <div class="content">
                             <div class="item">
@@ -155,181 +173,154 @@
                             
                             <a class="btn btn-cta-secondary" href="https://github.com/prashplus/">More on GitHub <i class="fa fa-chevron-right"></i></a>
                             
-                        </div><!--//content-->  
+                        </div><!--//content-->   
                     </div><!--//section-inner-->                 
                 </section><!--//section-->
                 
                 <section class="experience section">
-                    <div class="section-inner">
+                    <div class="section-inner shadow-sm rounded">
                         <h2 class="heading">Work Experience</h2>
                         <div class="content">
                             <div class="item">
-                                <h3 class="title">Intern<span class="place"><a href="#">CDAC, Pune</a></span> <span class="year">(Jan, 2018 - April, 2018)</span></h3>
-                                <p>I was responsible for the back-end infrastructure for the SDN Online Lab as mentioned above.</p>
-                            </div><!--//item--> 
+                                <h3 class="title">Co-Founder & Lead Developer - <span class="place"><a href="#">Startup Hub</a></span> <span class="year">(2014 - Present)</span></h3>
+                                <p>Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt.</p>
+                            </div><!--//item-->
+                            <div class="item">
+                                <h3 class="title">Software Engineer - <span class="place"><a href="#">Google</a></span> <span class="year">(2013 - 2014)</span></h3>
+                                <p>Vivamus a tortor eu turpis pharetra consequat quis non metus. Aliquam aliquam, orci eu suscipit pellentesque, mauris dui tincidunt enim. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna.</p>
+                            </div><!--//item-->
+                            
+                            <div class="item">
+                                <h3 class="title">Software Engineer - <span class="place"><a href="#">eBay</a></span> <span class="year">(2012 - 2013)</span></h3>
+                                <p>Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.</p>
+                            </div><!--//item-->
+                            
                         </div><!--//content-->  
                     </div><!--//section-inner-->                 
                 </section><!--//section-->
                 <section class="github section">
-                    <div class="section-inner">
+                    <div class="section-inner shadow-sm rounded">
                         <h2 class="heading">My GitHub</h2>
-                        <!-- Prepare a container for your calendar. -->
-                        <div class="calendar">
-                           <!-- Loading stuff -->
-                           Loading the data just for you.
-                        </div>
-                        <!--//Usage: http://caseyscarborough.com/projects/github-activity/ -->                       
+                        <p>You can embed your GitHub contribution graph calendar using IonicaBizau's <a href="https://github.com/IonicaBizau/github-calendar" target="_blank">GitHub Calendar</a> widget. 
+                        
+                        <div id="github-graph" class="github-graph">
+
+                        </div><!--//github-graph-->
+
+                        <p>You can also embed your GitHub activities using Casey Scarborough's <a href="https://github.com/caseyscarborough/github-activity" target="_blank">GitHub Activity Stream</a> widget.        
+                        <!--//Usage: https://caseyscarborough.com/projects/github-activity/ -->                       
                         <div id="ghfeed" class="ghfeed">
                         </div><!--//ghfeed-->
                         
                     </div><!--//secton-inner-->
                 </section><!--//section-->
             </div><!--//primary-->
-            <div class="secondary col-md-4 col-sm-12 col-xs-12">
+            <div class="secondary col-lg-4 col-12">
                  <aside class="info aside section">
-                    <div class="section-inner">
+                    <div class="section-inner shadow-sm rounded">
                         <h2 class="heading sr-only">Basic Information</h2>
                         <div class="content">
                             <ul class="list-unstyled">
-                                <li><i class="fa fa-map-marker"></i><span class="sr-only">Location:</span>Jamnagar, IN</li>
-                                <li><i class="fa fa-envelope-o"></i><span class="sr-only">Email:</span><a href="#">prashplus@gmail.com</a></li>
-                                <li><i class="fa fa-link"></i><span class="sr-only">Website:</span><a href="#">http://www.prashplus.com</a></li>
+                                <li><i class="fas fa-map-marker-alt"></i><span class="sr-only">Location:</span>San Francisco, US</li>
+                                <li><i class="fas fa-envelope"></i><span class="sr-only">Email:</span><a href="#">jameslee@website.com</a></li>
+                                <li><i class="fas fa-link"></i><span class="sr-only">Website:</span><a href="#">https://www.website.com</a></li>
                             </ul>
                         </div><!--//content-->  
                     </div><!--//section-inner-->                 
                 </aside><!--//aside-->
                 
                 <aside class="skills aside section">
-                    <div class="section-inner">
+                    <div class="section-inner shadow-sm rounded">
                         <h2 class="heading">Skills</h2>
                         <div class="content">
                             <p class="intro">
-                                </p>
+                                Intro about your skills goes here. Keep the list lean and only show your primary skillset. You can always provide a link to your Linkedin or Github profile so people can get more info there.</p>
                             
                             <div class="skillset">
                                
                                 <div class="item">
-                                    <h3 class="level-title">Virtualization &amp; Containerization<span class="level-label" data-toggle="tooltip" data-placement="left" data-animation="true" title="">Pro</span></h3>
+                                    <h3 class="level-title">Python &amp; Django<span class="level-label" data-toggle="tooltip" data-placement="left" data-animation="true" title="You can use the tooltip to explain more about your skill level..."><i class="fas fa-info-circle"></i>Expert</span></h3>
                                     <div class="level-bar">
-                                        <div class="level-bar-inner" data-level="90%">
+                                        <div class="level-bar-inner" data-level="96%">
                                         </div>                                      
                                     </div><!--//level-bar-->                                 
                                 </div><!--//item-->
                                 
                                 <div class="item">
-                                    <h3 class="level-title">Python<span class="level-label">Intermediate</span></h3>
+                                    <h3 class="level-title">Javascript &amp; jQuery<span class="level-label" data-toggle="tooltip" data-placement="left" data-animation="true" title="You can use the tooltip to explain more about your skill level..."><i class="fas fa-info-circle"></i>Expert</span></h3>
                                     <div class="level-bar">
-                                        <div class="level-bar-inner" data-level="75%">
-                                        </div>                                      
-                                    </div><!--//level-bar-->                                 
-                                </div><!--//item-->
-
-                                <div class="item">
-                                    <h3 class="level-title">C++, C# &amp; Core Java<span class="level-label">Intermediate</span></h3>
-                                    <div class="level-bar">
-                                        <div class="level-bar-inner" data-level="70%">
+                                        <div class="level-bar-inner" data-level="96%">
                                         </div>                                      
                                     </div><!--//level-bar-->                                 
                                 </div><!--//item-->
                                 
                                 <div class="item">
-                                    <h3 class="level-title">Server Administration (Windows &amp; Ubuntu)<span class="level-label">Intermediate</span></h3>
+                                    <h3 class="level-title">HTML5, CSS3, SASS &amp; LESS<span class="level-label" data-toggle="tooltip" data-placement="left" data-animation="true" title="You can use the tooltip to explain more about your skill level..."><i class="fas fa-info-circle"></i>Expert</span></h3>
                                     <div class="level-bar">
-                                        <div class="level-bar-inner" data-level="70%">
+                                        <div class="level-bar-inner" data-level="96%">
                                         </div>                                      
                                     </div><!--//level-bar-->                                 
                                 </div><!--//item-->
-
-                                <div class="item">
-                                    <h3 class="level-title">Switch &amp; Router Configuration<span class="level-label">Intermediate</span></h3>
-                                    <div class="level-bar">
-                                        <div class="level-bar-inner" data-level="65%">
-                                        </div>                                      
-                                    </div><!--//level-bar-->                                 
-                                </div><!--//item-->
-
-                               
                                 
                                 <div class="item">
-                                    <h3 class="level-title">SQL<span class="level-label">Beginner</span></h3>
+                                    <h3 class="level-title">Ruby on Rails<span class="level-label" data-toggle="tooltip" data-placement="left" data-animation="true" title="You can use the tooltip to explain more about your skill level..."><i class="fas fa-info-circle"></i>Pro</span></h3>
                                     <div class="level-bar">
-                                        <div class="level-bar-inner" data-level="60%">
+                                        <div class="level-bar-inner" data-level="85%">
                                         </div>                                      
                                     </div><!--//level-bar-->                                 
                                 </div><!--//item-->
-
-
-                                <div class="item">
-                                    <h3 class="level-title">Netsim, NS3 &amp; Wireshark<span class="level-label">Intermediate</span></h3>
-                                    <div class="level-bar">
-                                        <div class="level-bar-inner" data-level="60%">
-                                        </div>                                      
-                                    </div><!--//level-bar-->                                 
-                                </div><!--//item-->
-
-                                <div class="item">
-                                    <h3 class="level-title">HTML5, CSS3 &amp; Javascript<span class="level-label">Beginner</span></h3>
-                                    <div class="Begineer">
-                                        <div class="level-bar-inner" data-level="50%">
-                                        </div>                                      
-                                    </div><!--//level-bar-->                                 
-                                </div><!--//item-->
-
-                               
                                 
-                                
-                                <p><a class="more-link" href="https://www.linkedin.com/in/prashantpiprotar/"><i class="fa fa-external-link"></i> More on Linkedin</a></p> 
+                                <p><a class="more-link" href="#"><i class="fas fa-external-link-alt"></i>More on GitHub</a></p> 
                             </div>              
                         </div><!--//content-->  
                     </div><!--//section-inner-->                 
                 </aside><!--//section-->
                 
                 <aside class="testimonials aside section">
-                    <div class="section-inner">
+                    <div class="section-inner shadow-sm rounded">
                         <h2 class="heading">Testimonials</h2>
                         <div class="content">
                             <div class="item">
                                 <blockquote class="quote">                                  
-                                    <p><i class="fa fa-quote-left"></i>Prashant is an excellent engineer and he is passionate about what he does. You can totally count on him to deliver your projects!</p>
+                                    <p><i class="fas fa-quote-left"></i>James is an excellent software engineer and he is passionate about what he does. You can totally count on him to deliver your projects!</p>
                                 </blockquote>                
-                                <p class="source"><span class="name">Unknown</span><br /><span class="title">Unknown</span></p>                                                             
+                                <p class="source"><span class="name">Tim Adams</span><br /><span class="title">Curabitur commodo</span></p>                                                             
                             </div><!--//item-->
                             
-                            <p><a class="more-link" href="https://www.linkedin.com/in/prashantpiprotar/"><i class="fa fa-external-link"></i> More on Linkedin</a></p> 
+                            <p><a class="more-link" href="#"><i class="fas fa-external-link-alt"></i>More on Linkedin</a></p> 
                             
                         </div><!--//content-->
                     </div><!--//section-inner-->
                 </aside><!--//section-->
                 
                 <aside class="education aside section">
-                    <div class="section-inner">
+                    <div class="section-inner shadow-sm rounded">
                         <h2 class="heading">Education</h2>
                         <div class="content">
                             <div class="item">                      
-                                <h3 class="title"><i class="fa fa-graduation-cap"></i>B.Tech in Computer Science</h3>
-                                <h4 class="university">CHARUSAT University<span class="year">(2014 - 2018)</span></h4>
+                                <h3 class="title"><i class="fas fa-graduation-cap"></i> MSc Computer Science</h3>
+                                <h4 class="university">University College London <span class="year">(2011-2012)</span></h4>
                             </div><!--//item-->
-                            
+                            <div class="item">
+                                <h3 class="title"><i class="fas fa-graduation-cap"></i> BSc Computer Science</h3>
+                                <h4 class="university">University of Bristol <span class="year">(2008-2011)</span></h4>
+                            </div><!--//item-->
                         </div><!--//content-->
                     </div><!--//section-inner-->
                 </aside><!--//section-->
                             
                 <aside class="languages aside section">
-                    <div class="section-inner">
+                    <div class="section-inner shadow-sm rounded">
                         <h2 class="heading">Languages</h2>
                         <div class="content">
                             <ul class="list-unstyled">
                                 <li class="item">
-                                    <span class="title"><strong>English :</strong></span>
-                                    <span class="level"> <br class="visible-sm visible-xs"/><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i></span>
+                                    <span class="title"><strong>English:</strong></span>
+                                    <span class="level">Native Speaker <br class="visible-xs"/><i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> </span>
                                 </li><!--//item-->
                                 <li class="item">
-                                    <span class="title"><strong>Hindi   :</strong></span>
-                                    <span class="level"><br class="visible-sm visible-xs"/><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i></span>
-                                </li><!--//item-->
-                                <li class="item">
-                                    <span class="title"><strong>Gujarati:</strong></span>
-                                    <span class="level"> <br class="visible-sm visible-xs"/><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i></span>
+                                    <span class="title"><strong>Spanish:</strong></span>
+                                    <span class="level">Professional Proficiency <br class="visible-sm visible-xs"/><i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star-half"></i></span>
                                 </li><!--//item-->
                             </ul>
                         </div><!--//content-->
@@ -337,9 +328,9 @@
                 </aside><!--//section-->
                 
                 <aside class="blog aside section">
-                    <div class="section-inner">
+                    <div class="section-inner shadow-sm rounded">
                         <h2 class="heading">Latest Blog Posts</h2>
-                        <p>Please visit my <a href="https://prashplus.blogspot.com" target="_blank">Blog</a> to get the latest feeds.</p>
+                        <p>You can use Sascha Depold's <a href="https://github.com/sdepold/jquery-rss" target="_blank">jQuery RSS plugin</a> to pull in your blog post feeds.</p>
                         <div id="rss-feeds" class="content">
 
                         </div><!--//content-->
@@ -347,51 +338,61 @@
                 </aside><!--//section-->
                 
                 <aside class="list music aside section">
-                    <div class="section-inner">
-                        <h2 class="heading">Research Interest</h2>
+                    <div class="section-inner shadow-sm rounded">
+                        <h2 class="heading">Favourite coding music</h2>
                         <div class="content">
                             <ul class="list-unstyled">
-                                <li><i class="fa fa-circle"></i> <a href="#">Containerization</a></li>
-                                <li><i class="fa fa-circle"></i> <a href="#">Cloud Computing</a></li>
-                                <li><i class="fa fa-circle"></i> <a href="#">Computer networks</a></li>
-                                <li><i class="fa fa-circle"></i> <a href="#">HPC and Server H/W</a></li>
+                                <li><i class="fas fa-headphones"></i> <a href="#">Etiam hendrerit urna nunc</a></li>
+                                <li><i class="fas fa-headphones"></i> <a href="#">Ut sollicitudin in mauris non auctor</a></li>
+                                <li><i class="fas fa-headphones"></i> <a href="#">Etiam hendrerit urna nunc</a></li>
+                                <li><i class="fas fa-headphones"></i> <a href="#">Duis et felis bibendum</a></li>
                             </ul>
                         </div><!--//content-->
                     </div><!--//section-inner-->
                 </aside><!--//section-->
                 
                 <aside class="list conferences aside section">
-                    <div class="section-inner">
-                        <h2 class="heading">Expert Talk Delivered</h2>
+                    <div class="section-inner shadow-sm rounded">
+                        <h2 class="heading">Conferences</h2>
                         <div class="content">
                             <ul class="list-unstyled">
-                                <li><i class="fa fa-calendar"></i> <a href="#">Fundamentals of Cloud Computing</a> (Uka Tarsadia University: March-17)</li>
-                                <li><i class="fa fa-calendar"></i> <a href="#">Virtualization</a> (Ganpat University: June-17)</li>
-                                <li><i class="fa fa-calendar"></i> <a href="#">Experience the Cluster and Cloud Computing</a> (Uka Tarsadia University: Feb-18)</li>
-                                
+                                <li><i class="far fa-calendar-alt"></i> <a href="#" target="_blank">WWDC 2020</a> (San Francisco)</li>
+                                <li><i class="far fa-calendar-alt"></i> <a href="#">Hive</a> (Seattle)</li>
                             </ul>
                         </div><!--//content-->
                     </div><!--//section-inner-->
                 </aside><!--//section-->
                 
                 <aside class="credits aside section">
-                    <div class="section-inner">
+                    <div class="section-inner shadow-sm rounded">
                         <h2 class="heading">Credits</h2>
                         <div class="content">
-                            <ul class="list-unstyled">
-                                <li><a href="http://getbootstrap.com/" target="_blank"><i class="fa fa-external-link"></i> Bootstrap</a></li>
-                                <li><a href="http://fortawesome.github.io/Font-Awesome/" target="_blank"><i class="fa fa-external-link"></i> FontAwesome</a></li>
-                                <li><a href="http://jquery.com/" target="_blank"><i class="fa fa-external-link"></i> jQuery</a></li>
-                                <li><a href="https://github.com/IonicaBizau/github-calendar" target="_blank"><i class="fa fa-external-link"></i> GitHub Calendar Plugin</a></li>
+                            <ul class="list-unstyled pb-2">
+                                <li><a href="https://getbootstrap.com/" target="_blank"><i class="fas fa-external-link-alt"></i>Bootstrap</a></li>
+                                <li><a href="https://fortawesome.github.io/Font-Awesome/" target="_blank"><i class="fas fa-external-link-alt"></i>FontAwesome</a></li>
+                                <li><a href="https://jquery.com/" target="_blank"><i class="fas fa-external-link-alt"></i>jQuery</a></li>
+                                <li><a href="https://github.com/IonicaBizau/github-calendar" target="_blank"><i class="fas fa-external-link-alt"></i>GitHub Calendar Plugin</a></li>
                                 
-                                <li><a href="http://caseyscarborough.com/projects/github-activity/" target="_blank"><i class="fa fa-external-link"></i> GitHub Activity Stream</a></li>
+                                <li><a href="https://caseyscarborough.com/projects/github-activity/" target="_blank"><i class="fas fa-external-link-alt"></i>GitHub Activity Stream</a></li>
                                 
-                                <li><a href="https://github.com/sdepold/jquery-rss" target="_blank"><i class="fa fa-external-link"></i> jQuery RSS</a></li> 
+                                <li><a href="https://github.com/sdepold/jquery-rss" target="_blank"><i class="fas fa-external-link-alt"></i>jQuery RSS</a></li>
+                                
+                                <li>Profile image: <a href="https://www.flickr.com/photos/dotbenjamin/2577394151" target="_blank">Ben Smith</a></li>
                             </ul>
                             
                             <hr/>
-                            <a class="btn btn-cta-secondary btn-follow" href="https://twitter.com/prashplus" target="_blank"><i class="fa fa-twitter"></i> Follow me</a>
-                            <a class="btn btn-cta-primary btn-download" href="#" target="_blank"><i class="fa fa-download"></i>Download</a>
+                            
+                             <p class="pt-2">This Bootstrap 4 portfolio template is handcrafted by UX designer <a href="https://twitter.com/3rdwave_themes" target="_blank">Xiaoying Riley</a> at <a href="https://themes.3rdwavemedia.com/" target="_blank">3rd Wave Media</a> for developers and is <strong>FREE</strong> as long as you keep the footer attribution link.</p>
+                             <p>If you’d like to <strong>use this template without the attribution link</strong>, you can <a href="https://themes.3rdwavemedia.com/bootstrap-templates/resume/free-bootstrap-portfolio-theme-for-web-developers/" target="_blank">buy the commercial license</a>.</p>
+                             
+                             <a class="btn btn-cta-primary btn-download" href="https://themes.3rdwavemedia.com/bootstrap-templates/resume/free-bootstrap-portfolio-theme-for-web-developers/" target="_blank"><i class="fas fa-download"></i> I want to download</a>
+                            <hr/>
+                            <h5 class="subheading pt-3">Want more free Bootstrap themes and templates?</h5>
+                            <p>Check out our <a href="https://themes.3rdwavemedia.com/bootstrap-templates/free/">collection of free themes and templates.</a></p>
+                            <p>Follow <a href="https://twitter.com/3rdwave_themes" target="_blank">Xiaoying</a> on twitter so you don't miss any future freebies!</p> 
+                            
+                            <a class="btn btn-cta-secondary btn-follow" href="https://twitter.com/3rdwave_themes" target="_blank"><i class="fab fa-twitter"></i> Follow on twitter</a>
+                            
                         </div><!--//content-->
                     </div><!--//section-inner-->
                 </aside><!--//section-->
@@ -403,34 +404,21 @@
     <!-- ******FOOTER****** --> 
     <footer class="footer">
         <div class="container text-center">
-                <!--/* This template is released under the Creative Commons Attribution 3.0 License. Please keep the attribution link below when using for your own project. Thank you for your support. :) If you'd like to use the template without the attribution, you can check out other license options via our website: themes.3rdwavemedia.com */-->
-                <small class="copyright">Designed with <i class="fa fa-heart"></i> by <a href="http://themes.3rdwavemedia.com" target="_blank">Xiaoying Riley</a> for developers</small>
+                <!--/* This template is free as long as you keep the attribution link below. Thank you for your support. :) If you'd like to use the template without the attribution, you can buy the commercial license via our website: themes.3rdwavemedia.com */-->
+                <small class="copyright">Designed with <i class="fas fa-heart"></i> by <a href="https://themes.3rdwavemedia.com" target="_blank">Xiaoying Riley</a> for developers</small>
         </div><!--//container-->
     </footer><!--//footer-->
  
     <!-- Javascript -->          
-    <script type="text/javascript" src="assets/plugins/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="assets/plugins/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="assets/plugins/popper.min.js"></script> 
     <script type="text/javascript" src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>    
     <script type="text/javascript" src="assets/plugins/jquery-rss/dist/jquery.rss.min.js"></script> 
     <!-- github calendar plugin -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/es6-promise/3.0.2/es6-promise.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fetch/0.10.1/fetch.min.js"></script>
     <script type="text/javascript" src="assets/plugins/github-calendar/dist/github-calendar.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/highlight.min.js"></script>
-    <script
-  src="https://cdn.rawgit.com/IonicaBizau/github-calendar/gh-pages/dist/github-calendar.min.js"
-></script>
-<!-- Optionally, include the theme (if you don't want to struggle to write the CSS) -->
-<link
-  rel="stylesheet"
-  href="https://cdn.rawgit.com/IonicaBizau/github-calendar/gh-pages/dist/github-calendar.css"
-/>
-<script>
-    GitHubCalendar(".calendar", "prashplus");
-</script>
     <!-- github activity plugin -->
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.2/mustache.min.js"></script>
-    <script type="text/javascript" src="assets/plugins/github-activity/src/github-activity.js"></script>
+    <script type="text/javascript" src="assets/plugins/github-activity/github-activity-0.1.5.min.js"></script>
     <!-- custom js -->
     <script type="text/javascript" src="assets/js/main.js"></script>            
 </body>
