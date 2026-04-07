@@ -29,50 +29,7 @@
     <div class="container">
         
         <header id="hero" class="hero section">
-            <div class="drone-bg-container">
-                <svg class="drone-svg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
-                    <defs>
-                        <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-                            <feGaussianBlur stdDeviation="2" result="blur" />
-                            <feMerge>
-                                <feMergeNode in="blur" />
-                                <feMergeNode in="SourceGraphic" />
-                            </feMerge>
-                        </filter>
-                    </defs>
-                    <g class="drone-grid"></g>
-                    <g transform="translate(400, 300) scale(1.5)" filter="url(#glow)">
-                        <!-- Central Body -->
-                        <path class="drone-path" fill="none" stroke="var(--accent)" stroke-width="1.5" d="M-20,-20 L20,-20 L30,0 L20,20 L-20,20 L-30,0 Z" />
-                        <circle class="drone-path" cx="0" cy="0" r="10" fill="none" stroke="var(--accent)" stroke-width="1" />
-                        <!-- Arms -->
-                        <line class="drone-path" x1="-20" y1="-20" x2="-60" y2="-60" stroke="var(--text-muted)" stroke-width="2" />
-                        <line class="drone-path" x1="20" y1="-20" x2="60" y2="-60" stroke="var(--text-muted)" stroke-width="2" />
-                        <line class="drone-path" x1="-20" y1="20" x2="-60" y2="60" stroke="var(--text-muted)" stroke-width="2" />
-                        <line class="drone-path" x1="20" y1="20" x2="60" y2="60" stroke="var(--text-muted)" stroke-width="2" />
-                        <!-- Propellers -->
-                        <g class="propeller" transform="translate(-60, -60)">
-                            <circle class="drone-path drone-prop" cx="0" cy="0" r="15" fill="none" stroke="var(--accent)" stroke-width="1" stroke-dasharray="4,4" />
-                            <circle cx="0" cy="0" r="2" fill="var(--accent)" />
-                        </g>
-                        <g class="propeller" transform="translate(60, -60)">
-                            <circle class="drone-path drone-prop" cx="0" cy="0" r="15" fill="none" stroke="var(--accent)" stroke-width="1" stroke-dasharray="4,4" />
-                            <circle cx="0" cy="0" r="2" fill="var(--accent)" />
-                        </g>
-                        <g class="propeller" transform="translate(-60, 60)">
-                            <circle class="drone-path drone-prop" cx="0" cy="0" r="15" fill="none" stroke="var(--accent)" stroke-width="1" stroke-dasharray="4,4" />
-                            <circle cx="0" cy="0" r="2" fill="var(--accent)" />
-                        </g>
-                        <g class="propeller" transform="translate(60, 60)">
-                            <circle class="drone-path drone-prop" cx="0" cy="0" r="15" fill="none" stroke="var(--accent)" stroke-width="1" stroke-dasharray="4,4" />
-                            <circle cx="0" cy="0" r="2" fill="var(--accent)" />
-                        </g>
-                        <!-- HUD Target Rings -->
-                        <circle class="hud-ring" cx="0" cy="0" r="120" fill="none" stroke="var(--accent)" stroke-width="0.5" stroke-dasharray="10 20" opacity="0.3" />
-                        <circle class="hud-ring-reverse" cx="0" cy="0" r="135" fill="none" stroke="var(--text-muted)" stroke-width="0.5" stroke-dasharray="5 10 20 10" opacity="0.2" />
-                    </g>
-                </svg>
-            </div>
+            <canvas id="drone-canvas"></canvas>
             <div class="hero-content">
                 <span class="greeting animate-hero">Hi, my name is</span>
                 <h1 class="animate-hero name-text">Prashant Piprotar.</h1>
@@ -266,18 +223,18 @@
                     <p>prashplus@gmail.com</p>
                 </div>
             </a>
-            <a href="tel:+918469372991" class="glass-panel contact-card animate-item">
+            <a href="tel:+919574630231" class="glass-panel contact-card animate-item">
                 <i class="fas fa-phone-alt contact-icon"></i>
                 <div class="contact-details">
                     <h4>Phone</h4>
-                    <p>+91 8469 372 991</p>
+                    <p>(+91) 957-463-0231</p>
                 </div>
             </a>
-            <a href="https://linkedin.com/in/prashplus" target="_blank" class="glass-panel contact-card animate-item">
+            <a href="https://linkedin.com/in/prashantpiprotar" target="_blank" class="glass-panel contact-card animate-item">
                 <i class="fab fa-linkedin contact-icon"></i>
                 <div class="contact-details">
                     <h4>LinkedIn</h4>
-                    <p>in/prashplus</p>
+                    <p>in/prashantpiprotar</p>
                 </div>
             </a>
             <a href="https://github.com/prashplus" target="_blank" class="glass-panel contact-card animate-item">
@@ -285,6 +242,13 @@
                 <div class="contact-details">
                     <h4>GitHub</h4>
                     <p>@prashplus</p>
+                </div>
+            </a>
+            <a href="https://www.prashplus.com" target="_blank" class="glass-panel contact-card animate-item">
+                <i class="fas fa-globe contact-icon"></i>
+                <div class="contact-details">
+                    <h4>Website</h4>
+                    <p>www.prashplus.com</p>
                 </div>
             </a>
         </div>
