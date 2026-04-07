@@ -1,434 +1,302 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Portfolio</title>
-    <!-- Meta -->
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Prashant Piprotar | Sr. Software Engineer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Bootstrap 4 Portfolio/Resume Theme for Developers">
-    <meta name="author" content="Xiaoying Riley at 3rd Wave Media">    
-    <link rel="shortcut icon" href="favicon.ico">  
+    <meta name="description" content="Portfolio of Prashant Piprotar, Sr. Software Engineer">
     
-    <link href='https://fonts.googleapis.com/css?family=Lato:300,400,300italic,400italic' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'> 
-    
-    <!-- FontAwesome JS -->
-    <script defer src="assets/fontawesome/js/all.js"></script>
-    
-    <!-- Global CSS -->
-    <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">   
-    
-    <!-- github calendar css -->
-    <link rel="stylesheet" href="assets/plugins/github-calendar/dist/github-calendar.css">
-    <!-- github activity css -->    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/4.4.0/octicons.min.css">
-    <link rel="stylesheet" href="assets/plugins/github-activity/github-activity-0.1.5.min.css">
-    
-    <!-- Theme CSS -->  
-    <link id="theme-style" rel="stylesheet" href="assets/css/styles.css">
-    
+    <!-- External Libs -->
+    <script defer src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="assets/css/custom.css">
 </head> 
-
 <body>
-    <!-- ******HEADER****** --> 
-    <header class="header">
-        <div class="container clearfix">                       
-            <img class="profile-image img-fluid float-left rounded-circle" src="assets/images/profile.png" alt="profile image" />
-            <div class="profile-content float-left">
-                <h1 class="name">Prashant Piprotar</h1>
-                <h2 class="desc">Cloud and Network Architect</h2>   
-                <ul class="social list-inline">
-                    <li class="list-inline-item"><a href="https://www.github.com/prashplus"><i class="fab fa-github-alt"></i></a></li> 
-                    <li class="list-inline-item"><a href="https://www.twitter.com/prashplus"><i class="fab fa-twitter"></i></a></li>
-                    <li class="list-inline-item"><a href="https://www.linkedin.com/in/prashantpiprotar/"><i class="fab fa-linkedin-in"></i></a></li>   
-                </ul> 
-            </div><!--//profile-->
-            <a class="btn btn-cta-primary float-right" href="https://prashplus.blogspot.com" target="_blank"><i class="fas fa-rss"></i> My Blog</a>              
-        </div><!--//container-->
-    </header><!--//header-->
-    
-    <div class="container sections-wrapper">
-        <div class="row">
-            <div class="primary col-lg-8 col-12">
-                <section class="about section">
-                    <div class="section-inner shadow-sm rounded">
-                        <h2 class="heading">About Me</h2>
-                        <div class="content">
-                            <p>It's not who I am underneath, but what I do that defines me.</p>
-                        </div><!--//content-->
-                    </div><!--//section-inner-->                 
-                </section><!--//section-->
 
-               <section class="latest section">
-                    <div class="section-inner shadow-sm rounded">
-                        <h2 class="heading">Latest Projects</h2>
-                        <div class="content">    
-                            
-                            <div class="item featured text-center">
-                                
-                                <div class="featured-image has-ribbon">
-                                    <a href="https://github.com/prashplus/CloudMPI" target="_blank">
-                                    <img class="img-fluid project-image rounded shadow-sm" src="assets/images/projects/project-featured-1.jpg" alt="project name" />
-                                    </a>
-                                    <div class="ribbon">
-                                        <div class="text">New</div>
-                                    </div>
-                                </div>
-                                
-                                <h3 class="title mb-3"><a href="https://github.com/prashplus/CloudMPI" target="_blank">Cloud MPI</a></h3>
-                                    
-                                <div class="desc text-left">                                    
-                                    <p>Projects aims to improve perfomance of HPC over Cloud. Project mainly focuses on the improving the network elements that's where the bottleneck lies.</p>
-                                </div><!--//desc-->         
-                                <a class="btn btn-cta-secondary" href="https://github.com/prashplus/CloudMPI" target="_blank"><i class="fas fa-thumbs-up"></i> Back my project</a>                 
-                            </div><!--//item-->
+    <nav>
+        <div class="container nav-content">
+            <div class="nav-logo">
+                <a href="#">Prashant.</a>
+            </div>
+            <div class="nav-links">
+                <a href="#about">About</a>
+                <a href="#experience">Experience</a>
+                <a href="#projects">Work</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </div>
+    </nav>
 
-                            <div class="item featured text-center">
-                                
-                                <div class="featured-image has-ribbon">
-                                    <a href="http://sdnonlinelab.com" target="_blank">
-                                    <img class="img-fluid project-image rounded shadow-sm" src="assets/images/projects/project-featured-2.png" alt="project name" />
-                                    </a>
-                                    <div class="ribbon">
-                                        <div class="text">New</div>
-                                    </div>
-                                </div>
-                                
-                                <h3 class="title mb-3"><a href="http://sdnonlinelab.com" target="_blank">SDN Online Lab</a></h3>
-                                <p class="summary">It's an online lab designed for students and researchers who wants to learn and emulate their SDN configurations before its actual implementation.</p>
-                                <div class="desc text-left">                                    
-                                    <p>Software-Defined Networking (SDN) is an emerging architecture that is dynamic, manageable, cost-effective, and adaptable, making it ideal for the high-bandwidth, dynamic nature of today’s applications. This architecture decouples the network control and forwarding functions enabling the network control to become directly programmable and the underlying infrastructure to be abstracted for applications and network services. The OpenFlow® protocol is a foundational element for building SDN solutions. The project will be in 'Work in progress' state to continuously add new features as soon as possible. Our aim is to provide the complete hands-on experience to the up-coming generation over the SDN concepts.</p>
-                                    <p>I have contributed to this project as a Systems-Architect while doing my internship at CDAC, Pune as my B.Tech final year project.</p>
-                                </div><!--//desc-->                     
-                            </div><!--//item-->
-                            <hr class="divider" />
-                            
-                            
-                            <div class="item row">
-                                <a class="col-md-4 col-12" href="https://github.com/prashplus/HPC" target="_blank">
-                                <img class="img-fluid project-image rounded shadow-sm" src="assets/images/projects/project-4.jpg" alt="project name" />
-                                </a>
-                                <div class="desc col-md-8 col-12">
-                                    <h3 class="title">HPC Cluster<span class="label label-theme">Open Source</span></h3>
-                                    <p class="mb-2">HPC cluster we have designed is based on MS HPC Pack. It aims to find factors of large numbers (Crypt Analysis)</p>
-                                    <p><a class="more-link" href="https://github.com/prashplus/HPC" target="_blank"><i class="fas fa-external-link-alt"></i>Find out more</a></p>
-                                </div><!--//desc-->                          
-                            </div><!--//item-->
-                            
-                             <div class="item row">
-                                <a class="col-md-4 col-12" href="https://github.com/prashplus" target="_blank">
-                                    <img class="img-fluid project-image rounded shadow-sm" src="assets/images/projects/project-1.png" alt="project name" />
-                                    </a>
-                                <div class="desc col-md-8 col-12">
-                                    <h3 class="title">DNS Load Balancer</h3>
-                                    <p class="mb-2">The project combines two load balancing concepts i.e., DNS and HTTP load balancing. We have used Azure TM and designed a custom web app to achive our goals.</p>
-                                </div><!--//desc-->                          
-                            </div><!--//item-->
-                            
-                            <div class="item row">
-                                <a class="col-md-4 col-12" href="https://github.com/prashplus/SystemS" target="_blank">
-                                <img class="img-fluid project-image rounded shadow-sm" src="assets/images/projects/project-2.jpg" alt="project name" />
-                                </a>
-                                <div class="desc col-md-8 col-12">
-                                    <h3 class="title">System S<span class="label label-theme">Open Source</span></h3>
-                                    <p class="mb-2">This project aims at Customer Management System specifically designed for LCO who are looking forward to move with the digitization of India.</p>
-                                    <p><a class="more-link" href="https://github.com/prashplus/SystemS" target="_blank"><i class="fas fa-external-link-alt"></i>Find out more</a></p>
-                                </div><!--//desc-->                          
-                            </div><!--//item--> 
-                            
-                        </div><!--//content-->  
-                    </div><!--//section-inner-->                
-                </section><!--//section-->
+    <div class="container">
+        
+        <header id="hero" class="hero section">
+            <div class="drone-bg-container">
+                <svg class="drone-svg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+                    <defs>
+                        <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                            <feGaussianBlur stdDeviation="2" result="blur" />
+                            <feMerge>
+                                <feMergeNode in="blur" />
+                                <feMergeNode in="SourceGraphic" />
+                            </feMerge>
+                        </filter>
+                    </defs>
+                    <g class="drone-grid"></g>
+                    <g transform="translate(400, 300) scale(1.5)" filter="url(#glow)">
+                        <!-- Central Body -->
+                        <path class="drone-path" fill="none" stroke="var(--accent)" stroke-width="1.5" d="M-20,-20 L20,-20 L30,0 L20,20 L-20,20 L-30,0 Z" />
+                        <circle class="drone-path" cx="0" cy="0" r="10" fill="none" stroke="var(--accent)" stroke-width="1" />
+                        <!-- Arms -->
+                        <line class="drone-path" x1="-20" y1="-20" x2="-60" y2="-60" stroke="var(--text-muted)" stroke-width="2" />
+                        <line class="drone-path" x1="20" y1="-20" x2="60" y2="-60" stroke="var(--text-muted)" stroke-width="2" />
+                        <line class="drone-path" x1="-20" y1="20" x2="-60" y2="60" stroke="var(--text-muted)" stroke-width="2" />
+                        <line class="drone-path" x1="20" y1="20" x2="60" y2="60" stroke="var(--text-muted)" stroke-width="2" />
+                        <!-- Propellers -->
+                        <g class="propeller" transform="translate(-60, -60)">
+                            <circle class="drone-path drone-prop" cx="0" cy="0" r="15" fill="none" stroke="var(--accent)" stroke-width="1" stroke-dasharray="4,4" />
+                            <circle cx="0" cy="0" r="2" fill="var(--accent)" />
+                        </g>
+                        <g class="propeller" transform="translate(60, -60)">
+                            <circle class="drone-path drone-prop" cx="0" cy="0" r="15" fill="none" stroke="var(--accent)" stroke-width="1" stroke-dasharray="4,4" />
+                            <circle cx="0" cy="0" r="2" fill="var(--accent)" />
+                        </g>
+                        <g class="propeller" transform="translate(-60, 60)">
+                            <circle class="drone-path drone-prop" cx="0" cy="0" r="15" fill="none" stroke="var(--accent)" stroke-width="1" stroke-dasharray="4,4" />
+                            <circle cx="0" cy="0" r="2" fill="var(--accent)" />
+                        </g>
+                        <g class="propeller" transform="translate(60, 60)">
+                            <circle class="drone-path drone-prop" cx="0" cy="0" r="15" fill="none" stroke="var(--accent)" stroke-width="1" stroke-dasharray="4,4" />
+                            <circle cx="0" cy="0" r="2" fill="var(--accent)" />
+                        </g>
+                        <!-- HUD Target Rings -->
+                        <circle class="hud-ring" cx="0" cy="0" r="120" fill="none" stroke="var(--accent)" stroke-width="0.5" stroke-dasharray="10 20" opacity="0.3" />
+                        <circle class="hud-ring-reverse" cx="0" cy="0" r="135" fill="none" stroke="var(--text-muted)" stroke-width="0.5" stroke-dasharray="5 10 20 10" opacity="0.2" />
+                    </g>
+                </svg>
+            </div>
+            <div class="hero-content">
+                <span class="greeting animate-hero">Hi, my name is</span>
+                <h1 class="animate-hero name-text">Prashant Piprotar.</h1>
+                <h2 class="animate-hero typed-subtitle">I build things for the web and cloud.</h2>
+                <p class="animate-hero">I'm a Sr. Software Engineer specializing in building scalable software solutions, resilient cloud architectures, and leveraging distributed computing to solve hard problems.</p>
+                <div class="animate-hero">
+                    <a href="#projects" class="btn">Check out my work!</a>
+                </div>
+            </div>
+        </header>
+
+        <section id="about" class="section">
+            <h2 class="section-title animate-title">About Me</h2>
+            <div class="glass-panel animate-panel">
+                <p>Hello! I am a passionate Sr. Software Engineer focused on crafting high-performance, robust, and cleanly abstracted solutions.</p>
+                <br>
+                <p>I recently work extensively at Enphase Energy bridging real-time energy management needs with modern web frameworks. I've also poured myself into academic research comparing Apache Spark with MPI C++ to push the limits of cluster computing logic across astrophysic algorithms.</p>
                 
-                <section class="projects section">
-                    <div class="section-inner shadow-sm rounded">
-                        <h2 class="heading">Configuration Projects</h2>
-                        <div class="content">
-                            <div class="item">
-                                <h3 class="title"><a href="#">Ubuntu Openstack</a></h3>
-                                <p class="summary">Setting up 5 node (4C/16G) Private cloud with capabiliy of creating linux VMs.</p>
-                            
-                            </div><!--//item-->
-                            <div class="item">
-                                <h3 class="title"><a href="#">MS Azure Stack</a> </h3>
-                                <p class="summary">Beta testing over 1 node (32C/128G) to test the PAAS features of Public Azure Cloud in On-Premise H/W.</p>
-                      
-                            </div><!--//item-->
-                            <div class="item">
-                                <h3 class="title"><a href="#">Container Orchestration with Kubernetes</a> </h3>
-                                <p class="summary">Dynamic scaling of a sample voting web application based on amount of workload and measuring stress on Baremetal.</p>
-                                
-                            </div><!--//item-->
-                            
-                            <a class="btn btn-cta-secondary" href="https://github.com/prashplus/">More on GitHub <i class="fa fa-chevron-right"></i></a>
-                            
-                        </div><!--//content-->   
-                    </div><!--//section-inner-->                 
-                </section><!--//section-->
+                <h3 style="margin-top:2rem">Core Skills</h3>
+                <div class="skills-container" id="skills-list">
+                    <span class="skill-pill">Python</span>
+                    <span class="skill-pill">JavaScript (ES6+)</span>
+                    <span class="skill-pill">React.js</span>
+                    <span class="skill-pill">Node.js</span>
+                    <span class="skill-pill">Docker & Cloud</span>
+                    <span class="skill-pill">MPI & Spark</span>
+                    <span class="skill-pill">FastAPI</span>
+                    <span class="skill-pill">Java & Spring Boot</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience" class="section">
+            <h2 class="section-title animate-title">Where I've Worked</h2>
+            
+            <div class="timeline" id="experience-list">
+                <div class="timeline-item animate-item">
+                    <div class="timeline-date">Aug 2021 — Present</div>
+                    <h3>Sr. Software Engineer</h3>
+                    <div class="timeline-company">Enphase Energy | Solargraf</div>
+                    <div class="timeline-content">
+                        <ul>
+                            <li>Contributed to the development and maintenance of Enlighten Manager, resolving scaling limits for heavy customer dashboards.</li>
+                            <li>Engineered the BOM Calculator to enable real-time tracking and pricing integration across installer supply streams.</li>
+                            <li>Architected and managed the migration path to overhaul user interfaces, increasing active proposal throughput speeds.</li>
+                            <li>Established Solargraf's Public API surface and technical documentation center targeting global external developers.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item animate-item">
+                    <div class="timeline-date">Jul 2020 — Jul 2021</div>
+                    <h3>M.Tech Thesis Researcher</h3>
+                    <div class="timeline-company">IIT Kanpur</div>
+                    <div class="timeline-content">
+                        <ul>
+                            <li>Designed parallel architecture frameworks comparing MPI C++ vs Apache Spark against huge datasets representing cosmology and meteorology.</li>
+                            <li>Evaluated IO limits across heavily memory-bounded workloads operating on highly clustered VM grids.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item animate-item">
+                    <div class="timeline-date">Jan 2018 — Apr 2018</div>
+                    <h3>Software Engineering Intern</h3>
+                    <div class="timeline-company">CDAC, Pune | SDN Online Lab</div>
+                    <div class="timeline-content">
+                        <ul>
+                            <li>Helped bridge connections natively towards early iterations of an open-source educational Network Emulator.</li>
+                            <li>Aided deployment optimizations covering full-lifecycle ideation mappings.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="section">
+            <h2 class="section-title animate-title">Some Things I've Built</h2>
+            
+            <div class="projects-grid" id="projects-list">
                 
-                <section class="experience section">
-                    <div class="section-inner shadow-sm rounded">
-                        <h2 class="heading">Work Experience</h2>
-                        <div class="content">
-                            <div class="item">
-                                <h3 class="title">Sr. Software Engineer<span class="place"><a href="#">Enphase Energy</a></span> <span class="year">(Aug, 2021 - Present)</span></h3>
-                                <p>At Enphase Energy, I have been working on developing and optimizing software solutions for energy management systems, contributing to the advancement of renewable energy technologies.</p>
-                            </div><!--//item-->
-                            <div class="item">
-                                <h3 class="title">Intern<span class="place"><a href="#">CDAC, Pune</a></span> <span class="year">(Jan, 2018 - April, 2018)</span></h3>
-                                <p>I was responsible for the back-end infrastructure for the SDN Online Lab as mentioned above.</p>
-                            </div><!--//item-->
-                        </div><!--//content-->  
-                    </div><!--//section-inner-->                 
-                </section><!--//section-->
-                <section class="github section">
-                    <div class="section-inner shadow-sm rounded">
-                        <h2 class="heading">My GitHub</h2>                    
-                        <div id="github-graph" class="github-graph">
+                <div class="glass-panel project-card animate-item">
+                    <div class="project-header">
+                        <div class="folder-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                        </div>
+                        <div class="external-links">
+                            <a href="https://github.com/prashplus/AetherScan" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">AetherScan</h3>
+                        <p class="project-desc">A deep full-stack Next.js pipeline utilizing real-time Fast3R WebSocket hooks. It dramatically translates 2D webcam uploads seamlessly into browser-viewable 3D Point Clouds, completely skipping offline processing cycles.</p>
+                    </div>
+                </div>
 
-                        </div><!--//github-graph-->
-                        <!--//Usage: https://caseyscarborough.com/projects/github-activity/ -->                       
-                        <div id="ghfeed" class="ghfeed">
-                        </div><!--//ghfeed-->
-                        
-                    </div><!--//secton-inner-->
-                </section><!--//section-->
-            </div><!--//primary-->
-            <div class="secondary col-lg-4 col-12">
-                 <aside class="info aside section">
-                    <div class="section-inner shadow-sm rounded">
-                        <h2 class="heading sr-only">Basic Information</h2>
-                        <div class="content">
-                            <ul class="list-unstyled">
-                                <li><i class="fas fa-map-marker-alt"></i><span class="sr-only">Location:</span>IN</li>
-                                <li><i class="fas fa-envelope"></i><span class="sr-only">Email:</span><a href="#">prashplus@gmail.com</a></li>
-                                <li><i class="fas fa-link"></i><span class="sr-only">Website:</span><a href="#">https://www.prashplus.com</a></li>
-                            </ul>
-                        </div><!--//content-->  
-                    </div><!--//section-inner-->                 
-                </aside><!--//aside-->
+                <div class="glass-panel project-card animate-item">
+                    <div class="project-header">
+                        <div class="folder-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                        </div>
+                        <div class="external-links">
+                            <a href="https://github.com/prashplus/Real-Time-Object-Detection" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">YOLO Object Hub</h3>
+                        <p class="project-desc">Real-time object detection processing webcam capture locally through NVIDIA CUDA layers leveraging modern streaming libraries via Streamlit user controls.</p>
+                    </div>
+                </div>
+
+                <div class="glass-panel project-card animate-item">
+                    <div class="project-header">
+                        <div class="folder-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                        </div>
+                        <div class="external-links">
+                            <a href="https://github.com/prashplus/RAG-basics" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">RAG Chatbot</h3>
+                        <p class="project-desc">A full end-to-end framework implementing Retrieval Augmented Generation techniques directly allowing multiple heavy PDF file ingestions with highly accurate semantic searches.</p>
+                    </div>
+                </div>
+
+                <div class="glass-panel project-card animate-item">
+                    <div class="project-header">
+                        <div class="folder-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                        </div>
+                        <div class="external-links">
+                            <a href="https://github.com/prashplus/CloudMPI" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">Cloud MPI</h3>
+                        <p class="project-desc">A deep networking augmentation module layered physically over traditional MPI libraries, designed strictly to aggressively throttle Cloud Environment latencies during large computations.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="extras" class="section">
+            <h2 class="section-title animate-title">When I'm Not Coding</h2>
+            
+            <div class="extras-grid" id="extras-list">
                 
-                <aside class="skills aside section">
-                    <div class="section-inner shadow-sm rounded">
-                        <h2 class="heading">Skills</h2>
-                        <div class="content">
-                            
-                            <div class="skillset">
-                               
-                                <div class="item">
-                                    <h3 class="level-title">Virtualization &amp; Containerization<span class="level-label" data-toggle="tooltip" data-placement="left" data-animation="true" title="">Pro</span></h3>
-                                    <div class="level-bar">
-                                        <div class="level-bar-inner" data-level="80%">
-                                        </div>                                      
-                                    </div><!--//level-bar-->                                 
-                                </div><!--//item-->
-                                
-                                <div class="item">
-                                    <h3 class="level-title">C++ &amp; Python<span class="level-label">Intermediate</span></h3>
-                                    <div class="level-bar">
-                                        <div class="level-bar-inner" data-level="70%">
-                                        </div>                                      
-                                    </div><!--//level-bar-->                                 
-                                </div><!--//item-->
+                <div class="glass-panel extra-card animate-item">
+                    <h3 class="extra-title"><i class="fas fa-atom"></i> Research Interests</h3>
+                    <ul class="extra-list">
+                        <li>Containerization & Microservices</li>
+                        <li>High Performance Computing (HPC)</li>
+                        <li>Cloud Architecture & Orchestration</li>
+                        <li>Advanced Computer Networks</li>
+                    </ul>
+                </div>
 
-                                <div class="item">
-                                    <h3 class="level-title">Java &amp; C#<span class="level-label">Intermediate</span></h3>
-                                    <div class="level-bar">
-                                        <div class="level-bar-inner" data-level="60%">
-                                        </div>                                      
-                                    </div><!--//level-bar-->                                 
-                                </div><!--//item-->
-                                
-                                <div class="item">
-                                    <h3 class="level-title">Server Administration (Windows &amp; Ubuntu)<span class="level-label">Intermediate</span></h3>
-                                    <div class="level-bar">
-                                        <div class="level-bar-inner" data-level="55%">
-                                        </div>                                      
-                                    </div><!--//level-bar-->                                 
-                                </div><!--//item-->
+                <div class="glass-panel extra-card animate-item">
+                    <h3 class="extra-title"><i class="fas fa-headphones-alt"></i> Focus Music</h3>
+                    <ul class="extra-list">
+                        <li>Best of Illenium</li>
+                        <li>Best of NCS</li>
+                        <li>Synthwave / Cyberpunk</li>
+                        <li>Deep Electronic</li>
+                    </ul>
+                </div>
 
-                                <div class="item">
-                                    <h3 class="level-title">Switch &amp; Router Configuration<span class="level-label">Intermediate</span></h3>
-                                    <div class="level-bar">
-                                        <div class="level-bar-inner" data-level="50%">
-                                        </div>                                      
-                                    </div><!--//level-bar-->                                 
-                                </div><!--//item-->
+                <div class="glass-panel extra-card animate-item">
+                    <h3 class="extra-title"><i class="fas fa-globe-asia"></i> Languages</h3>
+                    <div class="extra-pills">
+                        <span class="skill-pill">English</span>
+                        <span class="skill-pill">Hindi</span>
+                        <span class="skill-pill">Gujarati</span>
+                    </div>
+                </div>
 
-                               
+            </div>
+        </section>
 
-                                <div class="item">
-                                    <h3 class="level-title">Netsim, NS3 &amp; Wireshark<span class="level-label">Intermediate</span></h3>
-                                    <div class="level-bar">
-                                        <div class="level-bar-inner" data-level="50%">
-                                        </div>                                      
-                                    </div><!--//level-bar-->                                 
-                                </div><!--//item-->
+    </div>
 
-                                
-                                <div class="item">
-                                    <h3 class="level-title">SQL<span class="level-label">Beginner</span></h3>
-                                    <div class="level-bar">
-                                        <div class="level-bar-inner" data-level="40%">
-                                        </div>                                      
-                                    </div><!--//level-bar-->                                 
-                                </div><!--//item-->
+    <section id="contact" class="section container">
+        <h2 class="section-title animate-title">Let's Connect</h2>
+        <div class="contact-grid" id="contact-list">
+            <a href="mailto:prashplus@gmail.com" class="glass-panel contact-card animate-item">
+                <i class="fas fa-envelope contact-icon"></i>
+                <div class="contact-details">
+                    <h4>Email</h4>
+                    <p>prashplus@gmail.com</p>
+                </div>
+            </a>
+            <a href="tel:+918469372991" class="glass-panel contact-card animate-item">
+                <i class="fas fa-phone-alt contact-icon"></i>
+                <div class="contact-details">
+                    <h4>Phone</h4>
+                    <p>+91 8469 372 991</p>
+                </div>
+            </a>
+            <a href="https://linkedin.com/in/prashplus" target="_blank" class="glass-panel contact-card animate-item">
+                <i class="fab fa-linkedin contact-icon"></i>
+                <div class="contact-details">
+                    <h4>LinkedIn</h4>
+                    <p>in/prashplus</p>
+                </div>
+            </a>
+            <a href="https://github.com/prashplus" target="_blank" class="glass-panel contact-card animate-item">
+                <i class="fab fa-github contact-icon"></i>
+                <div class="contact-details">
+                    <h4>GitHub</h4>
+                    <p>@prashplus</p>
+                </div>
+            </a>
+        </div>
+    </section>
 
+    <footer style="text-align: center; margin-top: 4rem; padding-bottom: 2rem; color: var(--text-muted); font-size: 0.9rem;">
+        <p>Built dynamically with modern frameworks and Anime.js. &copy; 2026 Prashant Piprotar.</p>
+    </footer>
 
-                                
-
-                                <div class="item">
-                                    <h3 class="level-title">HTML5, CSS3 &amp; Javascript<span class="level-label">Beginner</span></h3>
-                                    <div class="Begineer">
-                                        <div class="level-bar-inner" data-level="40%">
-                                        </div>                                      
-                                    </div><!--//level-bar-->                                 
-                                </div><!--//item-->
-                                
-                                <p><a class="more-link" href="https://github.com/prashplus/"><i class="fas fa-external-link-alt"></i>More on GitHub</a></p> 
-                            </div>              
-                        </div><!--//content-->  
-                    </div><!--//section-inner-->                 
-                </aside><!--//section-->
-                
-                
-                <aside class="education aside section">
-                    <div class="section-inner shadow-sm rounded">
-                        <h2 class="heading">Education</h2>
-                        <div class="content">
-                            <div class="item">                      
-                                <h3 class="title"><i class="fas fa-graduation-cap"></i> M.Tech. Computer Science and Engg.</h3>
-                                <h4 class="university">IIT, Kanpur <span class="year">(2019 - Ongoing)</span></h4>
-                            </div><!--//item-->
-                            <div class="item">
-                                <h3 class="title"><i class="fas fa-graduation-cap"></i> B.Tech Computer Engg.</h3>
-                                <h4 class="university">CSPIT, Charusat <span class="year">(2014 - 2018)</span></h4>
-                            </div><!--//item-->
-                        </div><!--//content-->
-                    </div><!--//section-inner-->
-                </aside><!--//section-->
-                            
-                <aside class="languages aside section">
-                    <div class="section-inner shadow-sm rounded">
-                        <h2 class="heading">Languages</h2>
-                        <div class="content">
-                            <ul class="list-unstyled">
-                                <li class="item">
-                                    <span class="title"><strong>English</strong></span>
-                                    <span class="level">  <br class="visible-xs"/><i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> </i> </span>
-                                </li><!--//item-->
-                                <li class="item">
-                                    <span class="title"><strong>Hindi</strong></span>
-                                    <span class="level"> <br class="visible-xs"/><i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> </i> </span>
-                                </li><!--//item-->
-                                <li class="item">
-                                    <span class="title"><strong>Gujarati</strong></span>
-                                    <span class="level">  <br class="visible-xs"/><i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> </i> </span>
-                                </li><!--//item-->
-                            </ul>
-                        </div><!--//content-->
-                    </div><!--//section-inner-->
-                </aside><!--//section-->
-                
-
-                <aside class="list music aside section">
-                    <div class="section-inner shadow-sm rounded">
-                        <h2 class="heading">Favourite coding music</h2>
-                        <div class="content">
-                            <ul class="list-unstyled">
-                                <li><i class="fas fa-headphones"></i> <a href="#">Best of Illenium</a></li>
-                                <li><i class="fas fa-headphones"></i> <a href="#">Best of NCS</a></li>
-                            </ul>
-                        </div><!--//content-->
-                    </div><!--//section-inner-->
-                </aside><!--//section-->
-                
-                <aside class="list music aside section">
-                    <div class="section-inner">
-                        <h2 class="heading">Research Interest</h2>
-                        <div class="content">
-                            <ul class="list-unstyled">
-                                <li><i class="fa fa-circle"></i> <a href="#">Containerization</a></li>
-                                <li><i class="fa fa-circle"></i> <a href="#">Cloud Computing</a></li>
-                                <li><i class="fa fa-circle"></i> <a href="#">Computer networks</a></li>
-                                <li><i class="fa fa-circle"></i> <a href="#">HPC and Server H/W</a></li>
-                            </ul>
-                        </div><!--//content-->
-                    </div><!--//section-inner-->
-                </aside><!--//section-->
-
-                <aside class="list conferences aside section">
-                    <div class="section-inner">
-                        <h2 class="heading">Expert Talk Delivered</h2>
-                        <div class="content">
-                            <ul class="list-unstyled">
-                                <li><i class="fa fa-calendar"></i> <a href="#">Fundamentals of Cloud Computing</a> (Uka Tarsadia University: March-17)</li>
-                                <li><i class="fa fa-calendar"></i> <a href="#">Virtualization</a> (Ganpat University: June-17)</li>
-                                <li><i class="fa fa-calendar"></i> <a href="#">Experience the Cluster and Cloud Computing</a> (Uka Tarsadia University: Feb-18)</li>
-                                
-                            </ul>
-                        </div><!--//content-->
-                    </div><!--//section-inner-->
-                </aside><!--//section-->
-                
-                <aside class="credits aside section">
-                    <div class="section-inner shadow-sm rounded">
-                        <h2 class="heading">Credits</h2>
-                        <div class="content">
-                            <ul class="list-unstyled pb-2">
-                                <li><a href="https://getbootstrap.com/" target="_blank"><i class="fas fa-external-link-alt"></i>Bootstrap</a></li>
-                                <li><a href="https://fortawesome.github.io/Font-Awesome/" target="_blank"><i class="fas fa-external-link-alt"></i>FontAwesome</a></li>
-                                <li><a href="https://jquery.com/" target="_blank"><i class="fas fa-external-link-alt"></i>jQuery</a></li>
-                                <li><a href="https://github.com/IonicaBizau/github-calendar" target="_blank"><i class="fas fa-external-link-alt"></i>GitHub Calendar Plugin</a></li>
-                                
-                                <li><a href="https://caseyscarborough.com/projects/github-activity/" target="_blank"><i class="fas fa-external-link-alt"></i>GitHub Activity Stream</a></li>
-                                
-                                <li><a href="https://github.com/sdepold/jquery-rss" target="_blank"><i class="fas fa-external-link-alt"></i>jQuery RSS</a></li>
-                                
-                                <li>Profile image: <a href="https://www.flickr.com/photos/dotbenjamin/2577394151" target="_blank">Ben Smith</a></li>
-                            </ul>
-                            
-                            <hr/>
-                            
-                             <p class="pt-2">This Bootstrap 4 portfolio template is handcrafted by UX designer <a href="https://twitter.com/3rdwave_themes" target="_blank">Xiaoying Riley</a> at <a href="https://themes.3rdwavemedia.com/" target="_blank">3rd Wave Media</a> for developers and is <strong>FREE</strong> as long as you keep the footer attribution link.</p>
-                             <p>If you’d like to <strong>use this template without the attribution link</strong>, you can <a href="https://themes.3rdwavemedia.com/bootstrap-templates/resume/free-bootstrap-portfolio-theme-for-web-developers/" target="_blank">buy the commercial license</a>.</p>
-                             
-                             <a class="btn btn-cta-primary btn-download" href="https://themes.3rdwavemedia.com/bootstrap-templates/resume/free-bootstrap-portfolio-theme-for-web-developers/" target="_blank"><i class="fas fa-download"></i> I want to download</a>
-                            <hr/>
-                            <h5 class="subheading pt-3">Want more free Bootstrap themes and templates?</h5>
-                            <p>Check out our <a href="https://themes.3rdwavemedia.com/bootstrap-templates/free/">collection of free themes and templates.</a></p>
-                            <p>Follow <a href="https://twitter.com/3rdwave_themes" target="_blank">Xiaoying</a> on twitter so you don't miss any future freebies!</p> 
-                            
-                            <a class="btn btn-cta-secondary btn-follow" href="https://twitter.com/3rdwave_themes" target="_blank"><i class="fab fa-twitter"></i> Follow on twitter</a>
-                            
-                        </div><!--//content-->
-                    </div><!--//section-inner-->
-                </aside><!--//section-->
-              
-            </div><!--//secondary-->    
-        </div><!--//row-->
-    </div><!--//masonry-->
-    
-    <!-- ******FOOTER****** --> 
-    <footer class="footer">
-        <div class="container text-center">
-                <!--/* This template is free as long as you keep the attribution link below. Thank you for your support. :) If you'd like to use the template without the attribution, you can buy the commercial license via our website: themes.3rdwavemedia.com */-->
-                <small class="copyright">Designed with <i class="fas fa-heart"></i> by <a href="https://themes.3rdwavemedia.com" target="_blank">Xiaoying Riley</a> for developers</small>
-        </div><!--//container-->
-    </footer><!--//footer-->
- 
-    <!-- Javascript -->          
-    <script type="text/javascript" src="assets/plugins/jquery-3.4.1.min.js"></script>
-    <script type="text/javascript" src="assets/plugins/popper.min.js"></script> 
-    <script type="text/javascript" src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>    
-    <!-- github calendar plugin -->
-    <script type="text/javascript" src="assets/plugins/github-calendar/dist/github-calendar.min.js"></script>
-    <!-- github activity plugin -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.0.1/mustache.min.js"></script>
-    <script type="text/javascript" src="assets/plugins/github-activity/github-activity-0.1.5.min.js"></script>
-    <!-- custom js -->
-    <script type="text/javascript" src="assets/js/main.js"></script>            
+    <!-- Anime.js & Typed.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+    <script src="assets/js/main.js"></script>            
 </body>
 </html>
-
