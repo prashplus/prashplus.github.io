@@ -5,7 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (canvas) {
         const ctx = canvas.getContext('2d');
         const hero = document.getElementById('hero');
-        const ACCENT = '#6ee7b7';
+        const ACCENT = '#56CCF2';
+        const ACCENT_RED = '#EB5757';
         const MUTED = '#94a3b8';
 
         function resize() {
@@ -92,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const cx = canvas.width * 0.7, cy = canvas.height * 0.45;
             const rings = [
                 { r: 140, rot: state.hudRing1, dash: [3, 15], w: 0.8, col: ACCENT, a: 0.2 },
-                { r: 110, rot: state.hudRing2, dash: [20, 30], w: 1, col: MUTED, a: 0.15 },
+                { r: 110, rot: state.hudRing2, dash: [20, 30], w: 1, col: ACCENT_RED, a: 0.12 },
                 { r: 80,  rot: state.hudRing3, dash: [5, 10, 15, 10], w: 0.5, col: ACCENT, a: 0.25 }
             ];
             rings.forEach(ring => {
@@ -352,7 +353,7 @@ document.addEventListener('DOMContentLoaded', () => {
             anime({
                 targets: card,
                 translateY: -10,
-                boxShadow: '0 10px 30px rgba(110, 231, 183, 0.15)',
+                boxShadow: '0 10px 30px rgba(86, 204, 242, 0.15)',
                 duration: 300,
                 easing: 'easeOutQuart'
             });
