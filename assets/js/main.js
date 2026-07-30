@@ -1,297 +1,311 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // 0. Canvas-based Drone/Techie Background Engine
-    const canvas = document.getElementById('drone-canvas');
-    if (canvas) {
-        const ctx = canvas.getContext('2d');
-        const hero = document.getElementById('hero');
-        const ACCENT = '#56CCF2';
-        const ACCENT_RED = '#EB5757';
-        const MUTED = '#94a3b8';
+    // ==========================================
+    // 0. Scroll Progress Bar & Scroll Tracking
+    // ==========================================
+    const progressBar = document.getElementById('scroll-progress');
+    let scrollProgress = 0;
 
-        function resize() {
-            canvas.width = hero.offsetWidth;
-            canvas.height = hero.offsetHeight;
+    function updateScrollProgress() {
+        const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+        if (totalHeight > 0) {
+            scrollProgress = Math.min(Math.max(window.scrollY / totalHeight, 0), 1);
+            if (progressBar) {
+                progressBar.style.width = `${(scrollProgress * 100).toFixed(2)}%`;
+            }
         }
-        resize();
-        window.addEventListener('resize', resize);
+    }
+    window.addEventListener('scroll', updateScrollProgress, { passive: true });
+    updateScrollProgress();
 
-        // --- Particles ---
-        const NUM_PARTICLES = 80;
-        const CONNECTION_DIST = 120;
-        const particles = [];
-        for (let i = 0; i < NUM_PARTICLES; i++) {
-            particles.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                vx: (Math.random() - 0.5) * 0.4,
-                vy: (Math.random() - 0.5) * 0.4,
-                r: Math.random() * 2 + 1,
-                alpha: Math.random() * 0.4 + 0.1
+    // ==========================================
+    // 1. Anime.js Exploded Hardware Dissection Canvas
+    // ==========================================
+    const disCanvas = document.getElementById('dissection-canvas');
+    if (disCanvas) {
+        const ctx = disCanvas.getContext('2d');
+        const ACCENT = '#56CCF2';
+        const ACCENT_BLUE = '#3B82F6';
+        const ACCENT_PURPLE = '#8B5CF6';
+        const ACCENT_RED = '#EB5757';
+
+        function resizeDissection() {
+            disCanvas.width = window.innerWidth;
+            disCanvas.height = window.innerHeight;
+        }
+        resizeDissection();
+        window.addEventListener('resize', resizeDissection);
+
+        // Animated Pulse Data Particles moving across bus traces
+        const dataPackets = [];
+        for (let i = 0; i < 25; i++) {
+            dataPackets.push({
+                layer: i % 5,
+                progress: Math.random(),
+                speed: 0.003 + Math.random() * 0.005,
+                track: Math.floor(Math.random() * 4)
             });
         }
 
-        // --- Anime.js driven state ---
-        const state = {
-            hudRing1: 0,
-            hudRing2: 0,
-            hudRing3: 0,
-            scanY: 0,
-            droneDrawProgress: 0,
-            pulseRadius: 0,
-            pulseAlpha: 0.6
-        };
-
-        // HUD ring rotations (continuous)
-        anime({ targets: state, hudRing1: 2 * Math.PI, duration: 20000, loop: true, easing: 'linear' });
-        anime({ targets: state, hudRing2: -2 * Math.PI, duration: 15000, loop: true, easing: 'linear' });
-        anime({ targets: state, hudRing3: 2 * Math.PI, duration: 25000, loop: true, easing: 'linear' });
-
-        // Scan line sweep
-        anime({ targets: state, scanY: [0, 1], duration: 4000, loop: true, easing: 'easeInOutSine', direction: 'alternate' });
-
-        // Drone wireframe draw/erase
-        anime({ targets: state, droneDrawProgress: [0, 1], duration: 6000, loop: true, direction: 'alternate', easing: 'easeInOutQuad' });
-
-        // Pulse ring
-        anime({ targets: state, pulseRadius: [0, 200], pulseAlpha: [0.5, 0], duration: 3000, loop: true, easing: 'easeOutCubic' });
-
-        // --- Canvas Drawing Functions ---
-        function drawParticles() {
-            for (let i = 0; i < particles.length; i++) {
-                const p = particles[i];
-                p.x += p.vx; p.y += p.vy;
-                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
-                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
-
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                ctx.fillStyle = ACCENT;
-                ctx.globalAlpha = p.alpha;
-                ctx.fill();
-
-                // Connections
-                for (let j = i + 1; j < particles.length; j++) {
-                    const q = particles[j];
-                    const dx = p.x - q.x, dy = p.y - q.y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < CONNECTION_DIST) {
-                        ctx.beginPath();
-                        ctx.moveTo(p.x, p.y);
-                        ctx.lineTo(q.x, q.y);
-                        ctx.strokeStyle = ACCENT;
-                        ctx.globalAlpha = (1 - dist / CONNECTION_DIST) * 0.15;
-                        ctx.lineWidth = 0.5;
-                        ctx.stroke();
-                    }
-                }
-            }
-            ctx.globalAlpha = 1;
+        // Isometric Helper: Transforms 3D relative coordinates (x, y, z) into 2D canvas coordinates
+        function projectIso(x, y, z, cx, cy, isoScale) {
+            const isoX = cx + (x - y) * Math.cos(Math.PI / 6) * isoScale;
+            const isoY = cy + (x + y) * Math.sin(Math.PI / 6) * isoScale - z * isoScale;
+            return { x: isoX, y: isoY };
         }
 
-        function drawHUD() {
-            const cx = canvas.width * 0.7, cy = canvas.height * 0.45;
-            const rings = [
-                { r: 140, rot: state.hudRing1, dash: [3, 15], w: 0.8, col: ACCENT, a: 0.2 },
-                { r: 110, rot: state.hudRing2, dash: [20, 30], w: 1, col: ACCENT_RED, a: 0.12 },
-                { r: 80,  rot: state.hudRing3, dash: [5, 10, 15, 10], w: 0.5, col: ACCENT, a: 0.25 }
+        // Polygon Renderer for Isometric Boxes & Plates
+        function drawIsoBlock(ctx, cx, cy, w, h, thickness, zOffset, isoScale, strokeColor, fillColor, fillAlpha = 0.15) {
+            const halfW = w / 2;
+            const halfH = h / 2;
+
+            // Top surface corners
+            const p1 = projectIso(-halfW, -halfH, zOffset + thickness, cx, cy, isoScale);
+            const p2 = projectIso(halfW, -halfH, zOffset + thickness, cx, cy, isoScale);
+            const p3 = projectIso(halfW, halfH, zOffset + thickness, cx, cy, isoScale);
+            const p4 = projectIso(-halfW, halfH, zOffset + thickness, cx, cy, isoScale);
+
+            // Bottom surface corners
+            const b1 = projectIso(-halfW, -halfH, zOffset, cx, cy, isoScale);
+            const b2 = projectIso(halfW, -halfH, zOffset, cx, cy, isoScale);
+            const b3 = projectIso(halfW, halfH, zOffset, cx, cy, isoScale);
+            const b4 = projectIso(-halfW, halfH, zOffset, cx, cy, isoScale);
+
+            ctx.save();
+            ctx.strokeStyle = strokeColor;
+            ctx.lineWidth = 1.2;
+
+            // Side faces
+            ctx.fillStyle = fillColor;
+            ctx.globalAlpha = fillAlpha * 0.6;
+            
+            // Left Face (p1-p4-b4-b1)
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y); ctx.lineTo(p4.x, p4.y); ctx.lineTo(b4.x, b4.y); ctx.lineTo(b1.x, b1.y);
+            ctx.closePath(); ctx.fill(); ctx.stroke();
+
+            // Right Face (p4-p3-b3-b4)
+            ctx.beginPath();
+            ctx.moveTo(p4.x, p4.y); ctx.lineTo(p3.x, p3.y); ctx.lineTo(b3.x, b3.y); ctx.lineTo(b4.x, b4.y);
+            ctx.closePath(); ctx.fill(); ctx.stroke();
+
+            // Top Face (p1-p2-p3-p4)
+            ctx.globalAlpha = fillAlpha;
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y); ctx.lineTo(p3.x, p3.y); ctx.lineTo(p4.x, p4.y);
+            ctx.closePath(); ctx.fill(); ctx.stroke();
+
+            ctx.restore();
+            return { p1, p2, p3, p4, b1, b2, b3, b4 };
+        }
+
+        // Draw exploded schematic layers
+        function renderDissection() {
+            ctx.clearRect(0, 0, disCanvas.width, disCanvas.height);
+
+            // Anchor canvas positioning (right side on large screens, center on smaller screens)
+            const cx = disCanvas.width > 992 ? disCanvas.width * 0.72 : disCanvas.width * 0.5;
+            const cy = disCanvas.height * 0.52;
+            const isoScale = Math.min(disCanvas.width, disCanvas.height) * 0.0017 + 0.55;
+
+            // Base explosion gap derived from scrollProgress
+            const explosionFactor = Math.min(scrollProgress * 2.5, 1.8);
+            const layerGap = 80 * explosionFactor + 25;
+
+            // Define Hardware Layers (bottom to top)
+            const layers = [
+                { name: 'CHASSIS BACKPLANE & PCIe BUS', z: 0, w: 260, h: 220, color: ACCENT_BLUE, fill: 'rgba(59, 130, 246, 0.12)' },
+                { name: 'SILICON INTERPOSER & BUS TRACES', z: layerGap, w: 220, h: 180, color: ACCENT, fill: 'rgba(86, 204, 242, 0.15)' },
+                { name: 'MULTI-CORE CPU TILE & L3 CACHE', z: layerGap * 2, w: 160, h: 140, color: ACCENT_PURPLE, fill: 'rgba(139, 92, 246, 0.18)' },
+                { name: 'GPU CUDA MATRIX & HBM3 STACKS', z: layerGap * 3, w: 180, h: 150, color: ACCENT, fill: 'rgba(86, 204, 242, 0.2)' },
+                { name: 'LIQUID COOLING HEATPLATE', z: layerGap * 4, w: 240, h: 200, color: ACCENT_RED, fill: 'rgba(235, 87, 87, 0.15)' }
             ];
-            rings.forEach(ring => {
+
+            // Draw vertical explosion guide pins / corner pillars connecting the exploded layers
+            const bottomZ = layers[0].z;
+            const topZ = layers[4].z + 10;
+            const cornerCoords = [
+                { x: -120, y: -100 }, { x: 120, y: -100 },
+                { x: 120, y: 100 }, { x: -120, y: 100 }
+            ];
+
+            cornerCoords.forEach(pt => {
+                const botPt = projectIso(pt.x, pt.y, bottomZ, cx, cy, isoScale);
+                const topPt = projectIso(pt.x, pt.y, topZ, cx, cy, isoScale);
                 ctx.save();
-                ctx.translate(cx, cy);
-                ctx.rotate(ring.rot);
+                ctx.strokeStyle = 'rgba(86, 204, 242, 0.15)';
+                ctx.lineWidth = 1;
+                ctx.setLineDash([4, 4]);
                 ctx.beginPath();
-                ctx.arc(0, 0, ring.r, 0, Math.PI * 2);
-                ctx.strokeStyle = ring.col;
-                ctx.globalAlpha = ring.a;
-                ctx.lineWidth = ring.w;
-                ctx.setLineDash(ring.dash);
+                ctx.moveTo(botPt.x, botPt.y);
+                ctx.lineTo(topPt.x, topPt.y);
                 ctx.stroke();
                 ctx.restore();
             });
-            ctx.setLineDash([]);
 
-            // Crosshairs
-            ctx.globalAlpha = 0.1;
-            ctx.strokeStyle = ACCENT;
-            ctx.lineWidth = 0.5;
-            ctx.beginPath(); ctx.moveTo(cx - 160, cy); ctx.lineTo(cx + 160, cy); ctx.stroke();
-            ctx.beginPath(); ctx.moveTo(cx, cy - 160); ctx.lineTo(cx, cy + 160); ctx.stroke();
+            // Draw Layers Bottom to Top
+            layers.forEach((layer, idx) => {
+                drawIsoBlock(ctx, cx, cy, layer.w, layer.h, 8, layer.z, isoScale, layer.color, layer.fill, 0.2);
 
-            // Pulse ring
-            if (state.pulseAlpha > 0.01) {
-                ctx.beginPath();
-                ctx.arc(cx, cy, state.pulseRadius, 0, Math.PI * 2);
-                ctx.strokeStyle = ACCENT;
-                ctx.globalAlpha = state.pulseAlpha;
-                ctx.lineWidth = 1.5;
-                ctx.stroke();
-            }
-            ctx.globalAlpha = 1;
-        }
-
-        function drawDrone() {
-            const cx = canvas.width * 0.7, cy = canvas.height * 0.45;
-            const s = 1.8; // scale
-
-            // Drone wireframe points (quadcopter top-down view)
-            const body = [
-                [-15*s, -10*s], [15*s, -10*s], [20*s, 0], [15*s, 10*s], [-15*s, 10*s], [-20*s, 0]
-            ];
-            const arms = [
-                [[-15*s, -10*s], [-45*s, -40*s]],
-                [[15*s, -10*s], [45*s, -40*s]],
-                [[-15*s, 10*s], [-45*s, 40*s]],
-                [[15*s, 10*s], [45*s, 40*s]]
-            ];
-            const motorCenters = [[-45*s,-40*s],[45*s,-40*s],[-45*s,40*s],[45*s,40*s]];
-            const motorR = 12 * s;
-
-            const prog = state.droneDrawProgress;
-
-            ctx.save();
-            ctx.translate(cx, cy);
-
-            // Draw body
-            ctx.beginPath();
-            const bodyLen = body.length;
-            const bodyProg = Math.min(prog * 2, 1); // first half of progress
-            const bodyPts = Math.floor(bodyProg * bodyLen);
-            if (bodyPts > 0) {
-                ctx.moveTo(body[0][0], body[0][1]);
-                for (let i = 1; i <= bodyPts && i < bodyLen; i++) {
-                    ctx.lineTo(body[i][0], body[i][1]);
-                }
-                if (bodyProg >= 1) ctx.closePath();
-            }
-            ctx.strokeStyle = ACCENT;
-            ctx.globalAlpha = 0.35;
-            ctx.lineWidth = 1.5;
-            ctx.stroke();
-
-            // Draw arms and motors (second half of progress)
-            const armProg = Math.max(0, (prog - 0.3) / 0.7);
-            if (armProg > 0) {
-                arms.forEach((arm, idx) => {
-                    ctx.beginPath();
-                    ctx.moveTo(arm[0][0], arm[0][1]);
-                    const ex = arm[0][0] + (arm[1][0] - arm[0][0]) * armProg;
-                    const ey = arm[0][1] + (arm[1][1] - arm[0][1]) * armProg;
-                    ctx.lineTo(ex, ey);
-                    ctx.strokeStyle = MUTED;
-                    ctx.globalAlpha = 0.3 * armProg;
-                    ctx.lineWidth = 1.5;
-                    ctx.stroke();
-                });
-
-                // Motors (propeller circles)
-                const motorProg = Math.max(0, (prog - 0.6) / 0.4);
-                if (motorProg > 0) {
-                    motorCenters.forEach(mc => {
-                        ctx.beginPath();
-                        ctx.arc(mc[0], mc[1], motorR * motorProg, 0, Math.PI * 2);
-                        ctx.strokeStyle = ACCENT;
-                        ctx.globalAlpha = 0.25 * motorProg;
-                        ctx.lineWidth = 1;
-                        ctx.setLineDash([4, 4]);
-                        ctx.stroke();
-                        ctx.setLineDash([]);
-
-                        // Center dot
-                        ctx.beginPath();
-                        ctx.arc(mc[0], mc[1], 2, 0, Math.PI * 2);
-                        ctx.fillStyle = ACCENT;
-                        ctx.globalAlpha = 0.5 * motorProg;
-                        ctx.fill();
+                // Add component-specific schematics inside the layer
+                ctx.save();
+                if (idx === 0) { // PCIe Bus & Trace Lines
+                    for (let line = -80; line <= 80; line += 20) {
+                        const start = projectIso(-100, line, layer.z + 9, cx, cy, isoScale);
+                        const end = projectIso(100, line, layer.z + 9, cx, cy, isoScale);
+                        ctx.strokeStyle = 'rgba(59, 130, 246, 0.25)';
+                        ctx.lineWidth = 0.8;
+                        ctx.beginPath(); ctx.moveTo(start.x, start.y); ctx.lineTo(end.x, end.y); ctx.stroke();
+                    }
+                } else if (idx === 1) { // Silicon Interposer Grid
+                    for (let gx = -70; gx <= 70; gx += 35) {
+                        for (let gy = -50; gy <= 50; gy += 25) {
+                            const p = projectIso(gx, gy, layer.z + 9, cx, cy, isoScale);
+                            ctx.fillStyle = ACCENT;
+                            ctx.globalAlpha = 0.4;
+                            ctx.fillRect(p.x - 2, p.y - 2, 4, 4);
+                        }
+                    }
+                } else if (idx === 2) { // CPU Core Clusters
+                    const cores = [-40, 40];
+                    cores.forEach(cxPos => {
+                        cores.forEach(cyPos => {
+                            drawIsoBlock(ctx, cx, cy, 35, 35, 4, layer.z + 9, isoScale, ACCENT_PURPLE, 'rgba(139, 92, 246, 0.4)', 0.5);
+                        });
                     });
+                } else if (idx === 3) { // GPU Tensor Tiles & HBM3 Stacked Memory
+                    // GPU Core in Center
+                    drawIsoBlock(ctx, cx, cy, 70, 70, 6, layer.z + 9, isoScale, ACCENT, 'rgba(86, 204, 242, 0.5)', 0.6);
+                    // HBM Memory chips surrounding GPU
+                    const hbmOffsets = [[-60, 0], [60, 0], [0, -50], [0, 50]];
+                    hbmOffsets.forEach(off => {
+                        const hbmCenter = projectIso(off[0], off[1], layer.z + 9, cx, cy, isoScale);
+                        ctx.fillStyle = ACCENT_BLUE;
+                        ctx.globalAlpha = 0.6;
+                        ctx.fillRect(hbmCenter.x - 6, hbmCenter.y - 6, 12, 12);
+                    });
+                } else if (idx === 4) { // Heatplate Copper Pipes
+                    for (let hp = -60; hp <= 60; hp += 30) {
+                        const sPt = projectIso(hp, -80, layer.z + 9, cx, cy, isoScale);
+                        const ePt = projectIso(hp, 80, layer.z + 9, cx, cy, isoScale);
+                        ctx.strokeStyle = ACCENT_RED;
+                        ctx.lineWidth = 2.5;
+                        ctx.globalAlpha = 0.4;
+                        ctx.beginPath(); ctx.moveTo(sPt.x, sPt.y); ctx.lineTo(ePt.x, ePt.y); ctx.stroke();
+                    }
                 }
-            }
+                ctx.restore();
 
-            ctx.restore();
-            ctx.globalAlpha = 1;
-        }
+                // Draw Data Packets along layer perimeter
+                dataPackets.filter(p => p.layer === idx).forEach(packet => {
+                    packet.progress = (packet.progress + packet.speed) % 1;
+                    const pathT = packet.progress * 4;
+                    let px = 0, py = 0;
+                    const hw = layer.w / 2, hh = layer.h / 2;
+                    if (pathT < 1) { px = -hw + pathT * layer.w; py = -hh; }
+                    else if (pathT < 2) { px = hw; py = -hh + (pathT - 1) * layer.h; }
+                    else if (pathT < 3) { px = hw - (pathT - 2) * layer.w; py = hh; }
+                    else { px = -hw; py = hh - (pathT - 3) * layer.h; }
 
-        function drawScanLine() {
-            const y = state.scanY * canvas.height;
-            const gradient = ctx.createLinearGradient(0, y - 30, 0, y + 30);
-            gradient.addColorStop(0, 'transparent');
-            gradient.addColorStop(0.5, ACCENT);
-            gradient.addColorStop(1, 'transparent');
-            ctx.strokeStyle = gradient;
-            ctx.globalAlpha = 0.08;
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(0, y);
-            ctx.lineTo(canvas.width, y);
-            ctx.stroke();
-            ctx.globalAlpha = 1;
-        }
+                    const packPt = projectIso(px, py, layer.z + 10, cx, cy, isoScale);
+                    ctx.save();
+                    ctx.fillStyle = layer.color;
+                    ctx.shadowColor = layer.color;
+                    ctx.shadowBlur = 8;
+                    ctx.beginPath();
+                    ctx.arc(packPt.x, packPt.y, 2.5, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                });
+            });
 
-        // --- Animation Loop ---
-        function render() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            drawParticles();
-            drawHUD();
-            drawDrone();
-            drawScanLine();
-            requestAnimationFrame(render);
+            requestAnimationFrame(renderDissection);
         }
-        requestAnimationFrame(render);
+        requestAnimationFrame(renderDissection);
     }
 
-    // 1. Initial Hero Loading Animation
-    anime.timeline({
-        easing: 'easeOutExpo',
-    })
-    .add({
-        targets: 'nav',
-        translateY: [-50, 0],
-        opacity: [0, 1],
-        duration: 1000,
-    })
-    .add({
-        targets: '.animate-hero',
-        translateY: [20, 0],
-        opacity: [0, 1],
-        duration: 800,
-        delay: anime.stagger(150),
-    }, '-=500');
+    // ==========================================
+    // 2. HUD Telemetry Section Observer
+    // ==========================================
+    const hudBadges = {
+        'hero': document.getElementById('hud-hero'),
+        'about': document.getElementById('hud-about'),
+        'experience': document.getElementById('hud-experience'),
+        'projects': document.getElementById('hud-projects'),
+        'contact': document.getElementById('hud-contact')
+    };
 
-    // 2. Typing Effect using Typed.js for the subtitle
-    new Typed('.typed-subtitle', {
-        strings: ['I build things for the web and cloud.', 'I architect resilient cloud infrastructure.', 'I optimize large-scale distributed systems.'],
-        typeSpeed: 40,
-        backSpeed: 30,
-        backDelay: 2000,
-        loop: true,
-        showCursor: true,
-        cursorChar: '|'
+    const sectionHudObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const sectionId = entry.target.id;
+                Object.keys(hudBadges).forEach(key => {
+                    if (hudBadges[key]) {
+                        hudBadges[key].classList.toggle('active', key === sectionId);
+                    }
+                });
+            }
+        });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('header.section, section.section').forEach(sec => {
+        sectionHudObserver.observe(sec);
     });
 
-    // 3. Setup Scroll Observers for Sections
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1
-    };
+    // ==========================================
+    // 3. Initial Hero Entrance Animation
+    // ==========================================
+    anime.timeline({ easing: 'easeOutExpo' })
+        .add({
+            targets: 'nav',
+            translateY: [-50, 0],
+            opacity: [0, 1],
+            duration: 900
+        })
+        .add({
+            targets: '.animate-hero',
+            translateY: [20, 0],
+            opacity: [0, 1],
+            duration: 800,
+            delay: anime.stagger(140)
+        }, '-=400');
+
+    // ==========================================
+    // 4. Typed.js Subtitle Effect
+    // ==========================================
+    if (window.Typed) {
+        new Typed('.typed-subtitle', {
+            strings: [
+                'I build things for the web and cloud.',
+                'I architect resilient cloud infrastructure.',
+                'I optimize large-scale distributed HPC systems.'
+            ],
+            typeSpeed: 38,
+            backSpeed: 25,
+            backDelay: 2200,
+            loop: true,
+            showCursor: true,
+            cursorChar: '|'
+        });
+    }
+
+    // ==========================================
+    // 5. Scroll Intersection Observers
+    // ==========================================
+    const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
 
     const sectionObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                
-                // Animate Section Titles
                 if (entry.target.classList.contains('section-title')) {
                     anime({
                         targets: entry.target,
                         opacity: [0, 1],
-                        translateX: [-20, 0],
+                        translateX: [-25, 0],
                         easing: 'easeOutQuart',
                         duration: 800
                     });
-                }
-                
-                // Animate Glass Panels
-                else if (entry.target.classList.contains('glass-panel') && !entry.target.classList.contains('project-card')) {
+                } else if (entry.target.classList.contains('glass-panel') && !entry.target.classList.contains('project-card')) {
                     anime({
                         targets: entry.target,
                         opacity: [0, 1],
@@ -300,86 +314,103 @@ document.addEventListener('DOMContentLoaded', () => {
                         duration: 1000
                     });
                 }
-                
                 observer.unobserve(entry.target);
             }
         });
     }, observerOptions);
 
-    // List Observer for staggering arrays (experience, projects, skills)
     const listObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                
                 let targetItems = entry.target.querySelectorAll('.animate-item, .skill-pill');
-                if(targetItems.length > 0) {
+                if (targetItems.length > 0) {
                     anime({
                         targets: targetItems,
-                        translateY: [30, 0],
+                        translateY: [35, 0],
                         opacity: [0, 1],
                         easing: 'easeOutElastic(1, .8)',
                         duration: 1000,
-                        delay: anime.stagger(150)
+                        delay: anime.stagger(120)
                     });
                 }
-                
                 observer.unobserve(entry.target);
             }
         });
     }, observerOptions);
 
-    // Initial Hide for IntersectionTargets
     document.querySelectorAll('.animate-title, .animate-panel, .animate-item, .skill-pill').forEach(el => {
         el.style.opacity = '0';
     });
 
-    // Attach Section Observers
-    document.querySelectorAll('.animate-title, .animate-panel').forEach(el => {
-        sectionObserver.observe(el);
-    });
-
-    // Attach List Observers
+    document.querySelectorAll('.animate-title, .animate-panel').forEach(el => sectionObserver.observe(el));
     document.getElementById('experience-list') && listObserver.observe(document.getElementById('experience-list'));
     document.getElementById('projects-list') && listObserver.observe(document.getElementById('projects-list'));
     document.getElementById('skills-list') && listObserver.observe(document.getElementById('skills-list'));
     document.getElementById('extras-list') && listObserver.observe(document.getElementById('extras-list'));
     document.getElementById('contact-list') && listObserver.observe(document.getElementById('contact-list'));
 
-    // 4. Hover Interactions for Project Cards
+    // ==========================================
+    // 6. Interactive 3D Card Tilt & Mouse Spotlight
+    // ==========================================
     const projectCards = document.querySelectorAll('.project-card');
-    
+
     projectCards.forEach(card => {
-        card.addEventListener('mouseenter', () => {
-            anime({
-                targets: card,
-                translateY: -10,
-                boxShadow: '0 10px 30px rgba(86, 204, 242, 0.15)',
-                duration: 300,
-                easing: 'easeOutQuart'
-            });
-            anime({
-                targets: card.querySelector('.folder-icon svg'),
-                scale: 1.1,
-                rotate: 5,
-                duration: 300,
-                easing: 'easeOutQuad'
-            });
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = ((y - centerY) / centerY) * -8;
+            const rotateY = ((x - centerX) / centerX) * 8;
+
+            card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-8px)`;
         });
-        
+
         card.addEventListener('mouseleave', () => {
-            anime({
-                targets: card,
-                translateY: 0,
-                boxShadow: '0 0px 0px rgba(0,0,0,0)',
-                duration: 300,
-                easing: 'easeOutQuart'
-            });
-            anime({
-                targets: card.querySelector('.folder-icon svg'),
-                scale: 1,
-                rotate: 0,
-                duration: 300,
-                easing: 'easeOutQuad'
+            card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+        });
+    });
+
+    // ==========================================
+    // 7. Interactive Project Category Filter
+    // ==========================================
+    const filterButtons = document.querySelectorAll('.filter-btn');
+
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const filterValue = btn.getAttribute('data-filter');
+
+            projectCards.forEach(card => {
+                const category = card.getAttribute('data-category');
+                if (filterValue === 'all' || category === filterValue) {
+                    card.style.display = 'flex';
+                    anime({
+                        targets: card,
+                        scale: [0.85, 1],
+                        opacity: [0, 1],
+                        duration: 400,
+                        easing: 'easeOutQuad'
+                    });
+                } else {
+                    anime({
+                        targets: card,
+                        scale: [1, 0.85],
+                        opacity: [1, 0],
+                        duration: 300,
+                        easing: 'easeInQuad',
+                        complete: () => {
+                            card.style.display = 'none';
+                        }
+                    });
+                }
             });
         });
     });

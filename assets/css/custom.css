@@ -220,43 +220,176 @@ nav {
   margin-left: 2rem;
 }
 
-/* Projects Grid */
+/* Scroll Progress Bar */
+#scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: linear-gradient(90deg, #56CCF2 0%, #3B82F6 50%, #8B5CF6 100%);
+  z-index: 1001;
+  box-shadow: 0 0 12px var(--accent-glow);
+  transition: width 0.1s ease-out;
+}
+
+/* Fixed Hardware Dissection Canvas */
+#dissection-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+/* Component Telemetry HUD Callouts */
+.dissection-hud {
+  position: fixed;
+  right: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: flex-end;
+}
+
+.hud-callout-badge {
+  background: rgba(15, 17, 32, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(86, 204, 242, 0.25);
+  border-left: 3px solid var(--accent);
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.8rem;
+  color: var(--text-main);
+  opacity: 0;
+  transform: translateX(30px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.hud-callout-badge.active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.hud-callout-badge .title {
+  color: var(--accent);
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 0.2rem;
+}
+
+.hud-callout-badge .specs {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+/* Project Category Filter Bar */
+.project-filters {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: var(--text-muted);
+  padding: 0.6rem 1.4rem;
+  border-radius: 30px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.filter-btn:hover {
+  border-color: var(--accent);
+  color: var(--text-main);
+  transform: translateY(-2px);
+}
+
+.filter-btn.active {
+  background: rgba(86, 204, 242, 0.15);
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 0 15px rgba(86, 204, 242, 0.2);
+}
+
+/* Projects Grid & 3D Tilt Card */
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
   gap: 2rem;
+  perspective: 1000px;
 }
 
 .project-card {
   position: relative;
-  padding: 2.5rem;
+  padding: 2.2rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 350px;
+  min-height: 380px;
   cursor: default;
-  transition: border-color 0.3s ease;
+  transform-style: preserve-3d;
+  transition: border-color 0.3s ease, transform 0.1s ease-out;
+  overflow: hidden;
+}
+
+/* Spotlight Cursor Follower on Card */
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: var(--mouse-y, 50%);
+  left: var(--mouse-x, 50%);
+  transform: translate(-50%, -50%);
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  border-radius: 50%;
+}
+
+.project-card:hover::before {
+  opacity: 0.6;
 }
 
 .project-card:hover {
-  border-color: rgba(86, 204, 242, 0.3);
+  border-color: rgba(86, 204, 242, 0.4);
 }
 
 .project-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .folder-icon {
-  font-size: 2.5rem;
+  font-size: 2.2rem;
   color: var(--accent);
+  transition: transform 0.3s ease;
 }
 
 .external-links a {
   color: var(--text-main);
   font-size: 1.2rem;
+  margin-left: 0.8rem;
 }
 
 .external-links a:hover {
@@ -264,13 +397,51 @@ nav {
 }
 
 .project-title {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
+  color: var(--text-main);
+  margin-bottom: 0.75rem;
+}
+
+.project-date-badge {
+  display: inline-block;
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.75rem;
+  color: var(--accent);
+  background: rgba(86, 204, 242, 0.1);
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(86, 204, 242, 0.2);
 }
 
 .project-desc {
   color: var(--text-muted);
-  font-size: 0.95rem;
+  font-size: 0.92rem;
+  line-height: 1.6;
   flex-grow: 1;
+  margin-bottom: 1.5rem;
+}
+
+.project-tech-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: auto;
+}
+
+.project-tech-pill {
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.75rem;
+  color: var(--accent);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.25rem 0.65rem;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.project-card:hover .project-tech-pill {
+  border-color: rgba(86, 204, 242, 0.3);
 }
 
 /* Experience */

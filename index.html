@@ -12,6 +12,36 @@
 </head> 
 <body>
 
+    <!-- Scroll Reading Progress Line -->
+    <div id="scroll-progress"></div>
+
+    <!-- Exploded Hardware Dissection Canvas Background -->
+    <canvas id="dissection-canvas"></canvas>
+
+    <!-- Component Telemetry HUD Callouts -->
+    <div class="dissection-hud" id="dissection-hud">
+        <div class="hud-callout-badge active" id="hud-hero">
+            <div class="title"><i class="fas fa-server"></i> System Chassis</div>
+            <div class="specs">Enterprise AI Compute Blade // 100% Operational</div>
+        </div>
+        <div class="hud-callout-badge" id="hud-about">
+            <div class="title"><i class="fas fa-microchip"></i> Silicon Die & Cores</div>
+            <div class="specs">Multi-Core CPU Interposer // L3 Unified Cache</div>
+        </div>
+        <div class="hud-callout-badge" id="hud-experience">
+            <div class="title"><i class="fas fa-network-wired"></i> I/O & Cloud Bus</div>
+            <div class="specs">PCIe Gen5 x16 // Optical MPI Interconnect</div>
+        </div>
+        <div class="hud-callout-badge" id="hud-projects">
+            <div class="title"><i class="fas fa-cubes"></i> GPU & Memory Matrix</div>
+            <div class="specs">CUDA Tensor Engines // 80GB HBM3 Stacked</div>
+        </div>
+        <div class="hud-callout-badge" id="hud-contact">
+            <div class="title"><i class="fas fa-wifi"></i> Telemetry & Node Sync</div>
+            <div class="specs">Real-Time WebSocket Link // Active</div>
+        </div>
+    </div>
+
     <nav>
         <div class="container nav-content">
             <div class="nav-logo">
@@ -46,7 +76,7 @@
             <div class="glass-panel animate-panel">
                 <p>Hello! I am a passionate Sr. Software Engineer focused on crafting high-performance, robust, and cleanly abstracted solutions.</p>
                 <br>
-                <p>I recently work extensively at Enphase Energy bridging real-time energy management needs with modern web frameworks. I've also poured myself into academic research comparing Apache Spark with MPI C++ to push the limits of cluster computing logic across astrophysic algorithms.</p>
+                <p>I recently work extensively at Enphase Energy bridging real-time energy management needs with modern web frameworks. I've also poured myself into academic research comparing Apache Spark with MPI C++ to push the limits of cluster computing logic across astrophysics algorithms.</p>
                 
                 <h3 style="margin-top:2rem">Core Skills</h3>
                 <div class="skills-container" id="skills-list">
@@ -109,65 +139,135 @@
         <section id="projects" class="section">
             <h2 class="section-title animate-title">Some Things I've Built</h2>
             
+            <!-- Category Filter Buttons -->
+            <div class="project-filters" id="project-filters">
+                <button class="filter-btn active" data-filter="all">All Projects</button>
+                <button class="filter-btn" data-filter="ai">AI / ML & 3D</button>
+                <button class="filter-btn" data-filter="hpc">HPC & Systems</button>
+            </div>
+
             <div class="projects-grid" id="projects-list">
                 
-                <div class="glass-panel project-card animate-item">
+                <!-- Project 1: AetherScan -->
+                <div class="glass-panel project-card animate-item" data-category="ai">
                     <div class="project-header">
                         <div class="folder-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
                         </div>
                         <div class="external-links">
-                            <a href="https://github.com/prashplus/AetherScan" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a>
+                            <a href="https://github.com/prashplus/AetherScan" target="_blank" title="View Source on GitHub"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a>
                         </div>
                     </div>
                     <div class="project-info">
+                        <span class="project-date-badge">2026</span>
                         <h3 class="project-title">AetherScan</h3>
-                        <p class="project-desc">A deep full-stack Next.js pipeline utilizing real-time Fast3R WebSocket hooks. It dramatically translates 2D webcam uploads seamlessly into browser-viewable 3D Point Clouds, completely skipping offline processing cycles.</p>
+                        <p class="project-desc">GPU-accelerated 3D reconstruction pipeline using Facebook's Fast3R model with CUDA, processing multi-view images into dense point clouds. Features real-time WebSocket streaming of point cloud data with raw Float32Array buffers, bypassing React state for high-performance rendering of 1M+ points. Containerized full stack with Docker Compose and NVIDIA Container Toolkit.</p>
+                    </div>
+                    <div class="project-tech-stack">
+                        <span class="project-tech-pill">Next.js</span>
+                        <span class="project-tech-pill">FastAPI</span>
+                        <span class="project-tech-pill">PyTorch</span>
+                        <span class="project-tech-pill">Three.js</span>
+                        <span class="project-tech-pill">Fast3R</span>
+                        <span class="project-tech-pill">CUDA</span>
+                        <span class="project-tech-pill">Docker</span>
                     </div>
                 </div>
 
-                <div class="glass-panel project-card animate-item">
+                <!-- Project 2: Real-Time Object Detection -->
+                <div class="glass-panel project-card animate-item" data-category="ai">
                     <div class="project-header">
                         <div class="folder-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
                         </div>
                         <div class="external-links">
-                            <a href="https://github.com/prashplus/Real-Time-Object-Detection" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a>
+                            <a href="https://github.com/prashplus/Real-Time-Object-Detection" target="_blank" title="View Source on GitHub"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a>
                         </div>
                     </div>
                     <div class="project-info">
-                        <h3 class="project-title">YOLO Object Hub</h3>
-                        <p class="project-desc">Real-time object detection processing webcam capture locally through NVIDIA CUDA layers leveraging modern streaming libraries via Streamlit user controls.</p>
+                        <span class="project-date-badge">2026</span>
+                        <h3 class="project-title">Real-Time Object Detection</h3>
+                        <p class="project-desc">GPU-accelerated real-time object detection system using YOLO26 with CUDA for low-latency video inference. Engineered an interactive Streamlit dashboard featuring dynamic FPS monitoring, custom glassmorphic styling, and threshold sliders.</p>
+                    </div>
+                    <div class="project-tech-stack">
+                        <span class="project-tech-pill">Python</span>
+                        <span class="project-tech-pill">PyTorch</span>
+                        <span class="project-tech-pill">CUDA</span>
+                        <span class="project-tech-pill">YOLO26</span>
+                        <span class="project-tech-pill">Streamlit</span>
+                        <span class="project-tech-pill">OpenCV</span>
                     </div>
                 </div>
 
-                <div class="glass-panel project-card animate-item">
+                <!-- Project 3: CloudMPI -->
+                <div class="glass-panel project-card animate-item" data-category="hpc">
                     <div class="project-header">
                         <div class="folder-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
                         </div>
                         <div class="external-links">
-                            <a href="https://github.com/prashplus/RAG-basics" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a>
+                            <a href="https://github.com/prashplus/CloudMPI" target="_blank" title="View Source on GitHub"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a>
                         </div>
                     </div>
                     <div class="project-info">
-                        <h3 class="project-title">RAG Chatbot</h3>
-                        <p class="project-desc">A full end-to-end framework implementing Retrieval Augmented Generation techniques directly allowing multiple heavy PDF file ingestions with highly accurate semantic searches.</p>
+                        <span class="project-date-badge">2020</span>
+                        <h3 class="project-title">CloudMPI</h3>
+                        <p class="project-desc">Designed a cloud-augmented MPI support library to reduce network latency and improve performance of distributed computations in virtualized environments. Implemented optimized communication layers over traditional MPI to handle high-latency cloud infrastructure efficiently.</p>
+                    </div>
+                    <div class="project-tech-stack">
+                        <span class="project-tech-pill">C++</span>
+                        <span class="project-tech-pill">MPI</span>
+                        <span class="project-tech-pill">High-Performance Computing</span>
+                        <span class="project-tech-pill">Virtualization</span>
+                        <span class="project-tech-pill">Linux</span>
                     </div>
                 </div>
 
-                <div class="glass-panel project-card animate-item">
+                <!-- Project 4: Malware Detection using ML -->
+                <div class="glass-panel project-card animate-item" data-category="ai">
                     <div class="project-header">
                         <div class="folder-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
                         </div>
                         <div class="external-links">
-                            <a href="https://github.com/prashplus/CloudMPI" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a>
+                            <a href="https://github.com/prashplus" target="_blank" title="View Profile on GitHub"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a>
                         </div>
                     </div>
                     <div class="project-info">
-                        <h3 class="project-title">Cloud MPI</h3>
-                        <p class="project-desc">A deep networking augmentation module layered physically over traditional MPI libraries, designed strictly to aggressively throttle Cloud Environment latencies during large computations.</p>
+                        <span class="project-date-badge">2020</span>
+                        <h3 class="project-title">Malware Detection using ML</h3>
+                        <p class="project-desc">Developed machine learning models for malware detection on given static and dynamic analysis datasets of executable programs utilizing Random Forest classification at IIT Kanpur.</p>
+                    </div>
+                    <div class="project-tech-stack">
+                        <span class="project-tech-pill">Python</span>
+                        <span class="project-tech-pill">scikit-learn</span>
+                        <span class="project-tech-pill">Random Forest</span>
+                        <span class="project-tech-pill">Static Analysis</span>
+                        <span class="project-tech-pill">Machine Learning</span>
+                    </div>
+                </div>
+
+                <!-- Project 5: Spark and MPI Evaluation (Thesis) -->
+                <div class="glass-panel project-card animate-item" data-category="hpc">
+                    <div class="project-header">
+                        <div class="folder-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                        </div>
+                        <div class="external-links">
+                            <a href="https://github.com/prashplus" target="_blank" title="View Profile on GitHub"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <span class="project-date-badge">2020 — 2021 (M.Tech Thesis)</span>
+                        <h3 class="project-title">Spark & MPI Evaluation for Scientific Analysis</h3>
+                        <p class="project-desc">M.Tech Thesis at IIT Kanpur comparing traditional MPI C++ with Apache Spark for scientific data analysis. Executed benchmark experiments on CPU, memory, and I/O intensive applications from astrophysics, meteorology, and combustion across multi-node cluster environments.</p>
+                    </div>
+                    <div class="project-tech-stack">
+                        <span class="project-tech-pill">MPI C++</span>
+                        <span class="project-tech-pill">Apache Spark</span>
+                        <span class="project-tech-pill">OpenMPI</span>
+                        <span class="project-tech-pill">Distributed Computing</span>
+                        <span class="project-tech-pill">Astrophysics</span>
                     </div>
                 </div>
 
