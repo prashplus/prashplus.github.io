@@ -721,3 +721,52 @@ footer {
 .animate-item {
   opacity: 0;
 }
+
+/* Footer Hobbies CTA */
+.footer-hobbies-cta {
+  margin-bottom: 2rem;
+}
+
+.footer-hobbies-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1rem 2.2rem;
+  border: 1px solid rgba(86, 204, 242, 0.3);
+  border-radius: 50px;
+  background: rgba(86, 204, 242, 0.06);
+  color: var(--accent);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+}
+
+.footer-hobbies-link:hover {
+  background: rgba(86, 204, 242, 0.15);
+  border-color: var(--accent);
+  box-shadow: 0 0 30px rgba(86, 204, 242, 0.2), 0 0 60px rgba(86, 204, 242, 0.08);
+  transform: translateY(-3px);
+}
+
+.footer-hobbies-icon {
+  font-size: 1.1rem;
+}
+
+.footer-hobbies-arrow {
+  font-size: 1.3rem;
+  transition: transform 0.3s ease;
+}
+
+.footer-hobbies-link:hover .footer-hobbies-arrow {
+  transform: translateX(5px);
+}
+
+/* Responsive Canvas Adjustments */
+@media (max-width: 768px) {
+  .dissection-hud {
+    display: none;
+  }
+}
