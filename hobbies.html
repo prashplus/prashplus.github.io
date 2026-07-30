@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Prashant Piprotar | Hobbies & FPV Drone Engineering</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hobbies, custom FPV drone builds, music, and research interests of Prashant Piprotar">
+    
+    <!-- External Libs -->
+    <script defer src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <link rel="stylesheet" href="assets/css/custom.css">
+</head> 
+<body>
+
+    <!-- Scroll Reading Progress Line -->
+    <div id="scroll-progress"></div>
+
+    <!-- Exploded FPV Drone Dissection Canvas Background -->
+    <canvas id="drone-canvas-hobbies"></canvas>
+
+    <!-- Component Telemetry HUD Callouts -->
+    <div class="dissection-hud" id="dissection-hud">
+        <div class="hud-callout-badge active" id="hud-drone-hero">
+            <div class="title"><i class="fas fa-crosshairs"></i> FPV System Active</div>
+            <div class="specs">RadioMaster ELRS 2.4G // 1000Hz Telemetry Link</div>
+        </div>
+        <div class="hud-callout-badge" id="hud-drone-frame">
+            <div class="title"><i class="fas fa-shield-alt"></i> Carbon Arm Geometry</div>
+            <div class="specs">3K Full Carbon Weave // CNC Motor Standoffs</div>
+        </div>
+        <div class="hud-callout-badge" id="hud-drone-fc">
+            <div class="title"><i class="fas fa-microchip"></i> Flight Controller & ESC</div>
+            <div class="specs">SpeedyBee F7 / F405 // 50A 4-in-1 BLHeli_32</div>
+        </div>
+        <div class="hud-callout-badge" id="hud-drone-vtx">
+            <div class="title"><i class="fas fa-broadcast-tower"></i> Analog 5.8GHz VTX</div>
+            <div class="specs">800mW VTX Transmitter // Low-Latency Feed</div>
+        </div>
+        <div class="hud-callout-badge" id="hud-drone-extras">
+            <div class="title"><i class="fas fa-headphones"></i> Flow & Audio Telemetry</div>
+            <div class="specs">Synthwave & HPC Research Link // Active</div>
+        </div>
+    </div>
+
+    <nav>
+        <div class="container nav-content">
+            <div class="nav-logo">
+                <a href="index.html">Prashant.</a>
+            </div>
+            <div class="nav-links">
+                <a href="index.html#about">About</a>
+                <a href="index.html#experience">Experience</a>
+                <a href="index.html#projects">Work</a>
+                <a href="hobbies.html" class="active">Hobbies</a>
+                <a href="index.html#contact">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+        <header id="drone-hero" class="hero section">
+            <div class="hero-content">
+                <span class="greeting animate-hero"><i class="fas fa-paper-plane"></i> Hardware & Flight Crafts</span>
+                <h1 class="animate-hero name-text">FPV Drones & Hobbies.</h1>
+                <h2 class="animate-hero typed-drone-subtitle">Building custom FPV quadcopters from scratch.</h2>
+                <p class="animate-hero">When I'm not writing backend services or cloud infrastructure, I build custom FPV drones, tune PID flight loops, solder ESC stacks, and explore high-performance computing & electronic synthwave music.</p>
+                <div class="animate-hero">
+                    <a href="#drones" class="btn">Explore Drone Builds</a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Drone Builds Showcase -->
+        <section id="drones" class="section">
+            <h2 class="section-title animate-title">Custom FPV Quadcopter Builds</h2>
+            
+            <div class="drone-grid" id="drone-builds-list">
+                
+                <!-- Drone 1: 7 Inch Long Range -->
+                <div class="glass-panel drone-card animate-item">
+                    <div>
+                        <div class="drone-badge">
+                            <i class="fas fa-plane-departure"></i> 7-Inch Endurance / Long Range Rig
+                        </div>
+                        <h3 class="project-title">7" Long-Range FPV Drone</h3>
+                        <p class="project-desc">A heavy-duty 7-inch long-range quadcopter designed for maximum flight endurance and stable high-altitude cruising across open terrain.</p>
+                        
+                        <ul class="drone-spec-list">
+                            <li><strong>Flight Controller:</strong> Legacy DJI NAZA Flight Controller with barometric altitude hold</li>
+                            <li><strong>Frame:</strong> 7-Inch Extended Arm Full Carbon Fiber Frame</li>
+                            <li><strong>Radio Link:</strong> RadioMaster ELRS (ExpressLRS) 2.4GHz Control Link</li>
+                            <li><strong>Video Transmit:</strong> 5.8GHz High-Power Analog VTX with RHCP Antenna</li>
+                        </ul>
+                    </div>
+
+                    <div class="project-tech-stack">
+                        <span class="project-tech-pill">7-Inch Frame</span>
+                        <span class="project-tech-pill">DJI FC</span>
+                        <span class="project-tech-pill">RadioMaster ELRS</span>
+                        <span class="project-tech-pill">5.8GHz Analog VTX</span>
+                        <span class="project-tech-pill">LiPo 4S/6S</span>
+                    </div>
+                </div>
+
+                <!-- Drone 2: Bee35 3.5 Inch Cinewhoop -->
+                <div class="glass-panel drone-card animate-item">
+                    <div>
+                        <div class="drone-badge">
+                            <i class="fas fa-camera"></i> Bee35 3.5-Inch Cinewhoop
+                        </div>
+                        <h3 class="project-title">Bee35 Cinewhoop Rig</h3>
+                        <p class="project-desc">A duct-guarded 3.5-inch cinewhoop build engineered for smooth cinema sweeps, indoor stability, and tight proximity flight around obstacles.</p>
+                        
+                        <ul class="drone-spec-list">
+                            <li><strong>Frame:</strong> Bee35 3.5" Ducted Cinewhoop Frame</li>
+                            <li><strong>Flight Controller:</strong> SpeedyBee F7 Flight Controller Stack</li>
+                            <li><strong>ESC:</strong> SpeedyBee 50A 4-in-1 BLHeli_32 ESC Stack</li>
+                            <li><strong>Radio & Video:</strong> RadioMaster ELRS 2.4GHz + Analog VTX</li>
+                        </ul>
+                    </div>
+
+                    <div class="project-tech-stack">
+                        <span class="project-tech-pill">Bee35 3.5" Frame</span>
+                        <span class="project-tech-pill">SpeedyBee F7</span>
+                        <span class="project-tech-pill">4-in-1 ESC</span>
+                        <span class="project-tech-pill">RadioMaster ELRS</span>
+                        <span class="project-tech-pill">Analog VTX</span>
+                    </div>
+                </div>
+
+                <!-- Drone 3: 5 Inch Freestyle FPV -->
+                <div class="glass-panel drone-card animate-item">
+                    <div>
+                        <div class="drone-badge">
+                            <i class="fas fa-bolt"></i> 5-Inch High-KV Freestyle Rig
+                        </div>
+                        <h3 class="project-title">5" Freestyle FPV Quad</h3>
+                        <p class="project-desc">A high-thrust, agile 5-inch FPV quadcopter tuned for rapid acrobatic maneuvers, high-KV power punch-outs, and precise stick response.</p>
+                        
+                        <ul class="drone-spec-list">
+                            <li><strong>Frame:</strong> 5-Inch True-X Carbon Fiber FPV Frame</li>
+                            <li><strong>Flight Controller:</strong> SpeedyBee F405 Flight Controller Stack</li>
+                            <li><strong>Motors & Propulsion:</strong> High-KV Brushless Motors + 3-Blade Props</li>
+                            <li><strong>Radio & Video:</strong> RadioMaster ELRS 2.4GHz + 5.8GHz Analog VTX</li>
+                        </ul>
+                    </div>
+
+                    <div class="project-tech-stack">
+                        <span class="project-tech-pill">5" FPV Frame</span>
+                        <span class="project-tech-pill">SpeedyBee F405</span>
+                        <span class="project-tech-pill">High-KV Motors</span>
+                        <span class="project-tech-pill">RadioMaster ELRS</span>
+                        <span class="project-tech-pill">Analog VTX</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Hobbies & Passions Section -->
+        <section id="extras" class="section">
+            <h2 class="section-title animate-title">Music, Research & Languages</h2>
+            
+            <div class="extras-grid" id="extras-list">
+                
+                <div class="glass-panel extra-card animate-item">
+                    <h3 class="extra-title"><i class="fas fa-headphones-alt"></i> Focus Music</h3>
+                    <ul class="extra-list">
+                        <li>Best of Illenium</li>
+                        <li>Best of NCS (NoCopyrightSounds)</li>
+                        <li>Synthwave & Cyberpunk Electro</li>
+                        <li>Deep Electronic & Ambient Chill</li>
+                    </ul>
+                </div>
+
+                <div class="glass-panel extra-card animate-item">
+                    <h3 class="extra-title"><i class="fas fa-atom"></i> Research & Hardware Interests</h3>
+                    <ul class="extra-list">
+                        <li>Containerization & Microservices</li>
+                        <li>High Performance Computing (HPC & OpenMPI)</li>
+                        <li>Cloud Architecture & Infrastructure</li>
+                        <li>Advanced Computer Networks & SDN</li>
+                    </ul>
+                </div>
+
+                <div class="glass-panel extra-card animate-item">
+                    <h3 class="extra-title"><i class="fas fa-globe-asia"></i> Languages Spoken</h3>
+                    <div class="extra-pills">
+                        <span class="skill-pill">English</span>
+                        <span class="skill-pill">Hindi</span>
+                        <span class="skill-pill">Gujarati</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>Crafted with <i class="fas fa-heart" style="color:var(--accent-red)"></i> & FPV Engineering by Prashant Piprotar © 2026</p>
+        </div>
+    </footer>
+
+    <!-- Custom Script -->
+    <script src="assets/js/hobbies.js"></script>
+
+</body>
+</html>
