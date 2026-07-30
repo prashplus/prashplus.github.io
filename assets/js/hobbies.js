@@ -1,973 +1,925 @@
-document.addEventListener('DOMContentLoaded', () => {
-
-    // ==========================================
-    // 0. Scroll Progress Bar & Tracking
-    // ==========================================
-    const progressBar = document.getElementById('scroll-progress');
-    let scrollProgress = 0;
-
-    function updateScrollProgress() {
-        const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-        if (totalHeight > 0) {
-            scrollProgress = Math.min(Math.max(window.scrollY / totalHeight, 0), 1);
-            if (progressBar) {
-                progressBar.style.width = `${(scrollProgress * 100).toFixed(2)}%`;
-            }
-        }
-    }
-    window.addEventListener('scroll', updateScrollProgress, { passive: true });
-    updateScrollProgress();
-
-    // ==========================================
-    // 1. Breathtaking 7-Layer FPV Drone Disassembly Canvas Engine
-    // ==========================================
-    const droneCanvas = document.getElementById('drone-canvas-hobbies');
-    if (droneCanvas) {
-        const ctx = droneCanvas.getContext('2d');
-
-        // Color Palette
-        const COL = {
-            cyan: '#56CCF2',
-            blue: '#3B82F6',
-            purple: '#8B5CF6',
-            red: '#EB5757',
-            yellow: '#F2C94C',
-            green: '#27AE60',
-            copper: '#D4885A',
-            gold: '#E6B74A',
-            silver: '#94a3b8',
-            carbon: '#2d3748',
-            orange: '#F97316',
-        };
-
-        function resizeDroneCanvas() {
-            droneCanvas.width = window.innerWidth;
-            droneCanvas.height = window.innerHeight;
-        }
-        resizeDroneCanvas();
-        window.addEventListener('resize', resizeDroneCanvas);
-
-        let propSpinAngle = 0;
-        let scanPhase = 0;
-        let time = 0;
-
-        // Signal flow particles (Receiver → FC → ESC → Motors)
-        const signalParticles = [];
-        for (let i = 0; i < 30; i++) {
-            signalParticles.push({
-                progress: Math.random(),
-                speed: 0.003 + Math.random() * 0.004,
-                path: Math.floor(Math.random() * 4), // 0-3 for each motor path
-                size: 1.5 + Math.random() * 1.5,
-            });
-        }
-
-        // RF wave rings from VTX antenna
-        const rfWaves = [];
-        for (let i = 0; i < 5; i++) {
-            rfWaves.push({ phase: i * 0.2, speed: 0.008 });
-        }
-
-        // Power flow particles along ESC traces
-        const powerParticles = [];
-        for (let i = 0; i < 20; i++) {
-            powerParticles.push({
-                progress: Math.random(),
-                speed: 0.004 + Math.random() * 0.003,
-                arm: Math.floor(Math.random() * 4),
-            });
-        }
-
-        // Isometric Projection
-        function iso(x, y, z, cx, cy, s) {
-            return {
-                x: cx + (x - y) * Math.cos(Math.PI / 6) * s,
-                y: cy + (x + y) * Math.sin(Math.PI / 6) * s - z * s
-            };
-        }
-
-        // Draw isometric box with top, left-face, right-face
-        function drawBox(cx, cy, w, h, t, z, s, stroke, fill, alpha) {
-            const hw = w / 2, hh = h / 2;
-            const p = [
-                iso(-hw, -hh, z + t, cx, cy, s), iso(hw, -hh, z + t, cx, cy, s),
-                iso(hw, hh, z + t, cx, cy, s),  iso(-hw, hh, z + t, cx, cy, s)
-            ];
-            const b = [
-                iso(-hw, -hh, z, cx, cy, s), iso(hw, -hh, z, cx, cy, s),
-                iso(hw, hh, z, cx, cy, s),   iso(-hw, hh, z, cx, cy, s)
-            ];
-            ctx.save();
-            ctx.strokeStyle = stroke;
-            ctx.lineWidth = 1;
-
-            // Right face
-            ctx.fillStyle = fill;
-            ctx.globalAlpha = alpha * 0.5;
-            ctx.beginPath();
-            ctx.moveTo(p[1].x, p[1].y); ctx.lineTo(p[2].x, p[2].y);
-            ctx.lineTo(b[2].x, b[2].y); ctx.lineTo(b[1].x, b[1].y);
-            ctx.closePath(); ctx.fill(); ctx.stroke();
-
-            // Left face
-            ctx.globalAlpha = alpha * 0.4;
-            ctx.beginPath();
-            ctx.moveTo(p[3].x, p[3].y); ctx.lineTo(p[2].x, p[2].y);
-            ctx.lineTo(b[2].x, b[2].y); ctx.lineTo(b[3].x, b[3].y);
-            ctx.closePath(); ctx.fill(); ctx.stroke();
-
-            // Top face
-            ctx.globalAlpha = alpha;
-            ctx.beginPath();
-            ctx.moveTo(p[0].x, p[0].y); ctx.lineTo(p[1].x, p[1].y);
-            ctx.lineTo(p[2].x, p[2].y); ctx.lineTo(p[3].x, p[3].y);
-            ctx.closePath(); ctx.fill(); ctx.stroke();
-
-            ctx.restore();
-            return p;
-        }
-
-        // Draw offset box
-        function drawOffsetBox(cx, cy, ox, oy, w, h, t, z, s, stroke, fill, alpha) {
-            const off = iso(ox, oy, 0, 0, 0, s);
-            return drawBox(cx + off.x, cy + off.y, w, h, t, z, s, stroke, fill, alpha);
-        }
-
-        // Draw carbon fiber weave texture pattern
-        function drawCarbonWeave(cx, cy, z, s, w, h) {
-            ctx.save();
-            ctx.globalAlpha = 0.15;
-            const spacing = 6;
-            // Diagonal lines (two directions to create weave)
-            ctx.strokeStyle = 'rgba(100, 116, 139, 0.4)';
-            ctx.lineWidth = 0.5;
-            for (let d = -w; d <= w; d += spacing) {
-                // Direction 1: top-left to bottom-right
-                const a1 = iso(d - h / 2, -h / 2, z, cx, cy, s);
-                const b1 = iso(d + h / 2, h / 2, z, cx, cy, s);
-                ctx.beginPath(); ctx.moveTo(a1.x, a1.y); ctx.lineTo(b1.x, b1.y); ctx.stroke();
-                // Direction 2: top-right to bottom-left
-                const a2 = iso(-d + h / 2, -h / 2, z, cx, cy, s);
-                const b2 = iso(-d - h / 2, h / 2, z, cx, cy, s);
-                ctx.beginPath(); ctx.moveTo(a2.x, a2.y); ctx.lineTo(b2.x, b2.y); ctx.stroke();
-            }
-            ctx.restore();
-        }
-
-        // Draw motor stator with copper windings
-        function drawMotorStator(cx, cy, mx, my, z, s, heatGlow) {
-            const mPt = iso(mx, my, z, cx, cy, s);
-
-            // Stator iron ring
-            ctx.save();
-            ctx.strokeStyle = COL.silver;
-            ctx.lineWidth = 2 * s;
-            ctx.globalAlpha = 0.5;
-            ctx.beginPath(); ctx.arc(mPt.x, mPt.y, 16 * s, 0, Math.PI * 2); ctx.stroke();
-
-            // Copper windings (tooth segments around stator)
-            for (let w = 0; w < 12; w++) {
-                const angle = (w / 12) * Math.PI * 2;
-                const wx = mPt.x + Math.cos(angle) * 12 * s;
-                const wy = mPt.y + Math.sin(angle) * 8 * s;
-                ctx.fillStyle = COL.copper;
-                ctx.globalAlpha = 0.5 + Math.sin(time * 2 + w) * 0.15;
-                ctx.beginPath(); ctx.arc(wx, wy, 2.5 * s, 0, Math.PI * 2); ctx.fill();
-            }
-
-            // Bearing center
-            ctx.fillStyle = COL.silver;
-            ctx.globalAlpha = 0.6;
-            ctx.beginPath(); ctx.arc(mPt.x, mPt.y, 3 * s, 0, Math.PI * 2); ctx.fill();
-
-            // Shaft
-            ctx.strokeStyle = COL.silver;
-            ctx.lineWidth = 1.5 * s;
-            ctx.globalAlpha = 0.5;
-            ctx.beginPath(); ctx.moveTo(mPt.x, mPt.y - 5 * s); ctx.lineTo(mPt.x, mPt.y + 5 * s); ctx.stroke();
-
-            // Heat glow on stator
-            if (heatGlow) {
-                ctx.globalAlpha = 0.12 + Math.sin(time * 1.5) * 0.05;
-                const heatGrad = ctx.createRadialGradient(mPt.x, mPt.y, 0, mPt.x, mPt.y, 20 * s);
-                heatGrad.addColorStop(0, 'rgba(249, 115, 22, 0.3)');
-                heatGrad.addColorStop(1, 'rgba(249, 115, 22, 0)');
-                ctx.fillStyle = heatGrad;
-                ctx.fillRect(mPt.x - 20 * s, mPt.y - 15 * s, 40 * s, 30 * s);
-            }
-
-            ctx.restore();
-            return mPt;
-        }
-
-        // Draw spinning propeller with motion blur
-        function drawPropeller(cx, cy, mx, my, z, s, spinAngle, direction) {
-            const mPt = iso(mx, my, z, cx, cy, s);
-
-            ctx.save();
-            // Motion blur ring
-            ctx.strokeStyle = 'rgba(86, 204, 242, 0.08)';
-            ctx.lineWidth = 12 * s;
-            ctx.beginPath(); ctx.arc(mPt.x, mPt.y, 32 * s, 0, Math.PI * 2); ctx.stroke();
-
-            // 3 blades
-            const dir = direction ? spinAngle : -spinAngle;
-            for (let b = 0; b < 3; b++) {
-                const bladeAngle = dir + (b * Math.PI * 2) / 3;
-                const tipX = mPt.x + Math.cos(bladeAngle) * 38 * s;
-                const tipY = mPt.y + Math.sin(bladeAngle) * 20 * s;
-
-                // Blade body
-                ctx.strokeStyle = 'rgba(86, 204, 242, 0.45)';
-                ctx.lineWidth = 3.5 * s;
-                ctx.beginPath(); ctx.moveTo(mPt.x, mPt.y); ctx.lineTo(tipX, tipY); ctx.stroke();
-
-                // Blade edge highlight
-                ctx.strokeStyle = 'rgba(86, 204, 242, 0.15)';
-                ctx.lineWidth = 6 * s;
-                ctx.beginPath(); ctx.moveTo(mPt.x, mPt.y); ctx.lineTo(tipX, tipY); ctx.stroke();
-
-                // Blade tip glow
-                ctx.fillStyle = COL.cyan;
-                ctx.globalAlpha = 0.3;
-                ctx.beginPath(); ctx.arc(tipX, tipY, 2 * s, 0, Math.PI * 2); ctx.fill();
-            }
-
-            // Motor bell cap
-            ctx.fillStyle = COL.cyan;
-            ctx.globalAlpha = 0.6;
-            ctx.beginPath(); ctx.arc(mPt.x, mPt.y, 6 * s, 0, Math.PI * 2); ctx.fill();
-            ctx.strokeStyle = COL.silver;
-            ctx.lineWidth = 1;
-            ctx.globalAlpha = 0.4;
-            ctx.stroke();
-
-            ctx.restore();
-        }
-
-        // Draw rubber grommets (vibration damping)
-        function drawGrommets(cx, cy, z, s, positions) {
-            ctx.save();
-            positions.forEach(pos => {
-                const pt = iso(pos[0], pos[1], z, cx, cy, s);
-                // Rubber ring
-                ctx.strokeStyle = '#e11d48';
-                ctx.lineWidth = 2 * s;
-                ctx.globalAlpha = 0.4;
-                ctx.beginPath(); ctx.arc(pt.x, pt.y, 3.5 * s, 0, Math.PI * 2); ctx.stroke();
-                // Soft center
-                ctx.fillStyle = 'rgba(225, 29, 72, 0.2)';
-                ctx.beginPath(); ctx.arc(pt.x, pt.y, 2 * s, 0, Math.PI * 2); ctx.fill();
-            });
-            ctx.restore();
-        }
-
-        // Draw RF signal wave rings
-        function drawRFWaves(cx, cy, x, y, z, s) {
-            ctx.save();
-            const antPt = iso(x, y, z, cx, cy, s);
-            rfWaves.forEach(wave => {
-                wave.phase = (wave.phase + wave.speed) % 1;
-                const radius = wave.phase * 50 * s;
-                const alpha = (1 - wave.phase) * 0.3;
-                ctx.strokeStyle = COL.yellow;
-                ctx.lineWidth = 1.5;
-                ctx.globalAlpha = alpha;
-                ctx.beginPath();
-                ctx.ellipse(antPt.x, antPt.y, radius, radius * 0.5, 0, 0, Math.PI * 2);
-                ctx.stroke();
-            });
-            ctx.restore();
-        }
-
-        // Draw solder pads
-        function drawSolderPads(cx, cy, z, s, positions, color) {
-            ctx.save();
-            ctx.fillStyle = color;
-            ctx.globalAlpha = 0.5;
-            positions.forEach(pos => {
-                const pt = iso(pos[0], pos[1], z, cx, cy, s);
-                ctx.beginPath();
-                ctx.arc(pt.x, pt.y, 1.8 * s, 0, Math.PI * 2);
-                ctx.fill();
-            });
-            ctx.restore();
-        }
-
-        // Draw IC chip package
-        function drawIC(cx, cy, ox, oy, z, s, w, h, label, color) {
-            const off = iso(ox, oy, 0, 0, 0, s);
-            const chipCenter = { x: cx + off.x, y: cy + off.y };
-
-            ctx.save();
-            // Chip body
-            ctx.fillStyle = '#0f172a';
-            ctx.globalAlpha = 0.8;
-            const cw = w * s, ch = h * s * 0.6;
-            ctx.fillRect(chipCenter.x - cw / 2, chipCenter.y - ch / 2, cw, ch);
-
-            // Chip border
-            ctx.strokeStyle = color;
-            ctx.lineWidth = 0.8;
-            ctx.globalAlpha = 0.6;
-            ctx.strokeRect(chipCenter.x - cw / 2, chipCenter.y - ch / 2, cw, ch);
-
-            // Pin 1 dot
-            ctx.fillStyle = color;
-            ctx.globalAlpha = 0.5;
-            ctx.beginPath();
-            ctx.arc(chipCenter.x - cw / 2 + 3, chipCenter.y - ch / 2 + 3, 1.5, 0, Math.PI * 2);
-            ctx.fill();
-
-            // Label
-            if (label && s > 0.6) {
-                ctx.fillStyle = color;
-                ctx.globalAlpha = 0.4;
-                ctx.font = `${Math.max(6, 7 * s)}px "Space Grotesk", monospace`;
-                ctx.fillText(label, chipCenter.x - cw / 2 + 2, chipCenter.y + 2);
-            }
-
-            // Legs/pins on sides
-            ctx.strokeStyle = COL.gold;
-            ctx.lineWidth = 0.5;
-            ctx.globalAlpha = 0.4;
-            const pinCount = Math.floor(w / 4);
-            for (let p = 0; p < pinCount; p++) {
-                const px = chipCenter.x - cw / 2 + (p + 0.5) * (cw / pinCount);
-                ctx.beginPath(); ctx.moveTo(px, chipCenter.y - ch / 2); ctx.lineTo(px, chipCenter.y - ch / 2 - 3 * s); ctx.stroke();
-                ctx.beginPath(); ctx.moveTo(px, chipCenter.y + ch / 2); ctx.lineTo(px, chipCenter.y + ch / 2 + 3 * s); ctx.stroke();
-            }
-
-            ctx.restore();
-        }
-
-        // Main render loop
-        function renderDroneDissection() {
-            ctx.clearRect(0, 0, droneCanvas.width, droneCanvas.height);
-            time += 0.016;
-            propSpinAngle += 0.1;
-            scanPhase = (scanPhase + 0.003) % 1;
-
-            const cx = droneCanvas.width > 992 ? droneCanvas.width * 0.7 : droneCanvas.width * 0.5;
-            const cy = droneCanvas.height * 0.5;
-            const s = Math.min(droneCanvas.width, droneCanvas.height) * 0.0015 + 0.5;
-
-            const ef = Math.min(scrollProgress * 2.8, 1.9);
-            const gap = 65 * ef + 18;
-
-            // 7 Layer Z positions
-            const Z = [0, gap, gap * 2, gap * 3, gap * 4, gap * 5, gap * 6];
-
-            // Motor arm positions (True-X geometry)
-            const armTips = [[-120, -120], [120, -120], [120, 120], [-120, 120]];
-
-            // Vertical guide standoffs
-            armTips.forEach(pt => {
-                const a = iso(pt[0], pt[1], Z[0], cx, cy, s);
-                const b = iso(pt[0], pt[1], Z[6] + 15, cx, cy, s);
-                ctx.save();
-                ctx.strokeStyle = 'rgba(86, 204, 242, 0.08)';
-                ctx.lineWidth = 0.8;
-                ctx.setLineDash([3, 6]);
-                ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
-                ctx.restore();
-            });
-            // Center standoffs
-            [[-18, -18], [18, -18], [18, 18], [-18, 18]].forEach(pt => {
-                const a = iso(pt[0], pt[1], Z[0] + 6, cx, cy, s);
-                const b = iso(pt[0], pt[1], Z[6], cx, cy, s);
-                ctx.save();
-                ctx.strokeStyle = 'rgba(148, 163, 184, 0.12)';
-                ctx.lineWidth = 1.5;
-                ctx.setLineDash([2, 4]);
-                ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
-                ctx.restore();
-            });
-
-            // ─── LAYER 0: CARBON FIBER FRAME PLATE (BOTTOM) ───
-            // Main center plate
-            drawBox(cx, cy, 80, 150, 5, Z[0], s, COL.silver, 'rgba(30, 41, 59, 0.6)', 0.35);
-            drawCarbonWeave(cx, cy, Z[0] + 6, s, 80, 150);
-
-            // Arms extending to motor mounts
-            armTips.forEach(arm => {
-                const center = iso(0, 0, Z[0] + 3, cx, cy, s);
-                const tip = iso(arm[0], arm[1], Z[0] + 3, cx, cy, s);
-                ctx.save();
-                // Arm body
-                ctx.strokeStyle = 'rgba(148, 163, 184, 0.5)';
-                ctx.lineWidth = 7 * s;
-                ctx.beginPath(); ctx.moveTo(center.x, center.y); ctx.lineTo(tip.x, tip.y); ctx.stroke();
-                // Arm carbon texture overlay
-                ctx.strokeStyle = 'rgba(100, 116, 139, 0.2)';
-                ctx.lineWidth = 5 * s;
-                ctx.setLineDash([2, 3]);
-                ctx.beginPath(); ctx.moveTo(center.x, center.y); ctx.lineTo(tip.x, tip.y); ctx.stroke();
-                ctx.restore();
-            });
-
-            // Motor mount rings on frame
-            armTips.forEach(arm => {
-                const pt = iso(arm[0], arm[1], Z[0] + 6, cx, cy, s);
-                ctx.save();
-                ctx.strokeStyle = COL.silver;
-                ctx.lineWidth = 1.5;
-                ctx.globalAlpha = 0.4;
-                ctx.beginPath(); ctx.arc(pt.x, pt.y, 18 * s, 0, Math.PI * 2); ctx.stroke();
-                // Mounting holes (4 per motor)
-                for (let mh = 0; mh < 4; mh++) {
-                    const angle = (mh / 4) * Math.PI * 2 + Math.PI / 4;
-                    const hx = pt.x + Math.cos(angle) * 14 * s;
-                    const hy = pt.y + Math.sin(angle) * 9 * s;
-                    ctx.fillStyle = 'rgba(5, 5, 16, 0.5)';
-                    ctx.globalAlpha = 0.5;
-                    ctx.beginPath(); ctx.arc(hx, hy, 1.5 * s, 0, Math.PI * 2); ctx.fill();
-                }
-                ctx.restore();
-            });
-
-            // Battery strap slots
-            [[-25, 0], [25, 0]].forEach(slot => {
-                const pt = iso(slot[0], slot[1], Z[0] + 6, cx, cy, s);
-                ctx.save();
-                ctx.fillStyle = 'rgba(5, 5, 16, 0.6)';
-                ctx.globalAlpha = 0.4;
-                ctx.fillRect(pt.x - 1.5 * s, pt.y - 6 * s, 3 * s, 12 * s);
-                ctx.restore();
-            });
-
-            // Hex standoff holes on center plate
-            [[-20, -20], [20, -20], [20, 20], [-20, 20]].forEach(hole => {
-                const pt = iso(hole[0], hole[1], Z[0] + 6, cx, cy, s);
-                ctx.save();
-                ctx.strokeStyle = COL.gold;
-                ctx.lineWidth = 1;
-                ctx.globalAlpha = 0.5;
-                // Hex shape
-                ctx.beginPath();
-                for (let i = 0; i < 6; i++) {
-                    const angle = (i / 6) * Math.PI * 2;
-                    const hx = pt.x + Math.cos(angle) * 3 * s;
-                    const hy = pt.y + Math.sin(angle) * 2 * s;
-                    if (i === 0) ctx.moveTo(hx, hy); else ctx.lineTo(hx, hy);
-                }
-                ctx.closePath(); ctx.stroke();
-                ctx.restore();
-            });
-
-            // ─── LAYER 1: MOTOR BELLS & STATOR ASSEMBLIES ───
-            armTips.forEach((arm, idx) => {
-                drawMotorStator(cx, cy, arm[0], arm[1], Z[1], s, true);
-            });
-            // Motor labels
-            if (s > 0.6) {
-                armTips.forEach((arm, idx) => {
-                    const lPt = iso(arm[0], arm[1] + 25, Z[1] + 5, cx, cy, s);
-                    ctx.save();
-                    ctx.fillStyle = COL.silver;
-                    ctx.globalAlpha = 0.3;
-                    ctx.font = `${Math.max(6, 7 * s)}px "Space Grotesk", monospace`;
-                    ctx.fillText(`M${idx + 1}`, lPt.x - 5, lPt.y);
-                    ctx.restore();
-                });
-            }
-
-            // ─── LAYER 2: 4-IN-1 ESC STACK ───
-            drawBox(cx, cy, 55, 55, 5, Z[2], s, COL.blue, 'rgba(59, 130, 246, 0.35)', 0.35);
-            // MOSFET arrays (8 on ESC board)
-            const mosfetPositions = [
-                [-18, -18], [-6, -18], [6, -18], [18, -18],
-                [-18, 18], [-6, 18], [6, 18], [18, 18],
-            ];
-            mosfetPositions.forEach(pos => {
-                const pt = iso(pos[0], pos[1], Z[2] + 6, cx, cy, s);
-                ctx.save();
-                ctx.fillStyle = '#0f172a';
-                ctx.globalAlpha = 0.7;
-                ctx.fillRect(pt.x - 3 * s, pt.y - 2 * s, 6 * s, 4 * s);
-                // Heat glow
-                ctx.globalAlpha = 0.08 + Math.sin(time * 2 + pos[0]) * 0.04;
-                ctx.fillStyle = COL.orange;
-                ctx.fillRect(pt.x - 4 * s, pt.y - 3 * s, 8 * s, 6 * s);
-                ctx.restore();
-            });
-            // Capacitor bank
-            [[-22, 0], [22, 0]].forEach(cap => {
-                const pt = iso(cap[0], cap[1], Z[2] + 6, cx, cy, s);
-                ctx.save();
-                ctx.fillStyle = COL.silver;
-                ctx.globalAlpha = 0.5;
-                ctx.beginPath(); ctx.arc(pt.x, pt.y, 3.5 * s, 0, Math.PI * 2); ctx.fill();
-                ctx.strokeStyle = COL.silver;
-                ctx.lineWidth = 0.5;
-                ctx.stroke();
-                ctx.restore();
-            });
-            // Current shunt resistor
-            const shuntPt = iso(0, -24, Z[2] + 6, cx, cy, s);
-            ctx.save();
-            ctx.fillStyle = '#1e293b';
-            ctx.globalAlpha = 0.6;
-            ctx.fillRect(shuntPt.x - 5 * s, shuntPt.y - 1.5 * s, 10 * s, 3 * s);
-            ctx.restore();
-            // XT60 power connector
-            drawOffsetBox(cx, cy, 0, 32, 12, 8, 5, Z[2] + 6, s, COL.yellow, 'rgba(242, 201, 76, 0.5)', 0.5);
-            const xt60Label = iso(0, 40, Z[2] + 12, cx, cy, s);
-            ctx.save();
-            ctx.fillStyle = COL.yellow;
-            ctx.globalAlpha = 0.35;
-            if (s > 0.6) {
-                ctx.font = `${Math.max(6, 7 * s)}px "Space Grotesk", monospace`;
-                ctx.fillText('XT60', xt60Label.x - 8, xt60Label.y);
-            }
-            ctx.restore();
-            // Power distribution traces to arms
-            armTips.forEach(arm => {
-                ctx.save();
-                ctx.strokeStyle = COL.red;
-                ctx.lineWidth = 1;
-                ctx.globalAlpha = 0.2;
-                const from = iso(0, 0, Z[2] + 6, cx, cy, s);
-                const to = iso(arm[0] * 0.3, arm[1] * 0.3, Z[2] + 6, cx, cy, s);
-                ctx.beginPath(); ctx.moveTo(from.x, from.y); ctx.lineTo(to.x, to.y); ctx.stroke();
-                ctx.restore();
-            });
-
-            // Vibration damping grommets (between ESC stack and FC)
-            drawGrommets(cx, cy, Z[2] + 5, s, [[-20, -20], [20, -20], [20, 20], [-20, 20]]);
-
-            // ─── LAYER 3: FLIGHT CONTROLLER BOARD ───
-            drawBox(cx, cy, 55, 55, 4, Z[3], s, COL.cyan, 'rgba(86, 204, 242, 0.35)', 0.35);
-            // STM32 Processor IC
-            drawIC(cx, cy, 0, 0, Z[3] + 5, s, 18, 14, 'STM32', COL.cyan);
-            // Gyroscope/Accelerometer IC
-            drawIC(cx, cy, -18, -12, Z[3] + 5, s, 10, 8, 'IMU', COL.purple);
-            // Barometer
-            drawIC(cx, cy, 18, -12, Z[3] + 5, s, 8, 7, 'BARO', COL.green);
-            // UART pads
-            drawSolderPads(cx, cy, Z[3] + 5, s, [
-                [24, -5], [24, 0], [24, 5], [24, 10],   // UART1
-                [-24, -5], [-24, 0], [-24, 5], [-24, 10], // UART2
-            ], COL.gold);
-            // USB port
-            drawOffsetBox(cx, cy, 0, -28, 10, 5, 3, Z[3] + 5, s, COL.silver, 'rgba(148, 163, 184, 0.4)', 0.4);
-            // SD card slot
-            drawOffsetBox(cx, cy, 18, 18, 12, 10, 2, Z[3] + 5, s, COL.silver, 'rgba(148, 163, 184, 0.3)', 0.3);
-            // Board traces
-            ctx.save();
-            ctx.strokeStyle = COL.copper;
-            ctx.lineWidth = 0.4;
-            ctx.globalAlpha = 0.2;
-            for (let t = -22; t <= 22; t += 5) {
-                const a = iso(t, -25, Z[3] + 5, cx, cy, s);
-                const b = iso(t, 25, Z[3] + 5, cx, cy, s);
-                ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
-            }
-            ctx.restore();
-            // ELRS Receiver module (tiny)
-            drawOffsetBox(cx, cy, -18, 18, 10, 8, 2, Z[3] + 5, s, COL.cyan, 'rgba(86, 204, 242, 0.4)', 0.4);
-            // ELRS T-Antenna wire
-            const elrsBase = iso(-18, -28, Z[3] + 8, cx, cy, s);
-            const elrsEnd1 = iso(-30, -38, Z[3] + 12, cx, cy, s);
-            const elrsEnd2 = iso(-6, -38, Z[3] + 12, cx, cy, s);
-            ctx.save();
-            ctx.strokeStyle = COL.cyan;
-            ctx.lineWidth = 1.5;
-            ctx.globalAlpha = 0.4;
-            ctx.beginPath();
-            ctx.moveTo(elrsBase.x, elrsBase.y);
-            ctx.lineTo((elrsEnd1.x + elrsEnd2.x) / 2, (elrsEnd1.y + elrsEnd2.y) / 2);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.moveTo(elrsEnd1.x, elrsEnd1.y);
-            ctx.lineTo(elrsEnd2.x, elrsEnd2.y);
-            ctx.stroke();
-            ctx.restore();
-
-            // ─── LAYER 4: VTX MODULE & ANTENNA ───
-            drawBox(cx, cy, 38, 30, 4, Z[4], s, COL.yellow, 'rgba(242, 201, 76, 0.3)', 0.3);
-            // RF shielding can
-            drawOffsetBox(cx, cy, 0, 0, 24, 18, 5, Z[4] + 5, s, COL.silver, 'rgba(148, 163, 184, 0.4)', 0.4);
-            // SMA connector
-            const smaPt = iso(0, -18, Z[4] + 8, cx, cy, s);
-            ctx.save();
-            ctx.fillStyle = COL.gold;
-            ctx.globalAlpha = 0.6;
-            ctx.beginPath(); ctx.arc(smaPt.x, smaPt.y, 3 * s, 0, Math.PI * 2); ctx.fill();
-            ctx.strokeStyle = COL.gold;
-            ctx.lineWidth = 1;
-            ctx.stroke();
-            ctx.restore();
-            // Antenna mast (pigtail cable + RHCP cloverleaf)
-            const antBase = iso(0, -20, Z[4] + 10, cx, cy, s);
-            const antTop = iso(0, -45, Z[4] + 40, cx, cy, s);
-            ctx.save();
-            ctx.strokeStyle = '#1e293b';
-            ctx.lineWidth = 2;
-            ctx.globalAlpha = 0.5;
-            ctx.beginPath(); ctx.moveTo(antBase.x, antBase.y); ctx.lineTo(antTop.x, antTop.y); ctx.stroke();
-            ctx.restore();
-            // RHCP Cloverleaf antenna lobes (4 lobes)
-            for (let lobe = 0; lobe < 4; lobe++) {
-                const angle = (lobe / 4) * Math.PI * 2 + time * 0.3;
-                const lx = antTop.x + Math.cos(angle) * 10 * s;
-                const ly = antTop.y + Math.sin(angle) * 6 * s;
-                ctx.save();
-                ctx.strokeStyle = COL.yellow;
-                ctx.lineWidth = 1.5;
-                ctx.globalAlpha = 0.5;
-                ctx.beginPath();
-                ctx.moveTo(antTop.x, antTop.y);
-                ctx.quadraticCurveTo(lx + 3, ly - 5, lx, ly);
-                ctx.stroke();
-                ctx.restore();
-            }
-            // Antenna tip
-            ctx.save();
-            ctx.fillStyle = COL.red;
-            ctx.globalAlpha = 0.6;
-            ctx.beginPath(); ctx.arc(antTop.x, antTop.y, 3 * s, 0, Math.PI * 2); ctx.fill();
-            ctx.restore();
-            // RF signal wave rings
-            drawRFWaves(cx, cy, 0, -50, Z[4] + 45, s);
-            // VTX label
-            if (s > 0.6) {
-                const vtxLabel = iso(0, 18, Z[4] + 5, cx, cy, s);
-                ctx.save();
-                ctx.fillStyle = COL.yellow;
-                ctx.globalAlpha = 0.35;
-                ctx.font = `${Math.max(6, 7 * s)}px "Space Grotesk", monospace`;
-                ctx.fillText('800mW VTX', vtxLabel.x - 18, vtxLabel.y);
-                ctx.restore();
-            }
-
-            // ─── LAYER 5: FPV CAMERA & TILT MOUNT ───
-            drawBox(cx, cy, 30, 30, 5, Z[5], s, COL.red, 'rgba(235, 87, 87, 0.35)', 0.35);
-            // Camera module body
-            drawOffsetBox(cx, cy, 0, 0, 22, 18, 8, Z[5] + 6, s, '#1e293b', 'rgba(30, 41, 59, 0.7)', 0.6);
-            // CMOS sensor (visible through glass)
-            const sensorPt = iso(0, 0, Z[5] + 15, cx, cy, s);
-            ctx.save();
-            ctx.fillStyle = '#312e81';
-            ctx.globalAlpha = 0.5;
-            ctx.fillRect(sensorPt.x - 5 * s, sensorPt.y - 3.5 * s, 10 * s, 7 * s);
-            // Sensor pixel grid
-            ctx.strokeStyle = COL.purple;
-            ctx.lineWidth = 0.3;
-            ctx.globalAlpha = 0.3;
-            for (let px = -4; px <= 4; px += 2) {
-                for (let py = -3; py <= 3; py += 2) {
-                    const pp = iso(px, py, Z[5] + 16, cx, cy, s);
-                    ctx.strokeRect(pp.x - 0.5 * s, pp.y - 0.4 * s, 1 * s, 0.8 * s);
-                }
-            }
-            ctx.restore();
-            // Lens assembly (circular rings)
-            const lensPt = iso(0, -16, Z[5] + 12, cx, cy, s);
-            ctx.save();
-            [10, 7, 4].forEach((r, i) => {
-                ctx.strokeStyle = i === 2 ? COL.cyan : COL.silver;
-                ctx.lineWidth = 1.2;
-                ctx.globalAlpha = 0.3 + i * 0.1;
-                ctx.beginPath(); ctx.arc(lensPt.x, lensPt.y, r * s, 0, Math.PI * 2); ctx.stroke();
-            });
-            // Lens glass highlight
-            ctx.fillStyle = 'rgba(86, 204, 242, 0.2)';
-            ctx.globalAlpha = 0.4;
-            ctx.beginPath(); ctx.arc(lensPt.x, lensPt.y, 3 * s, 0, Math.PI * 2); ctx.fill();
-            ctx.restore();
-            // Tilt bracket arms
-            const bracketL = iso(-16, -8, Z[5] + 6, cx, cy, s);
-            const bracketR = iso(16, -8, Z[5] + 6, cx, cy, s);
-            const bracketPivotL = iso(-14, -16, Z[5] + 12, cx, cy, s);
-            const bracketPivotR = iso(14, -16, Z[5] + 12, cx, cy, s);
-            ctx.save();
-            ctx.strokeStyle = COL.silver;
-            ctx.lineWidth = 1.5;
-            ctx.globalAlpha = 0.4;
-            ctx.beginPath(); ctx.moveTo(bracketL.x, bracketL.y); ctx.lineTo(bracketPivotL.x, bracketPivotL.y); ctx.stroke();
-            ctx.beginPath(); ctx.moveTo(bracketR.x, bracketR.y); ctx.lineTo(bracketPivotR.x, bracketPivotR.y); ctx.stroke();
-            // Adjustment screws
-            [bracketPivotL, bracketPivotR].forEach(pt => {
-                ctx.fillStyle = COL.silver;
-                ctx.globalAlpha = 0.5;
-                ctx.beginPath(); ctx.arc(pt.x, pt.y, 2 * s, 0, Math.PI * 2); ctx.fill();
-            });
-            ctx.restore();
-
-            // ─── LAYER 6: TOP PLATE & CANOPY ───
-            // Top carbon plate
-            drawBox(cx, cy, 75, 140, 3, Z[6], s, COL.silver, 'rgba(30, 41, 59, 0.4)', 0.2);
-            drawCarbonWeave(cx, cy, Z[6] + 4, s, 75, 140);
-            // GoPro mount tabs
-            [[-12, -55], [12, -55]].forEach(tab => {
-                drawOffsetBox(cx, cy, tab[0], tab[1], 8, 12, 4, Z[6] + 4, s,
-                    COL.silver, 'rgba(148, 163, 184, 0.3)', 0.3);
-                // Mount bolt hole
-                const holePt = iso(tab[0], tab[1], Z[6] + 9, cx, cy, s);
-                ctx.save();
-                ctx.strokeStyle = COL.silver;
-                ctx.lineWidth = 0.8;
-                ctx.globalAlpha = 0.5;
-                ctx.beginPath(); ctx.arc(holePt.x, holePt.y, 2 * s, 0, Math.PI * 2); ctx.stroke();
-                ctx.restore();
-            });
-            // TPU Canopy outline (curved shell)
-            ctx.save();
-            ctx.strokeStyle = COL.red;
-            ctx.lineWidth = 1.5;
-            ctx.globalAlpha = 0.25;
-            const canopyPoints = [
-                iso(-30, -50, Z[6] + 8, cx, cy, s),
-                iso(-35, -20, Z[6] + 18, cx, cy, s),
-                iso(-30, 20, Z[6] + 15, cx, cy, s),
-                iso(-20, 40, Z[6] + 8, cx, cy, s),
-                iso(20, 40, Z[6] + 8, cx, cy, s),
-                iso(30, 20, Z[6] + 15, cx, cy, s),
-                iso(35, -20, Z[6] + 18, cx, cy, s),
-                iso(30, -50, Z[6] + 8, cx, cy, s),
-            ];
-            ctx.beginPath();
-            ctx.moveTo(canopyPoints[0].x, canopyPoints[0].y);
-            for (let i = 1; i < canopyPoints.length; i++) {
-                const prev = canopyPoints[i - 1];
-                const curr = canopyPoints[i];
-                const cpx = (prev.x + curr.x) / 2;
-                const cpy = Math.min(prev.y, curr.y) - 5;
-                ctx.quadraticCurveTo(cpx, cpy, curr.x, curr.y);
-            }
-            ctx.closePath();
-            ctx.stroke();
-            // Ventilation cutouts
-            ctx.globalAlpha = 0.15;
-            for (let v = 0; v < 3; v++) {
-                const vPt = iso(-10 + v * 10, -10, Z[6] + 14, cx, cy, s);
-                ctx.beginPath();
-                ctx.ellipse(vPt.x, vPt.y, 4 * s, 2 * s, 0, 0, Math.PI * 2);
-                ctx.stroke();
-            }
-            ctx.restore();
-
-            // ─── SPINNING PROPELLERS (ghost layer at motor height) ───
-            armTips.forEach((arm, idx) => {
-                drawPropeller(cx, cy, arm[0], arm[1], Z[1] + 18, s, propSpinAngle, idx % 2 === 0);
-            });
-
-            // ─── SIGNAL FLOW PARTICLES (Receiver → FC → ESC → Motors) ───
-            signalParticles.forEach(particle => {
-                particle.progress = (particle.progress + particle.speed) % 1;
-                const arm = armTips[particle.path];
-                const p = particle.progress;
-
-                // Path: center FC → ESC → arm tip
-                let px, py, pz;
-                if (p < 0.4) {
-                    // FC to ESC
-                    const t = p / 0.4;
-                    px = 0; py = 0;
-                    pz = Z[3] + (Z[2] - Z[3]) * t + 5;
-                } else {
-                    // ESC to motor
-                    const t = (p - 0.4) / 0.6;
-                    px = arm[0] * t;
-                    py = arm[1] * t;
-                    pz = Z[2] + (Z[1] - Z[2]) * t + 5;
-                }
-
-                const pt = iso(px, py, pz, cx, cy, s);
-                ctx.save();
-                ctx.fillStyle = COL.cyan;
-                ctx.shadowColor = COL.cyan;
-                ctx.shadowBlur = 8;
-                ctx.globalAlpha = 0.7;
-                ctx.beginPath();
-                ctx.arc(pt.x, pt.y, particle.size * s, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.restore();
-            });
-
-            // ─── POWER FLOW PARTICLES (Battery → ESC → Motors) ───
-            powerParticles.forEach(particle => {
-                particle.progress = (particle.progress + particle.speed) % 1;
-                const arm = armTips[particle.arm];
-                const p = particle.progress;
-
-                // XT60 → ESC center → arm motor
-                let px, py;
-                if (p < 0.3) {
-                    const t = p / 0.3;
-                    px = 0; py = 32 * (1 - t);
-                } else {
-                    const t = (p - 0.3) / 0.7;
-                    px = arm[0] * 0.3 * t;
-                    py = arm[1] * 0.3 * t;
-                }
-
-                const pt = iso(px, py, Z[2] + 6, cx, cy, s);
-                ctx.save();
-                ctx.fillStyle = COL.red;
-                ctx.shadowColor = COL.red;
-                ctx.shadowBlur = 6;
-                ctx.globalAlpha = 0.5;
-                ctx.beginPath();
-                ctx.arc(pt.x, pt.y, 1.5 * s, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.restore();
-            });
-
-            // ─── SCANLINE SWEEP ───
-            const scanY = cy - droneCanvas.height * 0.5 + scanPhase * droneCanvas.height;
-            ctx.save();
-            const scanGrad = ctx.createLinearGradient(0, scanY - 25, 0, scanY + 25);
-            scanGrad.addColorStop(0, 'rgba(86, 204, 242, 0)');
-            scanGrad.addColorStop(0.5, 'rgba(86, 204, 242, 0.035)');
-            scanGrad.addColorStop(1, 'rgba(86, 204, 242, 0)');
-            ctx.fillStyle = scanGrad;
-            ctx.fillRect(0, scanY - 25, droneCanvas.width, 50);
-            ctx.restore();
-
-            requestAnimationFrame(renderDroneDissection);
-        }
-        requestAnimationFrame(renderDroneDissection);
-    }
-
-    // ==========================================
-    // 2. HUD Telemetry Section Observer
-    // ==========================================
-    const hudBadges = {
-        'drone-hero': document.getElementById('hud-drone-hero'),
-        'drones': document.getElementById('hud-drone-frame'),
-        'extras': document.getElementById('hud-drone-extras')
-    };
-
-    const sectionHudObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const sectionId = entry.target.id;
-                if (hudBadges['drone-hero']) hudBadges['drone-hero'].classList.toggle('active', sectionId === 'drone-hero');
-                if (hudBadges['drones']) hudBadges['drones'].classList.toggle('active', sectionId === 'drones');
-                if (hudBadges['extras']) hudBadges['extras'].classList.toggle('active', sectionId === 'extras');
-            }
+/**
+ * hobbies.js — Scroll-driven FPV drone disassembly + page logic
+ * Depends on: utils.js, three.js (r128), gsap, ScrollTrigger, anime.js, typed.js
+ */
+(function () {
+  function main() {
+    initScrollProgress();
+    initParticleNetwork("particle-canvas");
+    initHeroEntrance();
+
+    /* ════════════════════════════════════════════════
+       Three.js Scroll-Driven Drone Disassembly
+       ════════════════════════════════════════════════ */
+
+    var hasThree = typeof THREE !== "undefined" && typeof gsap !== "undefined";
+    var container = hasThree
+      ? document.getElementById("drone-3d-container")
+      : null;
+
+    if (hasThree && container) {
+      gsap.registerPlugin(ScrollTrigger);
+
+      var scene = new THREE.Scene();
+      var camera = new THREE.PerspectiveCamera(
+        40,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        100,
+      );
+      camera.position.set(4.5, 3.5, 6);
+      camera.lookAt(0, 0.2, 0);
+
+      var renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.15;
+      container.appendChild(renderer.domElement);
+
+      /* ── Lighting ─────────────────────────────────── */
+
+      scene.add(new THREE.AmbientLight(0xb0c4de, 0.85));
+      var keyL = new THREE.DirectionalLight(0xffffff, 1.3);
+      keyL.position.set(5, 8, 5);
+      scene.add(keyL);
+      var accentL = new THREE.PointLight(0x2563eb, 0.6, 25);
+      accentL.position.set(-3, 2, 3);
+      scene.add(accentL);
+      var rimL = new THREE.PointLight(0x7c3aed, 0.25, 18);
+      rimL.position.set(3, -1, -4);
+      scene.add(rimL);
+
+      /* ── Materials ────────────────────────────────── */
+
+      var carbonM = new THREE.MeshStandardMaterial({
+        color: 0x1a1a1e,
+        metalness: 0.35,
+        roughness: 0.55,
+      });
+      var carbonLtM = new THREE.MeshStandardMaterial({
+        color: 0x252530,
+        metalness: 0.3,
+        roughness: 0.6,
+      });
+      var metalM = new THREE.MeshStandardMaterial({
+        color: 0x3a3a42,
+        metalness: 0.75,
+        roughness: 0.25,
+      });
+      var silverM = new THREE.MeshStandardMaterial({
+        color: 0xbbbbbb,
+        metalness: 0.85,
+        roughness: 0.2,
+      });
+      var motorM = new THREE.MeshStandardMaterial({
+        color: 0x444450,
+        metalness: 0.8,
+        roughness: 0.2,
+      });
+      var propM = new THREE.MeshStandardMaterial({
+        color: 0x2563eb,
+        metalness: 0.15,
+        roughness: 0.45,
+        transparent: true,
+        opacity: 0.65,
+      });
+      var pcbM = new THREE.MeshStandardMaterial({
+        color: 0x1a5c3a,
+        metalness: 0.25,
+        roughness: 0.65,
+      });
+      var pcbDarkM = new THREE.MeshStandardMaterial({
+        color: 0x145230,
+        metalness: 0.2,
+        roughness: 0.7,
+      });
+      var chipM = new THREE.MeshStandardMaterial({
+        color: 0x111118,
+        metalness: 0.85,
+        roughness: 0.15,
+      });
+      var ledM = new THREE.MeshStandardMaterial({
+        color: 0x2563eb,
+        emissive: 0x2563eb,
+        emissiveIntensity: 1.2,
+      });
+      var ledRedM = new THREE.MeshStandardMaterial({
+        color: 0xff3333,
+        emissive: 0xff2222,
+        emissiveIntensity: 1.0,
+      });
+      var lensM = new THREE.MeshStandardMaterial({
+        color: 0x111115,
+        metalness: 0.92,
+        roughness: 0.08,
+      });
+      var antM = new THREE.MeshStandardMaterial({
+        color: 0x555555,
+        metalness: 0.5,
+        roughness: 0.5,
+      });
+      var battM = new THREE.MeshStandardMaterial({
+        color: 0x2a2a35,
+        metalness: 0.4,
+        roughness: 0.4,
+      });
+      var goldM = new THREE.MeshStandardMaterial({
+        color: 0xdaa520,
+        metalness: 0.9,
+        roughness: 0.15,
+      });
+      var copperM = new THREE.MeshStandardMaterial({
+        color: 0xb87333,
+        metalness: 0.8,
+        roughness: 0.3,
+      });
+      var wireBlkM = new THREE.MeshStandardMaterial({
+        color: 0x111111,
+        roughness: 0.8,
+      });
+      var wireRedM = new THREE.MeshStandardMaterial({
+        color: 0xcc2222,
+        roughness: 0.8,
+      });
+      var rubberM = new THREE.MeshStandardMaterial({
+        color: 0x333333,
+        roughness: 0.9,
+      });
+      var strapM = new THREE.MeshStandardMaterial({
+        color: 0xcc2222,
+        roughness: 0.85,
+      });
+
+      /* ── Model ────────────────────────────────────── */
+
+      var drone = new THREE.Group();
+      var parts = [];
+      var propGroups = [];
+
+      function addPart(mesh, ey, ex, ez) {
+        drone.add(mesh);
+        parts.push({
+          mesh: mesh,
+          ex: ex || 0,
+          ey: ey || 0,
+          ez: ez || 0,
+          origX: mesh.position.x,
+          origY: mesh.position.y,
+          origZ: mesh.position.z,
         });
-    }, { threshold: 0.25 });
+      }
+      function addGroup(group, ey, ex, ez) {
+        drone.add(group);
+        parts.push({
+          mesh: group,
+          ex: ex || 0,
+          ey: ey || 0,
+          ez: ez || 0,
+          origX: group.position.x,
+          origY: group.position.y,
+          origZ: group.position.z,
+        });
+      }
 
-    document.querySelectorAll('header.section, section.section').forEach(sec => {
-        sectionHudObserver.observe(sec);
-    });
+      // ─── 1. Main body frame (detailed) ───
+      var bodyGroup = new THREE.Group();
+      // Top plate
+      var topPlate = new THREE.Mesh(
+        new THREE.BoxGeometry(0.95, 0.04, 0.95),
+        carbonM,
+      );
+      topPlate.position.y = 0.22;
+      bodyGroup.add(topPlate);
+      // Bottom plate
+      var btmPlate = new THREE.Mesh(
+        new THREE.BoxGeometry(0.95, 0.04, 0.95),
+        carbonM,
+      );
+      btmPlate.position.y = 0.04;
+      bodyGroup.add(btmPlate);
+      // Side rails (standoffs between plates)
+      [
+        [-0.4, 0.13, -0.4],
+        [0.4, 0.13, -0.4],
+        [-0.4, 0.13, 0.4],
+        [0.4, 0.13, 0.4],
+      ].forEach(function (p) {
+        var so = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.025, 0.025, 0.14, 8),
+          metalM,
+        );
+        so.position.set(p[0], p[1], p[2]);
+        bodyGroup.add(so);
+      });
+      // Center cross bracing
+      bodyGroup.add(
+        new THREE.Mesh(
+          new THREE.BoxGeometry(0.9, 0.03, 0.06),
+          carbonLtM,
+        ).translateY(0.13),
+      );
+      bodyGroup.add(
+        new THREE.Mesh(
+          new THREE.BoxGeometry(0.06, 0.03, 0.9),
+          carbonLtM,
+        ).translateY(0.13),
+      );
+      bodyGroup.position.y = 0;
+      addGroup(bodyGroup, 0, 0, 0);
 
-    // ==========================================
-    // 3. Hero Entrance & Animations
-    // ==========================================
-    if (window.anime) {
-        anime.timeline({ easing: 'easeOutExpo' })
-            .add({
-                targets: 'nav',
-                translateY: [-50, 0],
-                opacity: [0, 1],
-                duration: 900
-            })
-            .add({
-                targets: '.animate-hero',
-                translateY: [20, 0],
-                opacity: [0, 1],
-                duration: 800,
-                delay: anime.stagger(140)
-            }, '-=400');
-    }
+      // ─── 2. Flight Controller (FC) ───
+      var fcGroup = new THREE.Group();
+      var fcPcb = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.03, 0.6), pcbM);
+      fcGroup.add(fcPcb);
+      // MCU chip
+      var mcu = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.02, 0.12), chipM);
+      mcu.position.set(0, 0.025, 0);
+      fcGroup.add(mcu);
+      // Gyro/Accel chip
+      var gyro = new THREE.Mesh(
+        new THREE.BoxGeometry(0.06, 0.015, 0.06),
+        chipM,
+      );
+      gyro.position.set(-0.15, 0.023, 0.1);
+      fcGroup.add(gyro);
+      // USB-C port
+      var usbc = new THREE.Mesh(
+        new THREE.BoxGeometry(0.08, 0.025, 0.04),
+        metalM,
+      );
+      usbc.position.set(0.3, 0.02, 0);
+      fcGroup.add(usbc);
+      // SMD components
+      for (var si = 0; si < 16; si++) {
+        var smd = new THREE.Mesh(
+          new THREE.BoxGeometry(0.025, 0.012, 0.015),
+          chipM,
+        );
+        smd.position.set(
+          -0.2 + Math.random() * 0.4,
+          0.02,
+          -0.2 + Math.random() * 0.4,
+        );
+        fcGroup.add(smd);
+      }
+      // Solder pads (gold)
+      for (var sp = 0; sp < 8; sp++) {
+        var spad = new THREE.Mesh(new THREE.CircleGeometry(0.01, 6), goldM);
+        spad.rotation.x = -Math.PI / 2;
+        spad.position.set(-0.25 + sp * 0.07, 0.018, -0.28);
+        fcGroup.add(spad);
+      }
+      // Connector pins
+      for (var cp = 0; cp < 6; cp++) {
+        var pin = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.005, 0.005, 0.04, 4),
+          goldM,
+        );
+        pin.position.set(-0.15 + cp * 0.06, -0.015, 0.28);
+        fcGroup.add(pin);
+      }
+      // Mounting grommets
+      [
+        [-0.25, 0, -0.25],
+        [0.25, 0, -0.25],
+        [-0.25, 0, 0.25],
+        [0.25, 0, 0.25],
+      ].forEach(function (p) {
+        var grom = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.02, 0.02, 0.035, 8),
+          rubberM,
+        );
+        grom.position.set(p[0], p[1], p[2]);
+        fcGroup.add(grom);
+      });
+      fcGroup.position.y = 0.3;
+      addGroup(fcGroup, 1.5, 0, 0);
 
-    // ==========================================
-    // 4. Typed.js Subtitle Effect
-    // ==========================================
+      // ─── 3. ESC (4-in-1) ───
+      var escGroup = new THREE.Group();
+      var escPcb = new THREE.Mesh(
+        new THREE.BoxGeometry(0.55, 0.025, 0.55),
+        pcbDarkM,
+      );
+      escGroup.add(escPcb);
+      // 4 MOSFET chips
+      for (var mi = 0; mi < 4; mi++) {
+        var mosfet = new THREE.Mesh(
+          new THREE.BoxGeometry(0.08, 0.015, 0.08),
+          chipM,
+        );
+        var mx = mi < 2 ? -0.15 : 0.15;
+        var mz = mi % 2 === 0 ? -0.15 : 0.15;
+        mosfet.position.set(mx, 0.02, mz);
+        escGroup.add(mosfet);
+      }
+      // Capacitors
+      for (var ci = 0; ci < 3; ci++) {
+        var ecap = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.025, 0.025, 0.04, 8),
+          chipM,
+        );
+        ecap.position.set(-0.2 + ci * 0.2, 0.03, 0);
+        escGroup.add(ecap);
+      }
+      // Motor wire solder pads
+      for (var mw = 0; mw < 12; mw++) {
+        var wpad = new THREE.Mesh(new THREE.CircleGeometry(0.012, 6), copperM);
+        wpad.rotation.x = -Math.PI / 2;
+        wpad.position.set(
+          -0.22 + (mw % 4) * 0.15,
+          0.015,
+          mw < 4 ? -0.26 : mw < 8 ? 0.26 : -0.26,
+        );
+        escGroup.add(wpad);
+      }
+      escGroup.position.y = 0.02;
+      addGroup(escGroup, -1.2, 0, 0);
+
+      // ─── 4. Battery (LiPo) ───
+      var battGroup = new THREE.Group();
+      var battBody = new THREE.Mesh(
+        new THREE.BoxGeometry(1.05, 0.16, 0.5),
+        battM,
+      );
+      battGroup.add(battBody);
+      // Cell lines
+      for (var cl = 0; cl < 3; cl++) {
+        var line = new THREE.Mesh(
+          new THREE.BoxGeometry(1.06, 0.001, 0.005),
+          new THREE.MeshStandardMaterial({ color: 0x444455 }),
+        );
+        line.position.set(0, 0.081, -0.15 + cl * 0.15);
+        battGroup.add(line);
+      }
+      // XT60 connector
+      var xt60 = new THREE.Mesh(
+        new THREE.BoxGeometry(0.08, 0.06, 0.12),
+        new THREE.MeshStandardMaterial({ color: 0xccaa00, roughness: 0.5 }),
+      );
+      xt60.position.set(0.55, 0, 0);
+      battGroup.add(xt60);
+      // Balance lead
+      var balConn = new THREE.Mesh(
+        new THREE.BoxGeometry(0.06, 0.04, 0.15),
+        new THREE.MeshStandardMaterial({ color: 0xeeeeee, roughness: 0.7 }),
+      );
+      balConn.position.set(-0.45, 0.05, 0.2);
+      battGroup.add(balConn);
+      // Balance wires
+      var bwColors = [wireRedM, wireBlkM, wireRedM, wireBlkM];
+      bwColors.forEach(function (m, i) {
+        var bw = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.005, 0.005, 0.15, 4),
+          m,
+        );
+        bw.rotation.z = Math.PI / 3;
+        bw.position.set(-0.5, 0.08, 0.12 + i * 0.025);
+        battGroup.add(bw);
+      });
+      // Warning label
+      var warnLabel = new THREE.Mesh(
+        new THREE.BoxGeometry(0.35, 0.002, 0.2),
+        new THREE.MeshStandardMaterial({ color: 0xffcc00, roughness: 0.9 }),
+      );
+      warnLabel.position.set(0, 0.082, 0);
+      battGroup.add(warnLabel);
+      battGroup.position.y = -0.12;
+      addGroup(battGroup, -2.2, 0, 1.0);
+
+      // ─── 5. Battery strap ───
+      var strap = new THREE.Mesh(
+        new THREE.BoxGeometry(0.06, 0.26, 0.55),
+        strapM,
+      );
+      strap.position.set(0, -0.08, 0);
+      addPart(strap, -2.2, 0, 1.0);
+
+      // ─── 6. Arms (X-config) ───
+      var armLen = 1.9;
+      var angles = [
+        Math.PI / 4,
+        -Math.PI / 4,
+        (3 * Math.PI) / 4,
+        (-3 * Math.PI) / 4,
+      ];
+      var armExp = [
+        { ex: 1.3, ez: -1.3 },
+        { ex: 1.3, ez: 1.3 },
+        { ex: -1.3, ez: -1.3 },
+        { ex: -1.3, ez: 1.3 },
+      ];
+      var tips = [];
+
+      angles.forEach(function (a, idx) {
+        var armGroup = new THREE.Group();
+        // Main arm tube
+        var arm = new THREE.Mesh(
+          new THREE.BoxGeometry(armLen, 0.07, 0.14),
+          carbonM,
+        );
+        armGroup.add(arm);
+        // Arm reinforcement ribs
+        for (var rib = 0; rib < 4; rib++) {
+          var r = new THREE.Mesh(
+            new THREE.BoxGeometry(0.02, 0.075, 0.15),
+            carbonLtM,
+          );
+          r.position.x = -0.6 + rib * 0.4;
+          armGroup.add(r);
+        }
+        // Motor wires along arm
+        var wireColors = [wireRedM, wireBlkM, wireRedM];
+        wireColors.forEach(function (wm, wi) {
+          var wire = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.006, 0.006, armLen * 0.85, 4),
+            wm,
+          );
+          wire.rotation.z = Math.PI / 2;
+          wire.position.set(0, 0.04, -0.04 + wi * 0.04);
+          armGroup.add(wire);
+        });
+
+        armGroup.position.y = 0.12;
+        armGroup.rotation.y = a;
+        addGroup(armGroup, 0.3, armExp[idx].ex, armExp[idx].ez);
+
+        tips.push(
+          new THREE.Vector3(
+            (Math.cos(a) * armLen) / 2,
+            0.12,
+            (-Math.sin(a) * armLen) / 2,
+          ),
+        );
+      });
+
+      // ─── 7. Motors (detailed) ───
+      tips.forEach(function (tip, idx) {
+        var motorGroup = new THREE.Group();
+        // Stator base
+        var stator = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.12, 0.13, 0.08, 16),
+          metalM,
+        );
+        motorGroup.add(stator);
+        // Stator windings (copper coils)
+        for (var sw = 0; sw < 8; sw++) {
+          var coilAngle = (sw / 8) * Math.PI * 2;
+          var coil = new THREE.Mesh(
+            new THREE.BoxGeometry(0.03, 0.06, 0.02),
+            copperM,
+          );
+          coil.position.set(
+            Math.cos(coilAngle) * 0.08,
+            0,
+            Math.sin(coilAngle) * 0.08,
+          );
+          coil.rotation.y = coilAngle;
+          motorGroup.add(coil);
+        }
+        // Bell (rotor)
+        var bell = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.15, 0.13, 0.1, 16),
+          motorM,
+        );
+        bell.position.y = 0.09;
+        motorGroup.add(bell);
+        // Bell top cap
+        var cap = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.05, 0.15, 0.025, 16),
+          motorM,
+        );
+        cap.position.y = 0.15;
+        motorGroup.add(cap);
+        // Shaft
+        var shaft = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.012, 0.012, 0.2, 8),
+          silverM,
+        );
+        shaft.position.y = 0.06;
+        motorGroup.add(shaft);
+        // Mounting screws
+        [0, Math.PI / 2, Math.PI, (3 * Math.PI) / 2].forEach(function (sa) {
+          var screw = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.008, 0.008, 0.03, 6),
+            silverM,
+          );
+          screw.position.set(Math.cos(sa) * 0.1, -0.05, Math.sin(sa) * 0.1);
+          motorGroup.add(screw);
+        });
+        // Wire leads
+        [wireRedM, wireBlkM, wireRedM].forEach(function (wm, wi) {
+          var lead = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.005, 0.005, 0.12, 4),
+            wm,
+          );
+          lead.rotation.x = Math.PI / 4;
+          lead.position.set(-0.02 + wi * 0.02, -0.08, 0.08);
+          motorGroup.add(lead);
+        });
+
+        motorGroup.position.copy(tip);
+        motorGroup.position.y = 0.25;
+        addGroup(motorGroup, 1.0, armExp[idx].ex * 1.6, armExp[idx].ez * 1.6);
+      });
+
+      // ─── 8. Propellers (detailed) ───
+      tips.forEach(function (tip, idx) {
+        var propGroup = new THREE.Group();
+        // 2-blade prop
+        for (var bi = 0; bi < 2; bi++) {
+          var bladeGroup = new THREE.Group();
+          // Main blade with taper
+          var blade = new THREE.Mesh(
+            new THREE.BoxGeometry(1.15, 0.012, 0.1),
+            propM,
+          );
+          bladeGroup.add(blade);
+          // Leading edge
+          var edge = new THREE.Mesh(
+            new THREE.BoxGeometry(1.1, 0.008, 0.015),
+            new THREE.MeshStandardMaterial({
+              color: 0x1a50cc,
+              metalness: 0.2,
+              roughness: 0.4,
+            }),
+          );
+          edge.position.z = 0.05;
+          bladeGroup.add(edge);
+          // Tip marking
+          var tipMark = new THREE.Mesh(
+            new THREE.BoxGeometry(0.15, 0.013, 0.08),
+            new THREE.MeshStandardMaterial({
+              color: 0xffffff,
+              transparent: true,
+              opacity: 0.3,
+            }),
+          );
+          tipMark.position.x = 0.48;
+          bladeGroup.add(tipMark);
+
+          bladeGroup.rotation.y = (bi * Math.PI) / 2;
+          propGroup.add(bladeGroup);
+        }
+        // Hub
+        var hub = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.04, 0.04, 0.025, 12),
+          metalM,
+        );
+        propGroup.add(hub);
+        // Lock nut
+        var locknut = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.015, 0.02, 0.015, 6),
+          silverM,
+        );
+        locknut.position.y = 0.02;
+        propGroup.add(locknut);
+        // Spin disc
+        var discMat = new THREE.MeshStandardMaterial({
+          color: 0x2563eb,
+          transparent: true,
+          opacity: 0,
+          metalness: 0,
+          roughness: 1,
+        });
+        propGroup.add(
+          new THREE.Mesh(
+            new THREE.CylinderGeometry(0.58, 0.58, 0.004, 32),
+            discMat,
+          ),
+        );
+
+        propGroup.position.copy(tip);
+        propGroup.position.y = 0.45;
+        addGroup(propGroup, 2.5, armExp[idx].ex * 2.2, armExp[idx].ez * 2.2);
+        propGroups.push({
+          group: propGroup,
+          speed: 14 + Math.random() * 6,
+          disc: discMat,
+        });
+      });
+
+      // ─── 9. FPV Camera ───
+      var camGroup = new THREE.Group();
+      // Camera housing
+      var camBody = new THREE.Mesh(
+        new THREE.BoxGeometry(0.22, 0.18, 0.18),
+        metalM,
+      );
+      camGroup.add(camBody);
+      // Lens barrel
+      var barrel = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.065, 0.07, 0.1, 16),
+        lensM,
+      );
+      barrel.rotation.x = Math.PI / 2;
+      barrel.position.z = -0.14;
+      camGroup.add(barrel);
+      // Lens glass
+      var glass = new THREE.Mesh(
+        new THREE.CircleGeometry(0.06, 16),
+        new THREE.MeshStandardMaterial({
+          color: 0x334455,
+          metalness: 0.95,
+          roughness: 0.05,
+        }),
+      );
+      glass.position.z = -0.19;
+      camGroup.add(glass);
+      // Lens ring
+      var lensRing = new THREE.Mesh(
+        new THREE.RingGeometry(0.055, 0.065, 16),
+        silverM,
+      );
+      lensRing.position.z = -0.191;
+      camGroup.add(lensRing);
+      // Tilt mount bracket
+      var bracket = new THREE.Mesh(
+        new THREE.BoxGeometry(0.03, 0.22, 0.04),
+        metalM,
+      );
+      bracket.position.set(-0.12, 0, 0.05);
+      camGroup.add(bracket);
+      var bracket2 = new THREE.Mesh(
+        new THREE.BoxGeometry(0.03, 0.22, 0.04),
+        metalM,
+      );
+      bracket2.position.set(0.12, 0, 0.05);
+      camGroup.add(bracket2);
+      // Cable
+      var camCable = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.008, 0.008, 0.2, 4),
+        wireBlkM,
+      );
+      camCable.rotation.z = Math.PI / 3;
+      camCable.position.set(0.1, 0.12, 0.08);
+      camGroup.add(camCable);
+      camGroup.position.set(0, 0.12, -0.58);
+      addGroup(camGroup, -0.3, 0, -2.5);
+
+      // ─── 10. VTX + Antenna ───
+      var vtxGroup = new THREE.Group();
+      // VTX board
+      var vtxPcb = new THREE.Mesh(new THREE.BoxGeometry(0.25, 0.02, 0.2), pcbM);
+      vtxGroup.add(vtxPcb);
+      // Heatsink on VTX
+      for (var vf = 0; vf < 4; vf++) {
+        var vfin = new THREE.Mesh(
+          new THREE.BoxGeometry(0.24, 0.015, 0.005),
+          new THREE.MeshStandardMaterial({
+            color: 0x888888,
+            metalness: 0.7,
+            roughness: 0.3,
+          }),
+        );
+        vfin.position.set(0, 0.02 + vf * 0.015, -0.05 + vf * 0.04);
+        vtxGroup.add(vfin);
+      }
+      // SMA connector
+      var sma = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.015, 0.015, 0.05, 8),
+        goldM,
+      );
+      sma.position.set(0, 0.035, 0);
+      vtxGroup.add(sma);
+      vtxGroup.position.set(0.2, 0.35, 0.3);
+      addGroup(vtxGroup, 1.6, 0.8, 1.5);
+
+      // Antenna
+      var antGroup = new THREE.Group();
+      var antStalk = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.01, 0.01, 0.45, 6),
+        antM,
+      );
+      antGroup.add(antStalk);
+      // Lollipop antenna head
+      var antHead = new THREE.Mesh(
+        new THREE.SphereGeometry(0.04, 10, 10),
+        antM,
+      );
+      antHead.position.y = 0.23;
+      antGroup.add(antHead);
+      // Protective cap ring
+      var capRing = new THREE.Mesh(
+        new THREE.RingGeometry(0.035, 0.045, 10),
+        metalM,
+      );
+      capRing.rotation.x = Math.PI / 2;
+      capRing.position.y = 0.2;
+      antGroup.add(capRing);
+      antGroup.position.set(0.2, 0.6, 0.3);
+      antGroup.rotation.z = -0.25;
+      addGroup(antGroup, 2.2, 0.8, 1.8);
+
+      // ─── 11. Receiver (RX) ───
+      var rxGroup = new THREE.Group();
+      var rxPcb = new THREE.Mesh(
+        new THREE.BoxGeometry(0.18, 0.015, 0.12),
+        pcbDarkM,
+      );
+      rxGroup.add(rxPcb);
+      var rxChip = new THREE.Mesh(
+        new THREE.BoxGeometry(0.06, 0.01, 0.06),
+        chipM,
+      );
+      rxChip.position.y = 0.013;
+      rxGroup.add(rxChip);
+      // RX antenna wire
+      var rxAnt = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.003, 0.003, 0.3, 4),
+        wireBlkM,
+      );
+      rxAnt.rotation.z = -0.4;
+      rxAnt.position.set(0, 0.15, 0);
+      rxGroup.add(rxAnt);
+      rxGroup.position.set(-0.2, 0.32, 0.25);
+      addGroup(rxGroup, 1.4, -0.8, 1.3);
+
+      // ─── 12. Landing pads ───
+      var padPos = [
+        [-0.38, -0.38],
+        [0.38, -0.38],
+        [-0.38, 0.38],
+        [0.38, 0.38],
+      ];
+      padPos.forEach(function (p) {
+        var legGroup = new THREE.Group();
+        var leg = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.02, 0.02, 0.18, 6),
+          metalM,
+        );
+        legGroup.add(leg);
+        var pad = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.05, 0.05, 0.015, 8),
+          rubberM,
+        );
+        pad.position.y = -0.1;
+        legGroup.add(pad);
+        legGroup.position.set(p[0], -0.05, p[1]);
+        addGroup(legGroup, -1.8, p[0] * 2.2, p[1] * 2.2);
+      });
+
+      // ─── 13. Rear LEDs ───
+      [2, 3].forEach(function (idx) {
+        var ledGroup = new THREE.Group();
+        var led1 = new THREE.Mesh(
+          new THREE.BoxGeometry(0.05, 0.015, 0.05),
+          ledM,
+        );
+        ledGroup.add(led1);
+        var led2 = new THREE.Mesh(
+          new THREE.BoxGeometry(0.05, 0.015, 0.05),
+          ledRedM,
+        );
+        led2.position.x = 0.07;
+        ledGroup.add(led2);
+        var t = tips[idx];
+        ledGroup.position.set(t.x * 0.5, 0.08, t.z * 0.5);
+        addGroup(ledGroup, 0.5, armExp[idx].ex, armExp[idx].ez);
+      });
+
+      // ─── 14. Buzzer ───
+      var buzzer = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.04, 0.04, 0.02, 12),
+        chipM,
+      );
+      buzzer.position.set(-0.3, 0.28, -0.3);
+      addPart(buzzer, 1.2, -1.0, -1.0);
+
+      // ─── 15. GPS module (optional) ───
+      var gpsGroup = new THREE.Group();
+      var gpsPcb = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.12, 0.12, 0.015, 16),
+        pcbM,
+      );
+      gpsGroup.add(gpsPcb);
+      var gpsCeramic = new THREE.Mesh(
+        new THREE.BoxGeometry(0.12, 0.01, 0.12),
+        new THREE.MeshStandardMaterial({ color: 0xcccccc, roughness: 0.6 }),
+      );
+      gpsCeramic.position.y = 0.013;
+      gpsGroup.add(gpsCeramic);
+      // GPS mast
+      var gpsMast = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.008, 0.008, 0.15, 6),
+        metalM,
+      );
+      gpsMast.position.y = -0.08;
+      gpsGroup.add(gpsMast);
+      gpsGroup.position.set(0, 0.55, 0.1);
+      addGroup(gpsGroup, 2.8, 0, 0.5);
+
+      drone.rotation.x = -0.12;
+      scene.add(drone);
+
+      /* ── GSAP Scroll ──────────────────────────────── */
+
+      var scrollProg = { value: 0 };
+      var rotYVal = { value: 0 };
+
+      gsap.to(scrollProg, {
+        value: 1,
+        ease: "none",
+        scrollTrigger: {
+          trigger: document.body,
+          start: "top top",
+          end: "bottom bottom",
+          scrub: 1.5,
+        },
+      });
+      gsap.to(rotYVal, {
+        value: Math.PI * 1.5,
+        ease: "none",
+        scrollTrigger: {
+          trigger: document.body,
+          start: "top top",
+          end: "bottom bottom",
+          scrub: 1,
+        },
+      });
+
+      /* ── Mouse ────────────────────────────────────── */
+
+      var mx = 0,
+        my = 0;
+      document.addEventListener("mousemove", function (e) {
+        mx = ((e.clientX / window.innerWidth) * 2 - 1) * 0.12;
+        my = ((e.clientY / window.innerHeight) * 2 - 1) * 0.06;
+      });
+
+      /* ── Resize ───────────────────────────────────── */
+
+      window.addEventListener("resize", function () {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+
+      /* ── Render ────────────────────────────────────── */
+
+      var clock = new THREE.Clock();
+
+      (function render() {
+        requestAnimationFrame(render);
+        var t = clock.getElapsedTime();
+
+        drone.rotation.y = rotYVal.value + mx + Math.sin(t * 0.3) * 0.03;
+        drone.rotation.x = -0.12 + my + Math.sin(t * 0.2) * 0.015;
+        drone.position.y = Math.sin(t * 0.8) * 0.05;
+
+        var p = scrollProg.value;
+        var ease = p < 0.08 ? 0 : Math.min((p - 0.08) / 0.65, 1);
+        ease = ease * ease * (3 - 2 * ease);
+
+        for (var i = 0; i < parts.length; i++) {
+          var pt = parts[i];
+          var tx = pt.origX + pt.ex * ease;
+          var ty = pt.origY + pt.ey * ease;
+          var tz = pt.origZ + pt.ez * ease;
+          pt.mesh.position.x += (tx - pt.mesh.position.x) * 0.1;
+          pt.mesh.position.y += (ty - pt.mesh.position.y) * 0.1;
+          pt.mesh.position.z += (tz - pt.mesh.position.z) * 0.1;
+        }
+
+        var spin = 1 - ease * 0.7;
+        propGroups.forEach(function (pg) {
+          pg.group.rotation.y += pg.speed * 0.016 * spin;
+          pg.disc.opacity = 0.06 * spin;
+        });
+
+        accentL.intensity = 0.6 + Math.sin(t * 1.5) * 0.12;
+        renderer.render(scene, camera);
+      })();
+    } // end if(hasThree && container)
+
+    /* ════════════════════════════════════════════════
+       Typed.js & Section Animations
+       ════════════════════════════════════════════════ */
+
     if (window.Typed) {
-        new Typed('.typed-drone-subtitle', {
-            strings: [
-                'Building custom FPV quadcopters from scratch.',
-                '7" Long-Range • Bee35 Cinewhoop • 5" Freestyle.',
-                'SpeedyBee F7/F405 • RadioMaster ELRS • Analog VTX.'
-            ],
-            typeSpeed: 36,
-            backSpeed: 24,
-            backDelay: 2200,
-            loop: true,
-            showCursor: true,
-            cursorChar: '|'
-        });
+      new Typed(".typed-drone-subtitle", {
+        strings: [
+          "Building custom FPV quadcopters from scratch.",
+          '7" Long-Range \u2022 Bee35 Cinewhoop \u2022 5" Freestyle.',
+          "SpeedyBee F7/F405 \u2022 RadioMaster ELRS \u2022 Analog VTX.",
+        ],
+        typeSpeed: 36,
+        backSpeed: 24,
+        backDelay: 2200,
+        loop: true,
+        showCursor: true,
+        cursorChar: "|",
+      });
     }
 
-    // ==========================================
-    // 5. Scroll Intersection Observers
-    // ==========================================
-    const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
+    initScrollObservers(["drone-builds-list", "extras-list"]);
+    initCardTilt(".drone-card");
+  } // end main
 
-    const sectionObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                if (entry.target.classList.contains('section-title')) {
-                    anime({
-                        targets: entry.target,
-                        opacity: [0, 1],
-                        translateX: [-25, 0],
-                        easing: 'easeOutQuart',
-                        duration: 800
-                    });
-                }
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    const listObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                let targetItems = entry.target.querySelectorAll('.animate-item, .skill-pill');
-                if (targetItems.length > 0) {
-                    anime({
-                        targets: targetItems,
-                        translateY: [35, 0],
-                        opacity: [0, 1],
-                        easing: 'easeOutElastic(1, .8)',
-                        duration: 1000,
-                        delay: anime.stagger(120)
-                    });
-                }
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    document.querySelectorAll('.animate-title, .animate-item, .skill-pill').forEach(el => {
-        el.style.opacity = '0';
-    });
-
-    document.querySelectorAll('.animate-title').forEach(el => sectionObserver.observe(el));
-    document.getElementById('drone-builds-list') && listObserver.observe(document.getElementById('drone-builds-list'));
-    document.getElementById('extras-list') && listObserver.observe(document.getElementById('extras-list'));
-
-    // ==========================================
-    // 6. Interactive 3D Card Tilt & Mouse Spotlight
-    // ==========================================
-    const droneCards = document.querySelectorAll('.drone-card');
-
-    droneCards.forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            card.style.setProperty('--mouse-x', `${x}px`);
-            card.style.setProperty('--mouse-y', `${y}px`);
-
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            const rotateX = ((y - centerY) / centerY) * -8;
-            const rotateY = ((x - centerX) / centerX) * 8;
-
-            card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-8px)`;
-        });
-
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
-        });
-    });
-
-});
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", main);
+  } else {
+    main();
+  }
+})();

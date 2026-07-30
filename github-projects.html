@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prashant Piprotar — GitHub Projects</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232563eb'/%3E%3Cpath d='M18 44l-8-12 8-12' stroke='white' stroke-width='4.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Cpath d='M46 44l8-12-8-12' stroke='white' stroke-width='4.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Cline x1='36' y1='16' x2='28' y2='48' stroke='white' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E"
+    />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+    <!-- External Libs -->
+    <script
+      defer
+      src="https://kit.fontawesome.com/a076d05399.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="assets/css/custom.css" />
+  </head>
+  <body>
+    <!-- Scroll Reading Progress Line -->
+    <div id="scroll-progress"></div>
+
+    <!-- Particle Network Canvas Background -->
+    <canvas id="particle-canvas"></canvas>
+
+    <nav>
+      <div class="container nav-content">
+        <div class="nav-logo">
+          <a href="index.html">Prashant.</a>
+        </div>
+        <div class="nav-links">
+          <a href="index.html#about">About</a>
+          <a href="index.html#experience">Experience</a>
+          <a href="index.html#projects">Work</a>
+          <a href="github-projects.html" class="active">Projects</a>
+          <a href="hobbies.html">Hobbies</a>
+          <a href="index.html#contact">Contact</a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <header id="github-hero" class="hero section">
+        <div class="hero-content">
+          <span class="greeting animate-hero">Open Source & Side Projects</span>
+          <h1 class="animate-hero name-text">GitHub Projects.</h1>
+          <h2 class="animate-hero typed-subtitle">
+            Exploring ideas through code.
+          </h2>
+          <p class="animate-hero typed-gh-subtitle"></p>
+        </div>
+      </header>
+
+      <section id="github-repos" class="section">
+        <h2 class="section-title animate-title">All Public Repositories</h2>
+
+        <div class="sort-controls" id="sort-controls">
+          <button class="sort-btn active" data-sort="updated">
+            Recently Updated
+          </button>
+          <button class="sort-btn" data-sort="stars">Most Stars</button>
+          <button class="sort-btn" data-sort="name">Name A-Z</button>
+        </div>
+
+        <div class="github-projects-grid" id="github-grid">
+          <!-- Loading skeletons -->
+          <div class="glass-panel loading-skeleton"></div>
+          <div class="glass-panel loading-skeleton"></div>
+          <div class="glass-panel loading-skeleton"></div>
+          <div class="glass-panel loading-skeleton"></div>
+          <div class="glass-panel loading-skeleton"></div>
+          <div class="glass-panel loading-skeleton"></div>
+        </div>
+      </section>
+    </div>
+
+    <footer>
+      <div class="container">
+        <p>
+          Crafted with
+          <i class="fas fa-heart" style="color: var(--accent-red)"></i> by
+          Prashant Piprotar &copy; 2026
+        </p>
+      </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/github-projects.js"></script>
+  </body>
+</html>

@@ -1,0 +1,274 @@
+/* ── Project Filter Bar ────────────────────────── */
+
+.project-filters { display: flex; gap: 0.75rem; margin-bottom: 2.5rem; flex-wrap: wrap; }
+
+.filter-btn {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: var(--text-muted);
+  padding: 0.6rem 1.4rem;
+  border-radius: 30px;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--card-shadow);
+}
+
+.filter-btn:hover { border-color: var(--accent); color: var(--text-main); transform: translateY(-2px); }
+
+.filter-btn.active {
+  background: rgba(37, 99, 235, 0.1);
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 2px 12px rgba(37, 99, 235, 0.15);
+}
+
+/* ── Project Cards ────────────────────────────── */
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 2rem;
+  perspective: 1000px;
+}
+
+.project-card {
+  position: relative;
+  padding: 2.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 380px;
+  cursor: default;
+  transform-style: preserve-3d;
+  transition: border-color 0.3s ease, transform 0.1s ease-out;
+  overflow: hidden;
+}
+
+.project-card::before {
+  content: "";
+  position: absolute;
+  top: var(--mouse-y, 50%); left: var(--mouse-x, 50%);
+  transform: translate(-50%, -50%);
+  width: 350px; height: 350px;
+  background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  border-radius: 50%;
+}
+
+.project-card:hover::before { opacity: 0.5; }
+.project-card:hover { border-color: rgba(37, 99, 235, 0.35); }
+
+.project-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; }
+.folder-icon { font-size: 2.2rem; color: var(--accent); transition: transform 0.3s ease; }
+.external-links a { color: var(--text-main); font-size: 1.2rem; margin-left: 0.8rem; }
+.external-links a:hover { color: var(--accent); }
+
+.project-title { font-size: 1.4rem; color: var(--text-main); margin-bottom: 0.75rem; }
+
+.project-date-badge {
+  display: inline-block;
+  font-family: "Space Grotesk", monospace;
+  font-size: 0.75rem;
+  color: var(--accent);
+  background: rgba(37, 99, 235, 0.08);
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(37, 99, 235, 0.15);
+}
+
+.project-desc { color: var(--text-muted); font-size: 0.92rem; line-height: 1.6; flex-grow: 1; margin-bottom: 1.5rem; }
+
+.project-tech-stack { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: auto; }
+
+.project-tech-pill {
+  font-family: "Space Grotesk", monospace;
+  font-size: 0.75rem;
+  color: var(--accent);
+  background: rgba(37, 99, 235, 0.06);
+  border: 1px solid rgba(37, 99, 235, 0.12);
+  padding: 0.25rem 0.65rem;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.project-card:hover .project-tech-pill { border-color: rgba(37, 99, 235, 0.3); }
+
+/* ── Drone Cards (Hobbies) ────────────────────── */
+
+.drone-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+  perspective: 1000px;
+}
+
+.drone-card {
+  position: relative;
+  padding: 2.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 420px;
+  transform-style: preserve-3d;
+  transition: border-color 0.3s ease, transform 0.1s ease-out;
+  overflow: hidden;
+}
+
+.drone-card::before {
+  content: "";
+  position: absolute;
+  top: var(--mouse-y, 50%); left: var(--mouse-x, 50%);
+  transform: translate(-50%, -50%);
+  width: 350px; height: 350px;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.15) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  border-radius: 50%;
+}
+
+.drone-card:hover::before { opacity: 0.7; }
+.drone-card:hover { border-color: rgba(37, 99, 235, 0.35); }
+
+.drone-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: "Space Grotesk", monospace;
+  font-size: 0.8rem;
+  color: var(--accent);
+  background: rgba(37, 99, 235, 0.08);
+  padding: 0.3rem 0.8rem;
+  border-radius: 6px;
+  border: 1px solid rgba(37, 99, 235, 0.15);
+  margin-bottom: 1rem;
+}
+
+.drone-spec-list { list-style-type: none; margin: 1rem 0 1.5rem 0; color: var(--text-muted); font-size: 0.9rem; }
+.drone-spec-list li { position: relative; padding-left: 1.4rem; margin-bottom: 0.6rem; }
+.drone-spec-list li::before { content: "⚡"; position: absolute; left: 0; font-size: 0.8rem; }
+
+/* ── GitHub Cards ─────────────────────────────── */
+
+.github-projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+  perspective: 1000px;
+}
+
+.github-card {
+  position: relative;
+  padding: 1.8rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+.github-card:hover { border-color: rgba(37, 99, 235, 0.35); transform: translateY(-4px); }
+
+.github-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
+
+.github-card-name {
+  font-size: 1.15rem;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.github-card-name:hover { color: var(--accent); }
+.github-card-desc { color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; flex-grow: 1; margin-bottom: 1.2rem; }
+
+.github-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: auto;
+}
+
+.github-card-meta span { display: flex; align-items: center; gap: 0.3rem; }
+.language-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+
+.github-card-stats { display: flex; align-items: center; gap: 1rem; font-size: 0.8rem; color: var(--text-muted); }
+
+/* ── Sort Controls ────────────────────────────── */
+
+.sort-controls { display: flex; gap: 0.75rem; margin-bottom: 2.5rem; flex-wrap: wrap; }
+
+.sort-btn {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: var(--text-muted);
+  padding: 0.5rem 1.2rem;
+  border-radius: 30px;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--card-shadow);
+}
+
+.sort-btn:hover { border-color: var(--accent); color: var(--text-main); }
+
+.sort-btn.active {
+  background: rgba(37, 99, 235, 0.1);
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 2px 12px rgba(37, 99, 235, 0.15);
+}
+
+/* ── Loading / Error ──────────────────────────── */
+
+.loading-skeleton {
+  background: linear-gradient(90deg, var(--glass-bg) 25%, rgba(0,0,0,0.04) 50%, var(--glass-bg) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 20px;
+  min-height: 200px;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.github-error { text-align: center; padding: 3rem; color: var(--text-muted); }
+
+.github-error button {
+  margin-top: 1rem;
+  padding: 0.7rem 1.8rem;
+  border-radius: 30px;
+  border: 1px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.github-error button:hover { background: rgba(37, 99, 235, 0.1); }
+
+.repo-count-badge {
+  font-family: "Space Grotesk", monospace;
+  font-size: 0.8rem;
+  color: var(--accent);
+  background: rgba(37, 99, 235, 0.08);
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  border: 1px solid rgba(37, 99, 235, 0.12);
+}

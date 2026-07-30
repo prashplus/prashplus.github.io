@@ -1,0 +1,131 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@500;700&display=swap");
+
+/* ── Design Tokens (Light Theme) ─────────────── */
+
+:root {
+  --bg-primary: #f8f9fc;
+  --bg-secondary: #eef1f6;
+  --accent: #2563eb;
+  --accent-glow: rgba(37, 99, 235, 0.25);
+  --accent-red: #dc2626;
+  --accent-red-glow: rgba(220, 38, 38, 0.2);
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --particle-dot: rgba(37, 99, 235, 0.35);
+  --particle-line: rgba(37, 99, 235, 0.12);
+  --card-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+}
+
+/* ── Reset ────────────────────────────────────── */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background-color: var(--bg-primary);
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  background: transparent;
+  color: var(--text-main);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+/* ── Layout ───────────────────────────────────── */
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+section {
+  padding: 8rem 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Glass Panel ──────────────────────────────── */
+
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: var(--card-shadow);
+}
+
+/* ── Scroll Progress Bar ──────────────────────── */
+
+#scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: linear-gradient(90deg, #2563eb 0%, #7c3aed 50%, #ec4899 100%);
+  z-index: 1001;
+  box-shadow: 0 0 8px var(--accent-glow);
+  transition: width 0.1s ease-out;
+}
+
+/* ── Background Containers ────────────────────── */
+
+#particle-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+#server-3d-container,
+#drone-3d-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+#server-3d-container canvas,
+#drone-3d-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* ── Animation Helpers ────────────────────────── */
+
+.animate-item {
+  opacity: 0;
+}
